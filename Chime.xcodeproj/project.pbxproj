@@ -13,6 +13,9 @@
 		D80E21B51AA51BEE005C4CBE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D80E21B41AA51BEE005C4CBE /* Images.xcassets */; };
 		D80E21B81AA51BEE005C4CBE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D80E21B61AA51BEE005C4CBE /* LaunchScreen.xib */; };
 		D80E21C41AA51BEE005C4CBE /* ChimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80E21C31AA51BEE005C4CBE /* ChimeTests.swift */; };
+		D80E21CE1AA521E4005C4CBE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80E21CD1AA521E4005C4CBE /* LoginViewController.swift */; };
+		D80E21D01AA5220E005C4CBE /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80E21CF1AA5220E005C4CBE /* CustomTextField.swift */; };
+		D80E21D21AA52262005C4CBE /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80E21D11AA52262005C4CBE /* CustomButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +39,9 @@
 		D80E21BD1AA51BEE005C4CBE /* ChimeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChimeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D80E21C21AA51BEE005C4CBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D80E21C31AA51BEE005C4CBE /* ChimeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChimeTests.swift; sourceTree = "<group>"; };
+		D80E21CD1AA521E4005C4CBE /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		D80E21CF1AA5220E005C4CBE /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		D80E21D11AA52262005C4CBE /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,11 +83,12 @@
 		D80E21AA1AA51BED005C4CBE /* Chime */ = {
 			isa = PBXGroup;
 			children = (
-				D80E21AD1AA51BEE005C4CBE /* AppDelegate.swift */,
+				D80E21CD1AA521E4005C4CBE /* LoginViewController.swift */,
+				D80E21CF1AA5220E005C4CBE /* CustomTextField.swift */,
+				D80E21D11AA52262005C4CBE /* CustomButton.swift */,
 				D80E21AF1AA51BEE005C4CBE /* ViewController.swift */,
 				D80E21B11AA51BEE005C4CBE /* Main.storyboard */,
 				D80E21B41AA51BEE005C4CBE /* Images.xcassets */,
-				D80E21B61AA51BEE005C4CBE /* LaunchScreen.xib */,
 				D80E21AB1AA51BEE005C4CBE /* Supporting Files */,
 			);
 			path = Chime;
@@ -90,6 +97,8 @@
 		D80E21AB1AA51BEE005C4CBE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D80E21AD1AA51BEE005C4CBE /* AppDelegate.swift */,
+				D80E21B61AA51BEE005C4CBE /* LaunchScreen.xib */,
 				D80E21AC1AA51BEE005C4CBE /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -161,6 +170,7 @@
 				TargetAttributes = {
 					D80E21A71AA51BED005C4CBE = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = ZKD389657L;
 					};
 					D80E21BC1AA51BEE005C4CBE = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -212,8 +222,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D80E21D01AA5220E005C4CBE /* CustomTextField.swift in Sources */,
+				D80E21CE1AA521E4005C4CBE /* LoginViewController.swift in Sources */,
 				D80E21B01AA51BEE005C4CBE /* ViewController.swift in Sources */,
 				D80E21AE1AA51BEE005C4CBE /* AppDelegate.swift in Sources */,
+				D80E21D21AA52262005C4CBE /* CustomButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,6 +349,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Chime/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -346,6 +360,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Chime/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

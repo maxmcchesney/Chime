@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="vXZ-lx-hvc" customClass="ViewController" customModule="Chime" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -15,11 +15,72 @@
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg" translatesAutoresizingMaskIntoConstraints="NO" id="OHA-f4-ohc">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wordCloud" translatesAutoresizingMaskIntoConstraints="NO" id="An1-r9-JCx">
+                                <rect key="frame" x="206" y="70" width="187" height="165"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="209" id="OoQ-Ml-Eyk"/>
+                                    <constraint firstAttribute="height" constant="165" id="qiG-zr-t9T"/>
+                                    <constraint firstAttribute="width" constant="187" id="r7C-y7-wR3"/>
+                                    <constraint firstAttribute="height" constant="184" id="y9y-zj-pQZ"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="OoQ-Ml-Eyk"/>
+                                        <exclude reference="y9y-zj-pQZ"/>
+                                    </mask>
+                                </variation>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oJq-2e-bdA">
+                                <rect key="frame" x="0.0" y="551" width="405" height="49"/>
+                                <color key="backgroundColor" red="0.77254901960784317" green="0.63529411764705879" blue="0.32941176470588235" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="FcR-vY-GTm"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="22"/>
+                                <state key="normal" title="Sign Up">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eN2-wq-sob">
+                                <rect key="frame" x="405" y="551" width="195" height="49"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="3Ce-Z9-7Jo"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="22"/>
+                                <state key="normal" title="Sign Up">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.80784313725490198" green="0.96470588235294119" blue="0.54117647058823526" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="OHA-f4-ohc" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="47N-pI-DlA"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="OHA-f4-ohc" secondAttribute="bottom" id="5uw-7w-YdN"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="eN2-wq-sob" secondAttribute="bottom" id="GT7-24-CjH"/>
+                            <constraint firstAttribute="trailing" secondItem="OHA-f4-ohc" secondAttribute="trailing" id="HCD-Cu-YrF"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="oJq-2e-bdA" secondAttribute="bottom" id="Hb3-Lb-JQa"/>
+                            <constraint firstItem="An1-r9-JCx" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="50" id="IjT-iO-QdW"/>
+                            <constraint firstAttribute="trailing" secondItem="eN2-wq-sob" secondAttribute="trailing" id="Srn-bd-oUu"/>
+                            <constraint firstItem="OHA-f4-ohc" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="Uo2-cT-sAc"/>
+                            <constraint firstAttribute="centerX" secondItem="An1-r9-JCx" secondAttribute="centerX" id="vUv-Ph-HBa"/>
+                            <constraint firstItem="oJq-2e-bdA" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="zm8-yf-CdQ"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="305" y="374"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="bg" width="640" height="1136"/>
+        <image name="wordCloud" width="371" height="328"/>
+    </resources>
 </document>
