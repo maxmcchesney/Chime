@@ -1,5 +1,5 @@
 //
-//  LoginViewController.swift
+//  LoginVC.swift
 //  Chime
 //
 //  Created by Max McChesney on 3/2/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginVC: UIViewController {
 
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
@@ -20,12 +20,13 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        println(passwordField.layer.bounds.width)
+        
         /////////
         /////////   SHIFT UI WITH KEYBOARD PRESENT
         /////////
         var keyboardHeight: CGFloat = 0
         NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillShowNotification, object: nil, queue: NSOperationQueue.mainQueue()) { (notification: NSNotification!) -> Void in
-            
             if let kbSize = notification.userInfo?[UIKeyboardFrameEndUserInfoKey]?.CGRectValue().size {
                 // move constraint
                 keyboardHeight = kbSize.height
@@ -39,7 +40,6 @@ class LoginViewController: UIViewController {
         }
         
         NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillHideNotification, object: nil, queue: NSOperationQueue.mainQueue()) { (notification) -> Void in
-            
             // move constraint back
             self.loginBottomConstraint.constant -= keyboardHeight
             self.signUpConstraint.constant -= keyboardHeight
@@ -56,25 +56,20 @@ class LoginViewController: UIViewController {
     /////////   LOG IN / SIGN UP
     /////////
     @IBAction func loginSignUp(sender: AnyObject) {
-        
         // email / pw field validation
         var fieldValues: [String] = [emailField.text,passwordField.text]
         if find(fieldValues, "") != nil {
-            
             // all fields are not filled in, present alert
             var alertViewController = UIAlertController(title: "Submission Error", message: "Please fill in all fields.", preferredStyle: UIAlertControllerStyle.Alert)
             var defaultAction = UIAlertAction(title: "Ok", style: .Default, handler: nil)
             alertViewController.addAction(defaultAction)
             presentViewController(alertViewController, animated: true, completion: nil)
-            
         } else {
-            
             // all fields are filled in, check if user exists
             var userQuery = PFUser.query()
             userQuery.whereKey("email", equalTo: emailField.text)
             
             userQuery.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
-                
                 if objects.count > 0 {
                     // user exists, log in user
                     println("Log In fields good...")
@@ -89,14 +84,14 @@ class LoginViewController: UIViewController {
     }  // end: field validation
     
     func login() {
-        
         // log in user
         PFUser.logInWithUsernameInBackground(emailField.text, password:passwordField.text) {
             (user: PFUser!, error: NSError!) -> Void in
             
             if user != nil {
                 println("Parse: Login successful. Logged in as \(user.username).")
-                // login successful
+                // login successful, dismiss loginVC
+                self.dismissViewControllerAnimated(true, completion: nil)
             } else {
                 // login failed
                 println("Parse: Login failed. Error message: \(error)")
@@ -118,11 +113,10 @@ class LoginViewController: UIViewController {
         
         user.signUpInBackgroundWithBlock {
             (succeeded: Bool!, error: NSError!) -> Void in
-            
             if error == nil {
-                // sign up successful
+                // sign up successful, dismiss loginVC
                 println("Parse: Signup successful. New account created: \(user.username)")
-                
+                self.dismissViewControllerAnimated(true, completion: nil)
             } else {
                 // sign up failed
                 let errorString = error.userInfo?["error"] as NSString
@@ -135,6 +129,13 @@ class LoginViewController: UIViewController {
             }
         }
     }  // end: sign up
+    
+    
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        // dismiss keyboard when user touches outside textfields
+        view.endEditing(true)
+        super.touchesBegan(touches, withEvent: event)   // ?? is this necessary
+    }
 
 } // end: viewController
 
