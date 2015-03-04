@@ -11,7 +11,10 @@ General
 LoginVC
 ==
 - Currently, 'Log In' and 'Sign Up' btns call the same action. Update this so wrong passwords, misspelled emails, etc. are accounted for.
-- Add Facebook login option
+- Add Facebook login option / tie existing users to it or create new one
+    - Change Facebook login to work through FB instead of Parse so we can more easily get profile pics, etc. Then just call the Parse methods when FB API runs.
+- Make the "next" key on keyboard shift focus to password field
+- Make "go" gey on keyboard log in / sign up when password field is selected
 
 VenueTVC
 ==
@@ -29,3 +32,7 @@ DetailTVC
     - Maybe a modal presentation for first time users?
 - Figure out how to work timer consistently
 - Research iBeacons
+
+Future Features
+==
+- Invite friends (from Facebook)

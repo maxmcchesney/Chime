@@ -13,7 +13,6 @@
 		D80E21B81AA51BEE005C4CBE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D80E21B61AA51BEE005C4CBE /* LaunchScreen.xib */; };
 		D80E21C41AA51BEE005C4CBE /* ChimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80E21C31AA51BEE005C4CBE /* ChimeTests.swift */; };
 		D80E21CE1AA521E4005C4CBE /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80E21CD1AA521E4005C4CBE /* LoginVC.swift */; };
-		D80E21D01AA5220E005C4CBE /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80E21CF1AA5220E005C4CBE /* CustomTextField.swift */; };
 		D80E21D21AA52262005C4CBE /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80E21D11AA52262005C4CBE /* CustomButton.swift */; };
 		D80E21D91AA53187005C4CBE /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80E21D41AA53187005C4CBE /* Bolts.framework */; };
 		D80E21DA1AA53187005C4CBE /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80E21D51AA53187005C4CBE /* Parse.framework */; };
@@ -31,9 +30,14 @@
 		D80E21EF1AA53342005C4CBE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80E21EE1AA53342005C4CBE /* SystemConfiguration.framework */; };
 		D80E21F11AA5334A005C4CBE /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D80E21F01AA5334A005C4CBE /* libz.dylib */; };
 		D80E21F31AA53354005C4CBE /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D80E21F21AA53354005C4CBE /* libsqlite3.dylib */; };
-		D80E21FB1AA546B3005C4CBE /* NavigationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80E21FA1AA546B3005C4CBE /* NavigationVC.swift */; };
 		D80E21FD1AA546F1005C4CBE /* VenueTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80E21FC1AA546F1005C4CBE /* VenueTVC.swift */; };
 		D80E21FF1AA54F5D005C4CBE /* Readme in Resources */ = {isa = PBXBuildFile; fileRef = D80E21FE1AA54F5D005C4CBE /* Readme */; };
+		D80E22011AA5F933005C4CBE /* VenueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80E22001AA5F933005C4CBE /* VenueCell.swift */; };
+		D83150551AA7845F00B7050C /* ChimeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83150541AA7845F00B7050C /* ChimeData.swift */; };
+		D83200541AA6973B0004E97E /* DetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83200531AA6973B0004E97E /* DetailVC.swift */; };
+		D83200B21AA756BC0004E97E /* DealCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83200B11AA756BC0004E97E /* DealCell.swift */; };
+		D8AFFDEF1AA6245B00C395F5 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8AFFDEE1AA6245B00C395F5 /* FacebookSDK.framework */; };
+		D8AFFDF11AA641DA00C395F5 /* RootNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AFFDF01AA641DA00C395F5 /* RootNavigationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,7 +61,6 @@
 		D80E21C21AA51BEE005C4CBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D80E21C31AA51BEE005C4CBE /* ChimeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChimeTests.swift; sourceTree = "<group>"; };
 		D80E21CD1AA521E4005C4CBE /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
-		D80E21CF1AA5220E005C4CBE /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		D80E21D11AA52262005C4CBE /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		D80E21D41AA53187005C4CBE /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		D80E21D51AA53187005C4CBE /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
@@ -76,9 +79,14 @@
 		D80E21F01AA5334A005C4CBE /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		D80E21F21AA53354005C4CBE /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		D80E21F41AA53D2C005C4CBE /* Chime-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Chime-Bridging-Header.h"; sourceTree = "<group>"; };
-		D80E21FA1AA546B3005C4CBE /* NavigationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationVC.swift; sourceTree = "<group>"; };
 		D80E21FC1AA546F1005C4CBE /* VenueTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueTVC.swift; sourceTree = "<group>"; };
 		D80E21FE1AA54F5D005C4CBE /* Readme */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme; sourceTree = "<group>"; };
+		D80E22001AA5F933005C4CBE /* VenueCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueCell.swift; sourceTree = "<group>"; };
+		D83150541AA7845F00B7050C /* ChimeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChimeData.swift; sourceTree = "<group>"; };
+		D83200531AA6973B0004E97E /* DetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailVC.swift; sourceTree = "<group>"; };
+		D83200B11AA756BC0004E97E /* DealCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DealCell.swift; sourceTree = "<group>"; };
+		D8AFFDEE1AA6245B00C395F5 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
+		D8AFFDF01AA641DA00C395F5 /* RootNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootNavigationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +102,7 @@
 				D80E21E91AA5332C005C4CBE /* QuartzCore.framework in Frameworks */,
 				D80E21E71AA53326005C4CBE /* MobileCoreServices.framework in Frameworks */,
 				D80E21E51AA5331E005C4CBE /* CoreLocation.framework in Frameworks */,
+				D8AFFDEF1AA6245B00C395F5 /* FacebookSDK.framework in Frameworks */,
 				D80E21E31AA53317005C4CBE /* CoreGraphics.framework in Frameworks */,
 				D80E21E11AA53310005C4CBE /* CFNetwork.framework in Frameworks */,
 				D80E21DF1AA53309005C4CBE /* AudioToolbox.framework in Frameworks */,
@@ -179,6 +188,7 @@
 		D80E21D31AA53167005C4CBE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D8AFFDEE1AA6245B00C395F5 /* FacebookSDK.framework */,
 				D80E21F21AA53354005C4CBE /* libsqlite3.dylib */,
 				D80E21F01AA5334A005C4CBE /* libz.dylib */,
 				D80E21EE1AA53342005C4CBE /* SystemConfiguration.framework */,
@@ -202,6 +212,7 @@
 		D80E21F71AA54622005C4CBE /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				D83150541AA7845F00B7050C /* ChimeData.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -209,8 +220,9 @@
 		D80E21F81AA54629005C4CBE /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				D80E21CF1AA5220E005C4CBE /* CustomTextField.swift */,
 				D80E21D11AA52262005C4CBE /* CustomButton.swift */,
+				D80E22001AA5F933005C4CBE /* VenueCell.swift */,
+				D83200B11AA756BC0004E97E /* DealCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -218,9 +230,10 @@
 		D80E21F91AA5462E005C4CBE /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				D8AFFDF01AA641DA00C395F5 /* RootNavigationController.swift */,
 				D80E21CD1AA521E4005C4CBE /* LoginVC.swift */,
-				D80E21FA1AA546B3005C4CBE /* NavigationVC.swift */,
 				D80E21FC1AA546F1005C4CBE /* VenueTVC.swift */,
+				D83200531AA6973B0004E97E /* DetailVC.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -327,12 +340,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D80E21D01AA5220E005C4CBE /* CustomTextField.swift in Sources */,
 				D80E21CE1AA521E4005C4CBE /* LoginVC.swift in Sources */,
 				D80E21AE1AA51BEE005C4CBE /* AppDelegate.swift in Sources */,
+				D80E22011AA5F933005C4CBE /* VenueCell.swift in Sources */,
 				D80E21FD1AA546F1005C4CBE /* VenueTVC.swift in Sources */,
-				D80E21FB1AA546B3005C4CBE /* NavigationVC.swift in Sources */,
 				D80E21D21AA52262005C4CBE /* CustomButton.swift in Sources */,
+				D83150551AA7845F00B7050C /* ChimeData.swift in Sources */,
+				D8AFFDF11AA641DA00C395F5 /* RootNavigationController.swift in Sources */,
+				D83200541AA6973B0004E97E /* DetailVC.swift in Sources */,
+				D83200B21AA756BC0004E97E /* DealCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,6 +476,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					/Users/McChesney/Documents/FacebookSDK,
 				);
 				INFOPLIST_FILE = Chime/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -478,6 +495,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					/Users/McChesney/Documents/FacebookSDK,
 				);
 				INFOPLIST_FILE = Chime/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -539,6 +557,7 @@
 				D80E21C91AA51BEE005C4CBE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D80E21CA1AA51BEE005C4CBE /* Build configuration list for PBXNativeTarget "ChimeTests" */ = {
 			isa = XCConfigurationList;
@@ -547,6 +566,7 @@
 				D80E21CC1AA51BEE005C4CBE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

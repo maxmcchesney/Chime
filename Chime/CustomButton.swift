@@ -10,9 +10,11 @@ import UIKit
 
 @IBDesignable class CustomButton: UIButton {
 
-    @IBInspectable var cornerSize: CGFloat = 0
-    @IBInspectable var borderColor: UIColor = UIColor.clearColor()
-    @IBInspectable var borderWidth: CGFloat = 0
+//    let btnWidth: CGFloat =
+    
+//    @IBInspectable var cornerSize: CGFloat = 0
+//    @IBInspectable var borderColor: UIColor = UIColor.clearColor()
+//    @IBInspectable var borderWidth: CGFloat = 0
 
 
     
@@ -20,12 +22,28 @@ import UIKit
     // An empty implementation adversely affects performance during animation.
     override func drawRect(rect: CGRect) {
         // Drawing code
-    
-        self.layer.cornerRadius = cornerSize
-        self.layer.borderColor = borderColor.CGColor
-        self.layer.borderWidth = borderWidth
         
+        let btnWidth: CGFloat = rect.width
+        let btnHeight: CGFloat = rect.height
+        let margin: CGFloat = 5
+
+        self.layer.cornerRadius = btnWidth / 2
         self.layer.masksToBounds = true
+        
+        let ctx = UIGraphicsGetCurrentContext()
+        
+        let deactivatedColor = UIColor.grayColor()
+        deactivatedColor.set()
+        
+        self.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
+        
+        let innerCircle = CGRectMake(margin / 2, margin / 2, btnWidth - margin, btnHeight - margin)
+        CGContextFillEllipseInRect(ctx, innerCircle)
+
+        CGContextStrokeEllipseInRect(ctx, rect)
+//        CGContextStrokeRectWithWidth(ctx, rect, 2)
+    
+//        self.layer.borderColor =
     
     }
     

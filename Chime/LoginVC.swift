@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginVC: UIViewController {
+class LoginVC: UIViewController, FBLoginViewDelegate {
 
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
@@ -16,11 +16,21 @@ class LoginVC: UIViewController {
     @IBOutlet weak var signUpConstraint: NSLayoutConstraint!
     @IBOutlet weak var wordCloudImage: UIImageView!
     @IBOutlet weak var wordCloudChimeImage: UIImageView!    // not doing anything with this
+
+    @IBOutlet weak var fbIcon: UIView!
+    @IBOutlet weak var fbLetter: UILabel!
+    @IBOutlet weak var fbButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        println(passwordField.layer.bounds.width)
+        // set up custom facebook button
+        fbIcon.layer.cornerRadius = 3
+        fbButton.layer.cornerRadius = 4
+        
+        // change textfield placeholder color
+        emailField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSForegroundColorAttributeName: UIColor(red:0.33, green:0.33, blue:0.33, alpha:0.8)])
+        passwordField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSForegroundColorAttributeName: UIColor(red:0.33, green:0.33, blue:0.33, alpha:0.8)])
         
         /////////
         /////////   SHIFT UI WITH KEYBOARD PRESENT
@@ -33,7 +43,7 @@ class LoginVC: UIViewController {
                 self.loginBottomConstraint.constant += keyboardHeight
                 self.signUpConstraint.constant += keyboardHeight
                 // fade out logo image (except "Chime")
-                self.wordCloudImage.alpha = 0.1
+                self.wordCloudImage.alpha = 0.05
                 // animate constraint
                 self.view.layoutIfNeeded()
             }
@@ -129,6 +139,42 @@ class LoginVC: UIViewController {
             }
         }
     }  // end: sign up
+    
+    /////////
+    /////////   FACEBOOK LOG IN
+    /////////
+    
+    @IBAction func loginWithFacebook(sender: AnyObject) {
+        // log in user with Facebook
+        println("User requests to log in with Facebook...")
+        PFFacebookUtils.logInWithPermissions(["public_profile","email","user_friends"], {
+            (user: PFUser!, error: NSError!) -> Void in
+            if let user = user {
+                if user.isNew {
+                    println("User signed up through Facebook successfully. User: \(user)")
+                    
+                    // if logged in, try and link to existing Parse User
+                    // ?? is this in the right place?
+                    if !PFFacebookUtils.isLinkedWithUser(user) {
+                        PFFacebookUtils.linkUser(user, permissions:nil, {
+                            (succeeded: Bool!, error: NSError!) -> Void in
+                            if (succeeded != nil) {
+                                println("Woohoo, user logged in with Facebook!")
+                            }
+                        })
+                    }
+                    
+                } else {
+                    println("User logged in through Facebook successfully. User: \(user)")
+                }
+                self.dismissViewControllerAnimated(true, completion: nil)
+            } else {
+                println("The user cancelled the Facebook login...")
+                println("Facebook error: \(error)")
+            }
+        })
+        
+    }
     
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
