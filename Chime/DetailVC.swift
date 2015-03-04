@@ -21,7 +21,7 @@ class DetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // set bgimage b/c transparency caused animation issues
+        // set bgimage here as well b/c transparency caused animation issues
         let bgImageView = UIImageView(frame: CGRectMake(0, -65, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
         let bgImage = UIImage(named: "bgGradient")
         bgImageView.image = bgImage
@@ -56,6 +56,9 @@ class DetailVC: UIViewController {
         startTime = NSDate.timeIntervalSinceReferenceDate()
         
         // TODO: make Check In btn change to "Leave Venue" btn
+        // - make time continue when you leave the screen / minimize the app
+        // - make the time trigger the availability of the deals
+        // - idea: 3D cube in venue name space that the user can mess with. when deal is claimed, it falls away revealing the price (an image of a shot glass, "25% off!", etc...
     }
     
     var startTime = NSTimeInterval()
@@ -118,7 +121,8 @@ class DetailTVC: UITableViewController {
         let middleColor: UIColor = UIColor(red:0.56, green:0.78, blue:0.35, alpha:0.5)
         let darkerColor: UIColor = UIColor(red:0.43, green:0.62, blue:0.25, alpha:0.5)
         let cellColors = [middleColor, darkerColor, lighterColor]
-        cell.backgroundColor = cellColors[indexPath.row % 2]    // change to % 3 for tri-coloring
+        /// OPTIONAL: change to % 3 for tri-coloring
+        cell.backgroundColor = cellColors[indexPath.row % 2]
         cell.tagView.backgroundColor = cellColors[indexPath.row % 2].colorWithAlphaComponent(0.9)
         
         

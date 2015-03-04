@@ -15,7 +15,7 @@ class DealCell: UITableViewCell {
     @IBOutlet weak var tagView: UIView!
     
     @IBOutlet weak var dealLabel: UILabel!
-    @IBOutlet weak var claimButton: CustomButton!
+    @IBOutlet weak var claimButton: DoubleCircleButton!
 
     override func awakeFromNib() {
         super.awakeFromNib()

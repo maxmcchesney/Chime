@@ -23,7 +23,7 @@ class LoginVC: UIViewController, FBLoginViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // set up custom facebook button
         fbIcon.layer.cornerRadius = 3
         fbButton.layer.cornerRadius = 4
@@ -57,9 +57,9 @@ class LoginVC: UIViewController, FBLoginViewDelegate {
             self.wordCloudImage.alpha = 1.0
             // animate constraint
             self.view.layoutIfNeeded()
-        }
-        // end: keyboard shift
+        } // end: keyboard shift
         
+
     }  // end: viewDidLoad
 
     /////////
@@ -184,8 +184,6 @@ class LoginVC: UIViewController, FBLoginViewDelegate {
     }
 
 } // end: viewController
-
-
 
 
 

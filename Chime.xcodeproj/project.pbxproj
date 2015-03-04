@@ -13,7 +13,7 @@
 		D80E21B81AA51BEE005C4CBE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D80E21B61AA51BEE005C4CBE /* LaunchScreen.xib */; };
 		D80E21C41AA51BEE005C4CBE /* ChimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80E21C31AA51BEE005C4CBE /* ChimeTests.swift */; };
 		D80E21CE1AA521E4005C4CBE /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80E21CD1AA521E4005C4CBE /* LoginVC.swift */; };
-		D80E21D21AA52262005C4CBE /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80E21D11AA52262005C4CBE /* CustomButton.swift */; };
+		D80E21D21AA52262005C4CBE /* DoubleCircleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80E21D11AA52262005C4CBE /* DoubleCircleButton.swift */; };
 		D80E21D91AA53187005C4CBE /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80E21D41AA53187005C4CBE /* Bolts.framework */; };
 		D80E21DA1AA53187005C4CBE /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80E21D51AA53187005C4CBE /* Parse.framework */; };
 		D80E21DB1AA53187005C4CBE /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80E21D61AA53187005C4CBE /* ParseCrashReporting.framework */; };
@@ -34,6 +34,7 @@
 		D80E21FF1AA54F5D005C4CBE /* Readme in Resources */ = {isa = PBXBuildFile; fileRef = D80E21FE1AA54F5D005C4CBE /* Readme */; };
 		D80E22011AA5F933005C4CBE /* VenueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80E22001AA5F933005C4CBE /* VenueCell.swift */; };
 		D83150551AA7845F00B7050C /* ChimeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83150541AA7845F00B7050C /* ChimeData.swift */; };
+		D83150571AA79B1400B7050C /* CustomButtonOrView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83150561AA79B1400B7050C /* CustomButtonOrView.swift */; };
 		D83200541AA6973B0004E97E /* DetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83200531AA6973B0004E97E /* DetailVC.swift */; };
 		D83200B21AA756BC0004E97E /* DealCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83200B11AA756BC0004E97E /* DealCell.swift */; };
 		D8AFFDEF1AA6245B00C395F5 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8AFFDEE1AA6245B00C395F5 /* FacebookSDK.framework */; };
@@ -61,7 +62,7 @@
 		D80E21C21AA51BEE005C4CBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D80E21C31AA51BEE005C4CBE /* ChimeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChimeTests.swift; sourceTree = "<group>"; };
 		D80E21CD1AA521E4005C4CBE /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
-		D80E21D11AA52262005C4CBE /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		D80E21D11AA52262005C4CBE /* DoubleCircleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleCircleButton.swift; sourceTree = "<group>"; };
 		D80E21D41AA53187005C4CBE /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		D80E21D51AA53187005C4CBE /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		D80E21D61AA53187005C4CBE /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
@@ -83,6 +84,7 @@
 		D80E21FE1AA54F5D005C4CBE /* Readme */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme; sourceTree = "<group>"; };
 		D80E22001AA5F933005C4CBE /* VenueCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueCell.swift; sourceTree = "<group>"; };
 		D83150541AA7845F00B7050C /* ChimeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChimeData.swift; sourceTree = "<group>"; };
+		D83150561AA79B1400B7050C /* CustomButtonOrView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButtonOrView.swift; sourceTree = "<group>"; };
 		D83200531AA6973B0004E97E /* DetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailVC.swift; sourceTree = "<group>"; };
 		D83200B11AA756BC0004E97E /* DealCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DealCell.swift; sourceTree = "<group>"; };
 		D8AFFDEE1AA6245B00C395F5 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
@@ -220,9 +222,10 @@
 		D80E21F81AA54629005C4CBE /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				D80E21D11AA52262005C4CBE /* CustomButton.swift */,
+				D80E21D11AA52262005C4CBE /* DoubleCircleButton.swift */,
 				D80E22001AA5F933005C4CBE /* VenueCell.swift */,
 				D83200B11AA756BC0004E97E /* DealCell.swift */,
+				D83150561AA79B1400B7050C /* CustomButtonOrView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -344,7 +347,8 @@
 				D80E21AE1AA51BEE005C4CBE /* AppDelegate.swift in Sources */,
 				D80E22011AA5F933005C4CBE /* VenueCell.swift in Sources */,
 				D80E21FD1AA546F1005C4CBE /* VenueTVC.swift in Sources */,
-				D80E21D21AA52262005C4CBE /* CustomButton.swift in Sources */,
+				D80E21D21AA52262005C4CBE /* DoubleCircleButton.swift in Sources */,
+				D83150571AA79B1400B7050C /* CustomButtonOrView.swift in Sources */,
 				D83150551AA7845F00B7050C /* ChimeData.swift in Sources */,
 				D8AFFDF11AA641DA00C395F5 /* RootNavigationController.swift in Sources */,
 				D83200541AA6973B0004E97E /* DetailVC.swift in Sources */,
