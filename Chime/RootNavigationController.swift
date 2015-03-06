@@ -32,34 +32,6 @@ class RootNavigationController: UINavigationController {
 //        self.navigationBar.shadowImage = UIImage()
         self.navigationBar.backgroundColor = UIColor.clearColor()
         self.navigationBar.tintColor = UIColor.whiteColor()
-
-        let images = ["shotGlass","pintGlass","wineGlass","wineGlasses","beerMug"]
-        
-        // make images for navbar
-
-        for (i,imageName) in enumerate(images) {
-        
-            let backButtonSize: CGFloat = 100
-            let sWidth: CGFloat = UIScreen.mainScreen().bounds.width
-            let width: CGFloat = sWidth - backButtonSize
-            let height: CGFloat = 45
-            let imageWidth: CGFloat = 30
-            let imageHeight: CGFloat = 30
-            let margin: CGFloat = (width - (imageWidth * CGFloat(images.count))) / CGFloat(images.count + 1)
-            
-            println(margin)
-            
-            let imageX = backButtonSize + (CGFloat(i) * (imageWidth + margin))
-            
-            println(imageX)
-            
-            let image = UIImage(named: imageName)
-            let imageView = UIImageView(image: image)
-            imageView.frame = CGRectMake(imageX, height - imageHeight, imageWidth, imageHeight)
-            imageView.contentMode = UIViewContentMode.ScaleAspectFit
-            navImageViews.append(imageView)
-            
-        }
         
         ////////
         //////// CUSTOMIZE TOOLBAR - ?? do I have 2 toolbars on top of each other with this method?
@@ -83,10 +55,36 @@ class RootNavigationController: UINavigationController {
 
         // add toolbar and segment control views
         tB.addSubview(sC)
+        
+        //create navbar images
+        createImages()
 
+    }
+    
+    func createImages() {
+        let images = ["shotGlass","pintGlass","wineGlass","wineGlasses","beerMug"]
         
+        // make images for navbar
         
-        
+        for (i,imageName) in enumerate(images) {
+            
+            let backButtonSize: CGFloat = 100
+            let sWidth: CGFloat = UIScreen.mainScreen().bounds.width
+            let width: CGFloat = sWidth - backButtonSize
+            let height: CGFloat = 45
+            let imageWidth: CGFloat = 30
+            let imageHeight: CGFloat = 30
+            let margin: CGFloat = (width - (imageWidth * CGFloat(images.count))) / CGFloat(images.count + 1)
+            
+            let imageX = backButtonSize + (CGFloat(i) * (imageWidth + margin))
+            
+            let image = UIImage(named: imageName)
+            let imageView = UIImageView(image: image)
+            imageView.frame = CGRectMake(imageX, height - imageHeight, imageWidth, imageHeight)
+            imageView.contentMode = UIViewContentMode.ScaleAspectFit
+            navImageViews.append(imageView)
+            
+        }
     }
     
     

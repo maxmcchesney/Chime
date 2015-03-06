@@ -89,6 +89,13 @@ class DetailVC: UIViewController {
         // concatenate hours, minutes, and seconds as assign it to the UILabel
         timerLabel.text = "\(strHours):\(strMinutes):\(strSeconds)"
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        // save timer for when user navigates away from detailVC
+        
+        
+        
+    }
 
 }
 
@@ -124,9 +131,21 @@ class DetailTVC: UITableViewController {
         /// OPTIONAL: change to % 3 for tri-coloring
         cell.backgroundColor = cellColors[indexPath.row % 2]
         cell.tagView.backgroundColor = cellColors[indexPath.row % 2].colorWithAlphaComponent(0.9)
-        
+
+        // DOESN'T WORK
+        // set tag for cell 'claim' button
+        cell.claimButton.tag = indexPath.row
+        let bSelector: Selector = "dealClaimed"
+        cell.claimButton.addTarget(self, action: bSelector, forControlEvents: UIControlEvents.TouchUpInside)
         
         return cell
+    }
+    
+    // DOESN'T WORK
+    func dealClaimed(sender: DoubleCircleButton) {
+        println("deal claimed \(sender.tag)")
+        println("here's the issue...")
+        
     }
     
 }
