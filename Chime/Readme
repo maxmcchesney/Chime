@@ -2,6 +2,15 @@
 TO DO
 ===
 
+Right Now
+==
+Timer
+- in DetailVC, in ViewWillDisappear, save the elapsed time to Singleton
+- in viewWillAppear, recall and factor in the saved time
+- Set up NSNotifications for the amount of time b/w the total elapsed time and the deal(s)
+    - when the app is reopened before the notification, remove the notification to avoid duplicates
+    - do we need any actions along with the notification?  "Ignore" / "Claim"?"
+
 General
 ==
 - DONE /// Hook up Parse Framework

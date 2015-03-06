@@ -47,21 +47,29 @@ class DetailVC: UIViewController {
     /////////
     
     var timer = NSTimer()
+    var startTime = NSTimeInterval()
+
     
     @IBAction func checkIn(sender: AnyObject) {
         
         // start timer
         let aSelector: Selector = "updateTime"
         timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: aSelector, userInfo: nil, repeats: true)
-        startTime = NSDate.timeIntervalSinceReferenceDate()
+        
+        // check singleton for startTime, if nil, set it here
+        if ChimeData.mainData().startTime > 0 {
+            startTime = ChimeData.mainData().startTime
+        } else {
+            startTime = NSDate.timeIntervalSinceReferenceDate()
+        }
         
         // TODO: make Check In btn change to "Leave Venue" btn
-        // - make time continue when you leave the screen / minimize the app
+        // - DONE - make time continue when you leave detailVC
+            // - fix how the time label jumps in the ViewWillAppear method
+        // - set up notifications
         // - make the time trigger the availability of the deals
         // - idea: 3D cube in venue name space that the user can mess with. when deal is claimed, it falls away revealing the price (an image of a shot glass, "25% off!", etc...
     }
-    
-    var startTime = NSTimeInterval()
     
     func updateTime() {
         var currentTime = NSDate.timeIntervalSinceReferenceDate()
@@ -88,12 +96,26 @@ class DetailVC: UIViewController {
         
         // concatenate hours, minutes, and seconds as assign it to the UILabel
         timerLabel.text = "\(strHours):\(strMinutes):\(strSeconds)"
+
     }
     
     override func viewWillDisappear(animated: Bool) {
-        // save timer for when user navigates away from detailVC
+
+        // save startTime to Singleton for when user navigates away from detailVC
+        if startTime > 0 {
+            ChimeData.mainData().startTime = startTime
+            ChimeData.mainData().timeLabel = timerLabel.text!
+        }
         
+    }
+    
+    override func viewWillAppear(animated: Bool) {
         
+        // retrieve startTime from Singleton if it's saved
+        if ChimeData.mainData().startTime > 0 {
+            timerLabel.text = ChimeData.mainData().timeLabel    // works but causes time to jump the difference
+            checkIn(self)
+        }
         
     }
 

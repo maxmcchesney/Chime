@@ -13,7 +13,9 @@ import UIKit
 class ChimeData: NSObject {
     // Singleton model
     
-    
+    var startTime = NSTimeInterval()
+    var timeLabel = ""
+
     
     class func mainData() -> ChimeData {
         
