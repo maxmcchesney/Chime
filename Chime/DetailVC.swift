@@ -17,6 +17,7 @@ class DetailVC: UIViewController {
     @IBOutlet weak var venueNeighborhoodLabel: UILabel!
     
     var dealsTVC = DetailTVC()
+    var selectedRow = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +49,7 @@ class DetailVC: UIViewController {
     
     var timer = NSTimer()
     var startTime = NSTimeInterval()
-
+    var dealTime = NSTimeInterval()
     
     @IBAction func checkIn(sender: AnyObject) {
         
@@ -63,6 +64,13 @@ class DetailVC: UIViewController {
             startTime = NSDate.timeIntervalSinceReferenceDate()
         }
         
+        let dealThreshold: NSTimeInterval = 20
+        
+        let fireDate = NSDate(timeInterval: dealThreshold, sinceDate: NSDate())
+        
+        setLocalNotification(fireDate)
+        
+        
         // TODO: make Check In btn change to "Leave Venue" btn
         // - DONE - make time continue when you leave detailVC
             // - fix how the time label jumps in the ViewWillAppear method
@@ -71,7 +79,10 @@ class DetailVC: UIViewController {
         // - idea: 3D cube in venue name space that the user can mess with. when deal is claimed, it falls away revealing the price (an image of a shot glass, "25% off!", etc...
     }
     
+    
+    
     func updateTime() {
+        
         var currentTime = NSDate.timeIntervalSinceReferenceDate()
         
         // find the difference between current time and start time.
@@ -97,6 +108,17 @@ class DetailVC: UIViewController {
         // concatenate hours, minutes, and seconds as assign it to the UILabel
         timerLabel.text = "\(strHours):\(strMinutes):\(strSeconds)"
 
+    }
+    
+    func setLocalNotification(fireDate: NSDate) {
+        
+        var notification = UILocalNotification()
+        notification.category = "FIRST_CATEGORY"
+        notification.alertBody = "You did it! Now go claim your prize!"
+        notification.fireDate = fireDate
+        
+        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+        
     }
     
     override func viewWillDisappear(animated: Bool) {

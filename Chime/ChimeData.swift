@@ -14,7 +14,9 @@ class ChimeData: NSObject {
     // Singleton model
     
     var startTime = NSTimeInterval()
+    var startDate: NSDate?
     var timeLabel = ""
+
 
     
     class func mainData() -> ChimeData {

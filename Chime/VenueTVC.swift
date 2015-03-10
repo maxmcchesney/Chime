@@ -20,23 +20,6 @@ class VenueTVC: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-    
-        tableView.backgroundColor = UIColor.clearColor()
-
-    }
-
-    
-    override func viewWillAppear(animated: Bool) {
-        
-        // unhide the toolbar
-        navigationController?.toolbarHidden = false
-//        // add the images back to navbar
-        for image in navImageViews {
-            navigationController?.navigationBar.addSubview(image)
-        }
-        
-        // check if user is logged in already
-        checkIfLoggedIn()
         
         /////////
         /////////   PLACEHOLDER INFO
@@ -52,7 +35,8 @@ class VenueTVC: UITableViewController {
                     "3 hr":"10% off bar tab",
                 ],
                 "neighborhood":"va highlands",
-                "phone":"(404) 249-0180"
+                "phone":"(404) 249-0180",
+                "createdAt":"5/12/14"
             ],
             [
                 "venueName":"Hand In Hand",
@@ -141,6 +125,25 @@ class VenueTVC: UITableViewController {
                 "phone":"(404) 249-0180"
             ]
         ]
+    
+        tableView.backgroundColor = UIColor.clearColor()
+
+    }
+
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        // unhide the toolbar
+        navigationController?.toolbarHidden = false
+//        // add the images back to navbar
+        for image in navImageViews {
+            navigationController?.navigationBar.addSubview(image)
+        }
+        
+        // check if user is logged in already
+        checkIfLoggedIn()
+        
+//        venues = ChimeData.mainData().venues
         
     }
     
@@ -219,6 +222,8 @@ class VenueTVC: UITableViewController {
         
         let dVC = self.storyboard?.instantiateViewControllerWithIdentifier("detailVC") as DetailVC
 //        dVC.navigationController?.toolbarHidden = true
+        
+        dVC.selectedRow = indexPath.row
 
         self.navigationController?.pushViewController(dVC, animated: true)
         
