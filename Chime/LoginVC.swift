@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+
 class LoginVC: UIViewController, FBLoginViewDelegate {
 
     @IBOutlet weak var emailField: UITextField!
@@ -101,7 +103,16 @@ class LoginVC: UIViewController, FBLoginViewDelegate {
             if user != nil {
                 println("Parse: Login successful. Logged in as \(user.username).")
                 // login successful, dismiss loginVC
-                self.dismissViewControllerAnimated(true, completion: nil)
+              //  self.dismissViewControllerAnimated(true, completion: nil)
+                
+        
+                
+                if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("navigationC") as? RootNavigationController {
+            //          UIApplication.sharedApplication().keyWindow?.rootViewController = vc
+                    self.presentViewController(vc, animated: true, completion: nil)
+               
+                }
+
             } else {
                 // login failed
                 println("Parse: Login failed. Error message: \(error)")
@@ -121,12 +132,30 @@ class LoginVC: UIViewController, FBLoginViewDelegate {
         user.password = passwordField.text
         user.email = emailField.text    // ?? not really using this yet
         
+        var location:CLLocation = CLLocation()
+        
+        location = GlobalVariableSharedInstance.currentLocation() as CLLocation
+        
+        let geoPoint = PFGeoPoint(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude) as PFGeoPoint
+        
+        
+        user["location"] = geoPoint
+        
+
+        
         user.signUpInBackgroundWithBlock {
             (succeeded: Bool!, error: NSError!) -> Void in
             if error == nil {
                 // sign up successful, dismiss loginVC
                 println("Parse: Signup successful. New account created: \(user.username)")
                 self.dismissViewControllerAnimated(true, completion: nil)
+                
+                if let vc = self.storyboard?.instantiateViewControllerWithIdentifier("navigationC") as? RootNavigationController {
+                    //          UIApplication.sharedApplication().keyWindow?.rootViewController = vc
+                    self.presentViewController(vc, animated: true, completion: nil)
+                    
+                }
+
             } else {
                 // sign up failed
                 let errorString = error.userInfo?["error"] as NSString
@@ -136,6 +165,8 @@ class LoginVC: UIViewController, FBLoginViewDelegate {
                 var defaultAction = UIAlertAction(title: "Ok", style: .Default, handler: nil)
                 alertViewController.addAction(defaultAction)
                 self.presentViewController(alertViewController, animated: true, completion: nil)
+                
+                
             }
         }
     }  // end: sign up
