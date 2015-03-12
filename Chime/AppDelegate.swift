@@ -17,13 +17,68 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
-        // SET UP PARSE / FACEBOOK APIs
+        // SET UP PARSE
 //        Parse.enableLocalDatastore()
         Parse.setApplicationId("z0bdi9xmTkF8b4bbk7Gx9OrH6z7jtZkaJVxU71Yx", clientKey: "Y1H4v6hl3dN79M2VJQZFUlR4Jn2DRQZJMsqurT4o")
         PFFacebookUtils.initializeFacebook()
         PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
         
+        
+        /////////
+        /////////   NOTIFICATIONS (for timer)
+        /////////
+        
+        // actions
+        var firstAction = UIMutableUserNotificationAction()
+        firstAction.identifier = "CLAIM_DEAL"
+        firstAction.title = "🍻 CLAIM"
+        
+        firstAction.activationMode = UIUserNotificationActivationMode.Foreground
+        firstAction.destructive = false
+        firstAction.authenticationRequired = false
+
+        var secondAction = UIMutableUserNotificationAction()
+        secondAction.identifier = "IGNORE_DEAL"
+        secondAction.title = "😢 IGNORE"
+        
+        secondAction.activationMode = UIUserNotificationActivationMode.Background
+        secondAction.destructive = true
+        secondAction.authenticationRequired = false
+        
+        
+        // category
+        let firstCategory = UIMutableUserNotificationCategory()
+        firstCategory.identifier = "FIRST_CATEGORY"
+        
+        let defaultActions: NSArray = [firstAction, secondAction]
+        let minimalActions: NSArray = [firstAction, secondAction]
+        
+        firstCategory.setActions(defaultActions, forContext: UIUserNotificationActionContext.Default)
+        firstCategory.setActions(minimalActions, forContext: UIUserNotificationActionContext.Minimal)
+        
+        let categories = NSSet(object: firstCategory)
+        
+        // should I add .Sound to notification type?
+        let types: UIUserNotificationType = UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound
+        let mySettings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: types, categories: categories)
+        UIApplication.sharedApplication().registerUserNotificationSettings(mySettings)
+        
+        
         return true
+    }
+    
+    // handle user actions from local notification
+    func application(application: UIApplication!,
+        handleActionWithIdentifier identifier: String!,
+        forLocalNotification notification: UILocalNotification!,
+        completionHandler: (() -> Void)!) {
+            
+            if identifier == "CLAIM_DEAL" {
+                println("User selected 'Claim Deal' from local notification.")
+                // take user to active venue detailVC (use notification center)
+            }
+            
+            completionHandler()
     }
 
     func application(application: UIApplication,
@@ -45,6 +100,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
+        
+        
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
 
