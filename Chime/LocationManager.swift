@@ -17,7 +17,6 @@ protocol sendGeoPointProtocol {
 let GlobalVariableSharedInstance = LocationManager()
 
 
-
 class LocationManager: NSObject,  CLLocationManagerDelegate
 {
     var coreLocationManager = CLLocationManager()
@@ -60,7 +59,7 @@ class LocationManager: NSObject,  CLLocationManagerDelegate
     
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus)
     {
-        if (status == CLAuthorizationStatus.Authorized)
+        if (status == CLAuthorizationStatus.AuthorizedAlways)
         {
             println("authorized")
         }
@@ -76,6 +75,7 @@ class LocationManager: NSObject,  CLLocationManagerDelegate
         
         
         if (location==nil) {
+            println("location is nil!")
             location = CLLocation(latitude: 51.368123, longitude: -0.021973)
         }
         /*        if (("iPhone Simulator" == UIDevice.currentDevice().model) || ("iPad Simulator" == UIDevice.currentDevice().model))
@@ -95,7 +95,6 @@ class LocationManager: NSObject,  CLLocationManagerDelegate
         var distance:CLLocationDistance = -1
         if ((location) != nil)
         {
-            
             
             // the location we want to go to
             var locationFromGeoPoint:CLLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)

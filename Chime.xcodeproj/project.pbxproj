@@ -330,10 +330,11 @@
 				TargetAttributes = {
 					D80E21A71AA51BED005C4CBE = {
 						CreatedOnToolsVersion = 6.1.1;
-						DevelopmentTeam = XCU2F2Y374;
+						DevelopmentTeam = ZKD389657L;
 					};
 					D80E21BC1AA51BEE005C4CBE = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = ZKD389657L;
 						TestTargetID = D80E21A71AA51BED005C4CBE;
 					};
 				};
