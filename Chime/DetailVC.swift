@@ -12,15 +12,18 @@ class DetailVC: UIViewController {
 
     @IBOutlet weak var dealsTV: UITableView!
     @IBOutlet weak var timerLabel: UILabel!
-    @IBOutlet weak var checkInButton: UIButton!
+    @IBOutlet weak var checkInButton: DesignableButton!
     @IBOutlet weak var venueNameLabel: UILabel!
     @IBOutlet weak var venueNeighborhoodLabel: UILabel!
     
     var dealsTVC = DetailTVC()
-    var selectedRow = 0
+    var selectedVenue = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // if already checkedIn ...  checkInButton.enabled = false
+        toggleCheckInButton()
         
         // set bgimage here as well b/c transparency caused animation issues
         let bgImageView = UIImageView(frame: CGRectMake(0, -65, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
@@ -28,19 +31,52 @@ class DetailVC: UIViewController {
         bgImageView.image = bgImage
         view.insertSubview(bgImageView, atIndex: 0)
 
+        // set labels for selected venue
+        selectedVenue = ChimeData.mainData().selectedVenue
+
+        venueNameLabel.text = selectedVenue["venueName"] as? String
+        venueNeighborhoodLabel.text = selectedVenue["neighborhood"] as? String
+        
         // set tableview delegate and data source
         dealsTV.delegate = dealsTVC
         dealsTV.dataSource = dealsTVC
+        
+        // pass selected venue and deals to tvc
+        dealsTVC.selectedVenue = selectedVenue
+        dealsTVC.venueDeals = selectedVenue["deals"] as [String:String]
+        
         dealsTV.reloadData()
+        
         // hide toolbar
         navigationController?.toolbarHidden = true
         
-
         // remove drink images from navbar (optional)
-//        for image in navImageViews {
-//            image.removeFromSuperview()
-//        }
+        for image in navImageViews {
+            image.removeFromSuperview()
+        }
 
+    }
+    
+    func toggleCheckInButton() {
+    
+        if ChimeData.mainData().timerIsRunning {
+            
+            checkInButton.enabled = false
+            
+            // change appearance of checkIn button to disabled
+            checkInButton.setTitle("Checked In, Enjoy!", forState: UIControlState.Disabled)
+            
+            // neither of these is working...
+            checkInButton.setNeedsDisplay()
+            view.setNeedsDisplay()
+            
+        } else {
+            
+            checkInButton.enabled = true
+            checkInButton.setNeedsDisplay()
+            
+        }
+        
     }
 
     /////////
@@ -54,6 +90,8 @@ class DetailVC: UIViewController {
     @IBAction func checkIn(sender: AnyObject) {
         
         // start timer
+        ChimeData.mainData().timerIsRunning = true
+        
         let aSelector: Selector = "updateTime"
         timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: aSelector, userInfo: nil, repeats: true)
         
@@ -64,18 +102,29 @@ class DetailVC: UIViewController {
             startTime = NSDate.timeIntervalSinceReferenceDate()
         }
         
-        let dealThreshold: NSTimeInterval = 20
+        let venueDeals = selectedVenue["deals"] as [String:String]
         
-        let fireDate = NSDate(timeInterval: dealThreshold, sinceDate: NSDate())
-        
-        setLocalNotification(fireDate)
-        
+        for (time, deal) in venueDeals {
+            
+            // convert time from hours (string) to seconds (double) and set notifications
+            let dealThreshold: NSTimeInterval = ((time as NSString).doubleValue * 10) // change this to * 60 * 60 for production
+            
+            println("Deal time (sec): \(dealThreshold) for deal: '\(deal)'")
+            
+            let fireDate = NSDate(timeInterval: dealThreshold, sinceDate: NSDate())
+            
+            setLocalNotification(fireDate, andAlert: deal)
+            
+            toggleCheckInButton()
+            
+        }
         
         // TODO: make Check In btn change to "Leave Venue" btn
         // - DONE - make time continue when you leave detailVC
-            // - fix how the time label jumps in the ViewWillAppear method
-        // - set up notifications
+            // - (optional) fix how the time label jumps in the ViewWillAppear method
+        // - DONE - set up notifications
         // - make the time trigger the availability of the deals
+        // - make it so timer is specific to venue
         // - idea: 3D cube in venue name space that the user can mess with. when deal is claimed, it falls away revealing the price (an image of a shot glass, "25% off!", etc...
     }
     
@@ -110,12 +159,13 @@ class DetailVC: UIViewController {
 
     }
     
-    func setLocalNotification(fireDate: NSDate) {
+    func setLocalNotification(fireDate: NSDate, andAlert alert: String) {
         
         var notification = UILocalNotification()
         notification.category = "FIRST_CATEGORY"
-        notification.alertBody = "You did it! Now go claim your prize!"
+        notification.alertBody = "You did it! Your prize: \(alert)"
         notification.fireDate = fireDate
+//        notification.userInfo = 
         
         UIApplication.sharedApplication().scheduleLocalNotification(notification)
         
@@ -145,8 +195,23 @@ class DetailVC: UIViewController {
 
 class DetailTVC: UITableViewController {
     
+    var selectedVenue = [:]
+    var venueDeals: [String:String] = [:]
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+
+    }
+    
+    func activateDeal() {
+        // activate the claim deal button when notification goes off
+        
+        
         
     }
     
@@ -159,7 +224,7 @@ class DetailTVC: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return venueDeals.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -175,6 +240,29 @@ class DetailTVC: UITableViewController {
         /// OPTIONAL: change to % 3 for tri-coloring
         cell.backgroundColor = cellColors[indexPath.row % 2]
         cell.tagView.backgroundColor = cellColors[indexPath.row % 2].colorWithAlphaComponent(0.9)
+        
+        if let deals: [String:String] = selectedVenue["deals"] as? [String:String] {
+            
+            // sort the deals by time threshold
+            let sortedKeys = Array(deals.keys).sorted(<)
+            let sortedKeysAndValues = sorted(deals) { $0.0 < $1.0 }
+            
+            // was using this to get info before sorting it into an array
+//            let dealTime = sortedDeals.keys.array[indexPath.row] as String
+//            let dealName = sortedDeals.values.array[indexPath.row] as String
+
+            let deal = sortedKeysAndValues[indexPath.row]
+            let dealTime = deal.0 as String
+            let dealName = deal.1 as String
+            
+            cell.tagLabel.text = "\(dealTime) hrs"
+            cell.dealLabel.text = "\(dealName)"
+            
+        }
+
+//        let dealTime = venueDeals[indexPath.row].
+//        cell.tagLabel.text =
+        
 
         // DOESN'T WORK
         // set tag for cell 'claim' button

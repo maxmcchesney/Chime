@@ -12,6 +12,8 @@ class VenueTVC: UITableViewController {
     
     var venues = [[:]]
     
+//    var checkins = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,110 +23,8 @@ class VenueTVC: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
-        /////////
-        /////////   PLACEHOLDER INFO
-        /////////
-        venues = [  // placeholder info
-            
-            [
-                "venueName":"The Family Dog",
-                "venueAddress":"1402 North Highland Avenue Northeast, Atlanta, GA 30306",
-                "deals":[
-                    "1 hr":"25% off a PBR",
-                    "2 hr":"2 free Fireballs",
-                    "3 hr":"10% off bar tab",
-                ],
-                "neighborhood":"va highlands",
-                "phone":"(404) 249-0180",
-                "createdAt":"5/12/14"
-            ],
-            [
-                "venueName":"Hand In Hand",
-                "venueAddress":"752 North Highland Avenue Northeast, Atlanta, GA 30306",
-                "deals":[
-                    "1 hr":"25% off a PBR",
-                    "2 hr":"2 free Fireballs"
-                ],
-                "neighborhood":"va highlands",
-                "phone":"(404) 249-0180"
-            ],
-            [
-                "venueName":"Neighbors",
-                "venueAddress":"752 North Highland Avenue Northeast, Atlanta, GA 30306",
-                "deals":[
-                    "1 hr":"25% off a PBR"
-                ],
-                "neighborhood":"va highlands",
-                "phone":"(404) 249-0180"
-            ],
-            [
-                "venueName":"Park Tavern",
-                "venueAddress":"752 North Highland Avenue Northeast, Atlanta, GA 30306",
-                "deals":[
-                    "1 hr":"25% off a PBR",
-                    "2 hr":"2 free Fireballs",
-                    "3 hr":"10% off bar tab",
-                    "4 hr":"10% off bar tab"
-                ],
-                "neighborhood":"va highlands",
-                "phone":"(404) 249-0180"
-            ],
-            [
-                "venueName":"Manuel's",
-                "venueAddress":"752 North Highland Avenue Northeast, Atlanta, GA 30306",
-                "deals":[
-                    "1 hr":"25% off a PBR",
-                    "2 hr":"2 free Fireballs",
-                    "3 hr":"10% off bar tab",
-                ],
-                "neighborhood":"va highlands",
-                "phone":"(404) 249-0180"
-            ],
-            [
-                "venueName":"Manuel's",
-                "venueAddress":"752 North Highland Avenue Northeast, Atlanta, GA 30306",
-                "deals":[
-                    "1 hr":"25% off a PBR",
-                    "2 hr":"2 free Fireballs",
-                    "3 hr":"10% off bar tab",
-                ],
-                "neighborhood":"va highlands",
-                "phone":"(404) 249-0180"
-            ],
-            [
-                "venueName":"Manuel's",
-                "venueAddress":"752 North Highland Avenue Northeast, Atlanta, GA 30306",
-                "deals":[
-                    "1 hr":"25% off a PBR",
-                    "2 hr":"2 free Fireballs",
-                    "3 hr":"10% off bar tab",
-                ],
-                "neighborhood":"va highlands",
-                "phone":"(404) 249-0180"
-            ],
-            [
-                "venueName":"Manuel's",
-                "venueAddress":"752 North Highland Avenue Northeast, Atlanta, GA 30306",
-                "deals":[
-                    "1 hr":"25% off a PBR",
-                    "2 hr":"2 free Fireballs",
-                    "3 hr":"10% off bar tab",
-                ],
-                "neighborhood":"va highlands",
-                "phone":"(404) 249-0180"
-            ],
-            [
-                "venueName":"Manuel's",
-                "venueAddress":"752 North Highland Avenue Northeast, Atlanta, GA 30306",
-                "deals":[
-                    "1 hr":"25% off a PBR",
-                    "2 hr":"2 free Fireballs",
-                    "3 hr":"10% off bar tab",
-                ],
-                "neighborhood":"va highlands",
-                "phone":"(404) 249-0180"
-            ]
-        ]
+
+        venues = ChimeData.mainData().venues
     
         tableView.backgroundColor = UIColor.clearColor()
 
@@ -144,6 +44,7 @@ class VenueTVC: UITableViewController {
         checkIfLoggedIn()
         
 //        venues = ChimeData.mainData().venues
+//        venues = ChimeData.m
         
     }
     
@@ -223,8 +124,9 @@ class VenueTVC: UITableViewController {
         let dVC = self.storyboard?.instantiateViewControllerWithIdentifier("detailVC") as DetailVC
 //        dVC.navigationController?.toolbarHidden = true
         
-        dVC.selectedRow = indexPath.row
-
+        // set selected venue
+        ChimeData.mainData().selectedVenue = venues[indexPath.row]
+        
         self.navigationController?.pushViewController(dVC, animated: true)
         
     }

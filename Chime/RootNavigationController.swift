@@ -29,7 +29,7 @@ class RootNavigationController: UINavigationController {
         //////// CUSTOMIZE NAVBAR
         ////////
         self.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
-//        self.navigationBar.shadowImage = UIImage()
+        self.navigationBar.shadowImage = UIImage()  // removes the seperating line from the navbar (optional)
         self.navigationBar.backgroundColor = UIColor.clearColor()
         self.navigationBar.tintColor = UIColor.whiteColor()
         

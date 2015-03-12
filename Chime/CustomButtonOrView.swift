@@ -15,10 +15,17 @@ import UIKit
     @IBInspectable var bottomColorAlpha: CGFloat = 1.0
     @IBInspectable var topColorAlpha: CGFloat = 0.8
     
+    @IBInspectable var disabledBottomColor: UIColor = UIColor(red:0.4, green:0.38, blue:0.38, alpha:1)
+    @IBInspectable var disabledTopColor: UIColor = UIColor(red:0.85, green:0.85, blue:0.85, alpha:1)
+    @IBInspectable var disabledBottomColorAlpha: CGFloat = 1.0
+    @IBInspectable var disabledTopColorAlpha: CGFloat = 1.0
+    
     @IBInspectable var cornerSize: CGFloat = 0
     @IBInspectable var borderSize: CGFloat = 0
     @IBInspectable var borderColor: UIColor = UIColor.blackColor()
     @IBInspectable var borderAlpha: CGFloat = 1.0
+    
+    var gradientLayer: CAGradientLayer?
     
     override func drawRect(rect: CGRect) {
 
@@ -28,13 +35,27 @@ import UIKit
         self.layer.borderWidth = borderSize
         self.layer.masksToBounds = true
         // set up gradient
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = rect
+        
+        gradientLayer?.removeFromSuperlayer()
+        
+        gradientLayer = CAGradientLayer()
+        gradientLayer?.frame = rect
         let c1 = bottomColor.colorWithAlphaComponent(bottomColorAlpha).CGColor
         let c2 = topColor.colorWithAlphaComponent(topColorAlpha).CGColor
-        gradientLayer.colors = [c2, c1]
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        gradientLayer.endPoint = CGPoint(x: 0, y: 1)
+        
+        let dC1 = disabledBottomColor.colorWithAlphaComponent(disabledBottomColorAlpha).CGColor
+        let dC2 = disabledTopColor.colorWithAlphaComponent(disabledTopColorAlpha).CGColor
+        
+        if self.enabled {
+            gradientLayer?.colors = [c2, c1]
+        } else {
+            println("btn is disabled")
+            gradientLayer?.colors = [dC2, dC1]
+        }
+
+        
+        gradientLayer?.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer?.endPoint = CGPoint(x: 0, y: 1)
         self.layer.insertSublayer(gradientLayer, atIndex: 0)
 
     }

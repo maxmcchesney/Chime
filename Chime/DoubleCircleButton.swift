@@ -17,7 +17,15 @@ import UIKit
     @IBInspectable var topColor: UIColor = UIColor(red:0.98, green:0.85, blue:0.38, alpha:1)
     @IBInspectable var topColorAlpha: CGFloat = 0.8
     
-    var dealAvailable: Bool = false
+    var dealAvailable: Bool = false {
+        
+        didSet {
+            
+            setNeedsDisplay()
+            
+        }
+        
+    }
     
     override func drawRect(rect: CGRect) {
         // Drawing code
