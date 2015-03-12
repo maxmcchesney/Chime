@@ -12,6 +12,9 @@ class VenueCell: UITableViewCell {
 
     @IBOutlet weak var venueName: UILabel!
     @IBOutlet weak var venueNeighborhood: UILabel!
+    @IBOutlet weak var venueDistance: UILabel!
+    
+    
     
     @IBOutlet weak var tagView: UIView!
     @IBOutlet weak var tagLabel: UILabel!

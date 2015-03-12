@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BDC02A4A1AAF4BD1002B85BC /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC02A491AAF4BD1002B85BC /* LocationManager.swift */; };
+		BDC02A521AAF4C3D002B85BC /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC02A4D1AAF4C3D002B85BC /* BlurView.swift */; };
+		BDC02A531AAF4C3D002B85BC /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC02A4E1AAF4C3D002B85BC /* DesignableView.swift */; };
+		BDC02A541AAF4C3D002B85BC /* Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC02A4F1AAF4C3D002B85BC /* Misc.swift */; };
+		BDC02A551AAF4C3D002B85BC /* SpringAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC02A501AAF4C3D002B85BC /* SpringAnimation.swift */; };
+		BDC02A561AAF4C3D002B85BC /* TipoType - Libertad.otf in Resources */ = {isa = PBXBuildFile; fileRef = BDC02A511AAF4C3D002B85BC /* TipoType - Libertad.otf */; };
+		BDC02A5A1AAF5AE7002B85BC /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDC02A571AAF5AE7002B85BC /* FacebookSDK.framework */; };
+		BDC02A5B1AAF5AE7002B85BC /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDC02A581AAF5AE7002B85BC /* FBAudienceNetwork.framework */; };
+		BDC02A5C1AAF5AE7002B85BC /* FBAudienceNetwork.README.txt in Resources */ = {isa = PBXBuildFile; fileRef = BDC02A591AAF5AE7002B85BC /* FBAudienceNetwork.README.txt */; };
+		BDC02A5E1AAF68C8002B85BC /* VenueInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC02A5D1AAF68C8002B85BC /* VenueInfoVC.swift */; };
 		D80E21AE1AA51BEE005C4CBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80E21AD1AA51BEE005C4CBE /* AppDelegate.swift */; };
 		D80E21B31AA51BEE005C4CBE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D80E21B11AA51BEE005C4CBE /* Main.storyboard */; };
 		D80E21B51AA51BEE005C4CBE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D80E21B41AA51BEE005C4CBE /* Images.xcassets */; };
@@ -52,6 +62,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BDC02A491AAF4BD1002B85BC /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		BDC02A4D1AAF4C3D002B85BC /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
+		BDC02A4E1AAF4C3D002B85BC /* DesignableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
+		BDC02A4F1AAF4C3D002B85BC /* Misc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Misc.swift; sourceTree = "<group>"; };
+		BDC02A501AAF4C3D002B85BC /* SpringAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpringAnimation.swift; sourceTree = "<group>"; };
+		BDC02A511AAF4C3D002B85BC /* TipoType - Libertad.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TipoType - Libertad.otf"; sourceTree = "<group>"; };
+		BDC02A571AAF5AE7002B85BC /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		BDC02A581AAF5AE7002B85BC /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
+		BDC02A591AAF5AE7002B85BC /* FBAudienceNetwork.README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FBAudienceNetwork.README.txt; sourceTree = "<group>"; };
+		BDC02A5D1AAF68C8002B85BC /* VenueInfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueInfoVC.swift; sourceTree = "<group>"; };
 		D80E21A81AA51BED005C4CBE /* Chime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D80E21AC1AA51BEE005C4CBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D80E21AD1AA51BEE005C4CBE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -101,6 +121,8 @@
 				D80E21EF1AA53342005C4CBE /* SystemConfiguration.framework in Frameworks */,
 				D80E21ED1AA5333B005C4CBE /* StoreKit.framework in Frameworks */,
 				D80E21EB1AA53333005C4CBE /* Security.framework in Frameworks */,
+				BDC02A5A1AAF5AE7002B85BC /* FacebookSDK.framework in Frameworks */,
+				BDC02A5B1AAF5AE7002B85BC /* FBAudienceNetwork.framework in Frameworks */,
 				D80E21E91AA5332C005C4CBE /* QuartzCore.framework in Frameworks */,
 				D80E21E71AA53326005C4CBE /* MobileCoreServices.framework in Frameworks */,
 				D80E21E51AA5331E005C4CBE /* CoreLocation.framework in Frameworks */,
@@ -126,6 +148,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BDC02A4B1AAF4C18002B85BC /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				BDC02A4D1AAF4C3D002B85BC /* BlurView.swift */,
+				BDC02A4E1AAF4C3D002B85BC /* DesignableView.swift */,
+				BDC02A4F1AAF4C3D002B85BC /* Misc.swift */,
+				BDC02A501AAF4C3D002B85BC /* SpringAnimation.swift */,
+				BDC02A511AAF4C3D002B85BC /* TipoType - Libertad.otf */,
+			);
+			name = Animations;
+			sourceTree = "<group>";
+		};
 		D80E219F1AA51BED005C4CBE = {
 			isa = PBXGroup;
 			children = (
@@ -190,6 +224,9 @@
 		D80E21D31AA53167005C4CBE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BDC02A571AAF5AE7002B85BC /* FacebookSDK.framework */,
+				BDC02A581AAF5AE7002B85BC /* FBAudienceNetwork.framework */,
+				BDC02A591AAF5AE7002B85BC /* FBAudienceNetwork.README.txt */,
 				D8AFFDEE1AA6245B00C395F5 /* FacebookSDK.framework */,
 				D80E21F21AA53354005C4CBE /* libsqlite3.dylib */,
 				D80E21F01AA5334A005C4CBE /* libz.dylib */,
@@ -215,6 +252,7 @@
 			isa = PBXGroup;
 			children = (
 				D83150541AA7845F00B7050C /* ChimeData.swift */,
+				BDC02A491AAF4BD1002B85BC /* LocationManager.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -222,6 +260,7 @@
 		D80E21F81AA54629005C4CBE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				BDC02A4B1AAF4C18002B85BC /* Animations */,
 				D80E21D11AA52262005C4CBE /* DoubleCircleButton.swift */,
 				D80E22001AA5F933005C4CBE /* VenueCell.swift */,
 				D83200B11AA756BC0004E97E /* DealCell.swift */,
@@ -237,6 +276,7 @@
 				D80E21CD1AA521E4005C4CBE /* LoginVC.swift */,
 				D80E21FC1AA546F1005C4CBE /* VenueTVC.swift */,
 				D83200531AA6973B0004E97E /* DetailVC.swift */,
+				BDC02A5D1AAF68C8002B85BC /* VenueInfoVC.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -290,7 +330,7 @@
 				TargetAttributes = {
 					D80E21A71AA51BED005C4CBE = {
 						CreatedOnToolsVersion = 6.1.1;
-						DevelopmentTeam = ZKD389657L;
+						DevelopmentTeam = XCU2F2Y374;
 					};
 					D80E21BC1AA51BEE005C4CBE = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -322,7 +362,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BDC02A5C1AAF5AE7002B85BC /* FBAudienceNetwork.README.txt in Resources */,
 				D80E21FF1AA54F5D005C4CBE /* Readme in Resources */,
+				BDC02A561AAF4C3D002B85BC /* TipoType - Libertad.otf in Resources */,
 				D80E21B31AA51BEE005C4CBE /* Main.storyboard in Resources */,
 				D80E21B81AA51BEE005C4CBE /* LaunchScreen.xib in Resources */,
 				D80E21B51AA51BEE005C4CBE /* Images.xcassets in Resources */,
@@ -346,11 +388,17 @@
 				D80E21CE1AA521E4005C4CBE /* LoginVC.swift in Sources */,
 				D80E21AE1AA51BEE005C4CBE /* AppDelegate.swift in Sources */,
 				D80E22011AA5F933005C4CBE /* VenueCell.swift in Sources */,
+				BDC02A531AAF4C3D002B85BC /* DesignableView.swift in Sources */,
+				BDC02A5E1AAF68C8002B85BC /* VenueInfoVC.swift in Sources */,
+				BDC02A4A1AAF4BD1002B85BC /* LocationManager.swift in Sources */,
 				D80E21FD1AA546F1005C4CBE /* VenueTVC.swift in Sources */,
+				BDC02A521AAF4C3D002B85BC /* BlurView.swift in Sources */,
 				D80E21D21AA52262005C4CBE /* DoubleCircleButton.swift in Sources */,
 				D83150571AA79B1400B7050C /* CustomButtonOrView.swift in Sources */,
 				D83150551AA7845F00B7050C /* ChimeData.swift in Sources */,
 				D8AFFDF11AA641DA00C395F5 /* RootNavigationController.swift in Sources */,
+				BDC02A541AAF4C3D002B85BC /* Misc.swift in Sources */,
+				BDC02A551AAF4C3D002B85BC /* SpringAnimation.swift in Sources */,
 				D83200541AA6973B0004E97E /* DetailVC.swift in Sources */,
 				D83200B21AA756BC0004E97E /* DealCell.swift in Sources */,
 			);
@@ -477,6 +525,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -485,6 +534,7 @@
 				INFOPLIST_FILE = Chime/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Chime/Chime-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -496,6 +546,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -504,6 +555,7 @@
 				INFOPLIST_FILE = Chime/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Chime/Chime-Bridging-Header.h";
 			};
 			name = Release;
