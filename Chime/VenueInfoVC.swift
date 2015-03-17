@@ -8,7 +8,9 @@
 
 import UIKit
 
-class VenueInfoVC: UIViewController, sendGeoPointProtocol {
+
+class VenueInfoVC: UIViewController {
+
 
     // NOT BEING USED ANYMORE, HERE FOR REFERENCE
     
@@ -51,7 +53,6 @@ class VenueInfoVC: UIViewController, sendGeoPointProtocol {
             
             var address = addressField.text
             
-            GlobalVariableSharedInstance.delegate = self
             
             GlobalVariableSharedInstance.addressToLocation(address, completion: { (geoPoint) -> Void in
                 

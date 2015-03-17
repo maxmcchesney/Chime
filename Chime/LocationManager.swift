@@ -10,8 +10,8 @@ import Foundation
 import UIKit
 import CoreLocation
 
-protocol sendGeoPointProtocol {
-    func didReceiveGeoPoint(location: PFGeoPoint)
+protocol userLocationProtocol {
+    func didReceiveUserLocation(location: CLLocation)
 }
 
 let GlobalVariableSharedInstance = LocationManager()
@@ -19,15 +19,29 @@ let GlobalVariableSharedInstance = LocationManager()
 
 class LocationManager: NSObject,  CLLocationManagerDelegate
 {
-    var coreLocationManager = CLLocationManager()
     
 
-    var delegate: sendGeoPointProtocol?
+    var delegate: userLocationProtocol?
+    var coreLocationManager = CLLocationManager()
+
+    
+
+    /*
+    if CLLocationManager.locationServicesEnabled() {
+          coreLocationManager.startUpdatingLocation()
+    }
+*/
+
     
     class var SharedLocationManager:LocationManager
     {
+        GlobalVariableSharedInstance.coreLocationManager.requestAlwaysAuthorization()
+        
+      
         return GlobalVariableSharedInstance
+        
     }
+    
     
     
     func initLocationManager()
@@ -46,16 +60,30 @@ class LocationManager: NSObject,  CLLocationManagerDelegate
         }
     }
     
+    
+    
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!)
     {
+        println("did update")
+        
         if (locations.count > 0)
         {
             // the last location is the good one?
             var newLocation:CLLocation = locations[0] as CLLocation
             coreLocationManager.stopUpdatingLocation()
+            delegate?.didReceiveUserLocation(newLocation)
+            
+        } else {
+         
+            var newLocation = CLLocation(latitude: 51.368123, longitude: -0.021973)
+
+            delegate?.didReceiveUserLocation(newLocation)
+            
         }
         
     }
+    
+    
     
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus)
     {
@@ -70,6 +98,8 @@ class LocationManager: NSObject,  CLLocationManagerDelegate
         }
     }
     
+    
+
     func currentLocation() -> CLLocation {
         var location:CLLocation? = coreLocationManager.location
         
@@ -83,7 +113,15 @@ class LocationManager: NSObject,  CLLocationManagerDelegate
         location = CLLocation(latitude: 51.368123, longitude: -0.021973)
         }
         */
+
         return location!
+    }
+    
+    func findLocation() {
+        
+        println(coreLocationManager)
+        coreLocationManager.startUpdatingLocation()
+        
     }
     
     // 1.take the geopoint transform to ClLocation using the latitude and longitude of the geopoint 2. take our current location 3. calculate distance from location using the distanfeFromLocation function
@@ -127,8 +165,7 @@ class LocationManager: NSObject,  CLLocationManagerDelegate
                 println("Location Found! lat: \(locationLat) long: \(locationLon)")
                 var geoPoint = PFGeoPoint(latitude: locationLat, longitude: locationLon) as PFGeoPoint
 
-                self.delegate?.didReceiveGeoPoint(geoPoint)
-                
+            
             
                 
                 

@@ -10,7 +10,7 @@ import UIKit
 
 
 
-class VenueTVC: UITableViewController {
+class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDelegate, segmentedControllerDidChangeProtocol {
     
     var parseVenues: NSMutableArray = []
     
@@ -28,8 +28,21 @@ class VenueTVC: UITableViewController {
         tableView.backgroundColor = UIColor.clearColor()
         
         // load the venues from Parse
-        self.loadVenuesFromParse()
+        // self.loadVenuesFromParse()
+
+        var nc = self.navigationController as RootNavigationController
+        nc.delegate2 = self
         
+        
+        println("PFUSER: \(PFUser.currentUser())")
+        
+        // STUFF TO USE
+        
+      GlobalVariableSharedInstance.delegate = self
+        GlobalVariableSharedInstance.initLocationManager()
+        // calls finddistance indefinitly
+        GlobalVariableSharedInstance.findLocation()
+
     }
 
     
@@ -64,16 +77,38 @@ class VenueTVC: UITableViewController {
         
     }
     
-    func loadVenuesFromParse() {
+    var userLocation: CLLocation?
+    
+    func loadVenuesFromParse(sortByDateCreated: Bool?) {
         
+        println(userLocation)
+        
+        
+    
         var query = PFQuery(className:"Venues")
         
+
         // check if user is owner
         println(PFUser.currentUser()["isOwner"])
+
+        if sortByDateCreated == true {
+            query.orderByAscending("createdAt")
+        }
+        
+        else {
+            query.whereKey("location", nearGeoPoint: PFGeoPoint(location: userLocation))
+
+        }
+        
+        println(query)
         
         query.findObjectsInBackgroundWithBlock() {
             (objects:[AnyObject]!, error:NSError!)->Void in
             if ((error) == nil) {
+                
+                println(objects)
+                
+                self.parseVenues = []
                 
                 for object in objects {
                     
@@ -82,15 +117,21 @@ class VenueTVC: UITableViewController {
                     
                 }
                 
-               self.sortVenuesByDistanceFromUser()
+                self.tableView.reloadData()
+//               self.sortVenuesByDistanceFromUser()
                 
             }
+
+            println(error)
+            
         }
         
         
         
         
     }
+    
+    
     
     func sortVenuesByDistanceFromUser() {
         
@@ -231,14 +272,26 @@ class VenueTVC: UITableViewController {
                 cell.venueNeighborhood.text = venueNeighborhood
             }
             
+<<<<<<< HEAD
             // THIS NEEDS FIXING ONCE WE HAVE A WAY TO CREATE DEALS
 //            if let deals: [String:String] = venue["deals"] as? [String:String] {
 //                cell.tagNumberOfDealsLabel.text = "\(deals.count)"  // TODO: placeholder $ amount right now
 //            }
             
-           if let distance = venue["distance"] as Float? {
-             cell.venueDistance.text = "\(distance)mi"
+            if let userLocation = userLocation {
+                
+                let venueGeo = venue["location"] as PFGeoPoint
+                let venueLocation = CLLocation(latitude: venueGeo.latitude, longitude: venueGeo.longitude)
+                let distance = Float(userLocation.distanceFromLocation(venueLocation)) * 0.000621371
+                
+                cell.venueDistance.text = "\(distance)mi"
+                
             }
+            
+//            Float(distance) * 0.000621371
+            
+//           if let distance = venue["distance"] as Float? {
+//            }
         }
    
         return cell
@@ -250,21 +303,60 @@ class VenueTVC: UITableViewController {
     /////////   PUSH DETAIL VIEW CONTROLLER WHEN CELL IS SELECTED
     /////////
     
+    func didReceiveUserLocation(location: CLLocation) {
+        
+        userLocation = location
+        
+        self.loadVenuesFromParse(false)
+    }
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         println("User has selected a venue, pushing detail view...")
+        
+        let venue: AnyObject = self.parseVenues[indexPath.row]
+        
+
+        let venueGeo = venue["location"] as PFGeoPoint
+        let venueLocation = CLLocation(latitude: venueGeo.latitude, longitude: venueGeo.longitude)
+        
         
         let dVC = self.storyboard?.instantiateViewControllerWithIdentifier("detailVC") as DetailVC
 
         // set selected venue
         ChimeData.mainData().selectedVenue = parseVenues[indexPath.row] as? PFObject
         
+        dVC.geoPoint = venueGeo
+        dVC.location = venueLocation
+//        dVC.navigationController?.toolbarHidden = true
+
         self.navigationController?.pushViewController(dVC, animated: true)
         
     }
     
     
     
+     func segmentedControllerDidChange(value: Int) {
+        
+        
+        if value == 0 {
+            
+            
+            self.loadVenuesFromParse(false)
+            
+        }
+        
+        
+        if value == 1 {
+            
+            self.loadVenuesFromParse(true)
+            
+            
+            
+        }
+
+        //
+    }
     
 
     /*

@@ -11,10 +11,20 @@ import UIKit
 // array of imageViews
 var navImageViews: [UIImageView] = []
 
+
+protocol segmentedControllerDidChangeProtocol {
+    func segmentedControllerDidChange(value: Int)
+}
+
+
 class RootNavigationController: UINavigationController {
 
 //    // array of imageViews
 //    var navImageViews: [UIImageView] = []
+    
+    var sC =  UISegmentedControl(items: ["Nearby", "New"])
+    
+    var delegate2: segmentedControllerDidChangeProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,12 +56,14 @@ class RootNavigationController: UINavigationController {
         tB.backgroundColor = UIColor(red:0.47, green:0.58, blue:0.68, alpha:1)
         
         //make segment control btn
-        let sC = UISegmentedControl(items: ["Nearby", "New"])
+       
         sC.frame = CGRectMake(0, 0, 175, 25)
         sC.center = CGPointMake(tB.center.x, 22)
         sC.selectedSegmentIndex = 0
         sC.alpha = 0.85
         sC.tintColor = UIColor.whiteColor()
+        
+        sC.addTarget(self, action: "selectedControllerDidChange", forControlEvents: .ValueChanged)
 
         // add toolbar and segment control views
         tB.addSubview(sC)
@@ -87,6 +99,38 @@ class RootNavigationController: UINavigationController {
         }
     }
     
+
+    
+    func selectedControllerDidChange() {
+        
+      //  let nc = self.navigationController as RootNavigationController
+        
+        
+        var selectedSegment = sC.selectedSegmentIndex
+            if selectedSegment == 0 {
+                
+                println("isOff")
+                
+                self.delegate2?.segmentedControllerDidChange(0)
+                
+            
+                
+         //
+                
+            }
+            
+            if selectedSegment == 1 {
+                
+                println("isOn")
+                
+                self.delegate2?.segmentedControllerDidChange(1)
+                
+            }
+            
+
+    
+    }
+
     
 
     override func didReceiveMemoryWarning() {
