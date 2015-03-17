@@ -114,22 +114,23 @@ class DetailVC: UIViewController {
             startTime = NSDate.timeIntervalSinceReferenceDate()
         }
         
-        let venueDeals = selectedVenue["deals"] as [String:String]
-        
-        for (time, deal) in venueDeals {
-            
-            // convert time from hours (string) to seconds (double) and set notifications
-            let dealThreshold: NSTimeInterval = ((time as NSString).doubleValue * 10) // change this to * 60 * 60 for production
-            
-            println("Deal time (sec): \(dealThreshold) for deal: '\(deal)'")
-            
-            let fireDate = NSDate(timeInterval: dealThreshold, sinceDate: NSDate())
-            
-            setLocalNotification(fireDate, andAlert: deal)
-            
+        // NEED TO ADD THIS BACK ONCE DEALS LOAD
+//        let venueDeals = selectedVenue["deals"] as [String:String]
+//        
+//        for (time, deal) in venueDeals {
+//            
+//            // convert time from hours (string) to seconds (double) and set notifications
+//            let dealThreshold: NSTimeInterval = ((time as NSString).doubleValue * 10) // change this to * 60 * 60 for production
+//            
+//            println("Deal time (sec): \(dealThreshold) for deal: '\(deal)'")
+//            
+//            let fireDate = NSDate(timeInterval: dealThreshold, sinceDate: NSDate())
+//            
+//            setLocalNotification(fireDate, andAlert: deal)
+//            
             toggleCheckInButton()
-            
-        }
+//
+//        }
         
         // TODO: make Check In btn change to "Leave Venue" btn
         // - DONE - make time continue when you leave detailVC

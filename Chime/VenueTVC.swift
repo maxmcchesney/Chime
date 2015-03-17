@@ -89,7 +89,7 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
         
 
         // check if user is owner
-        println(PFUser.currentUser()["isOwner"])
+//        println(PFUser.currentUser()["isOwner"])
 
         if sortByDateCreated == true {
             query.orderByAscending("createdAt")
@@ -272,7 +272,6 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
                 cell.venueNeighborhood.text = venueNeighborhood
             }
             
-<<<<<<< HEAD
             // THIS NEEDS FIXING ONCE WE HAVE A WAY TO CREATE DEALS
 //            if let deals: [String:String] = venue["deals"] as? [String:String] {
 //                cell.tagNumberOfDealsLabel.text = "\(deals.count)"  // TODO: placeholder $ amount right now

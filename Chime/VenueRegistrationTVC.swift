@@ -8,7 +8,7 @@
 
 import UIKit
 
-class VenueRegistrationTVC: UITableViewController, sendGeoPointProtocol {
+class VenueRegistrationTVC: UITableViewController {
     
     @IBOutlet weak var venueNameField: UITextField!
     @IBOutlet weak var venueAddressField: UITextField!
@@ -150,7 +150,7 @@ class VenueRegistrationTVC: UITableViewController, sendGeoPointProtocol {
         
         var address = self.venueAddressField.text
         
-        GlobalVariableSharedInstance.delegate = self
+//        GlobalVariableSharedInstance.delegate = self
         
         GlobalVariableSharedInstance.addressToLocation(address, completion: { (geoPoint) -> Void in
             
