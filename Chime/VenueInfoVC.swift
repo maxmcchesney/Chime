@@ -10,8 +10,7 @@ import UIKit
 
 
 
-
-class VenueInfoVC: UIViewController, sendGeoPointProtocol {
+class VenueInfoVC: UIViewController {
 
     
     @IBOutlet weak var barNameField: UITextField!
@@ -49,7 +48,6 @@ class VenueInfoVC: UIViewController, sendGeoPointProtocol {
         else {
             var address = addressField.text
             
-            GlobalVariableSharedInstance.delegate = self
             
             GlobalVariableSharedInstance.addressToLocation(address, completion: { (geoPoint) -> Void in
                 

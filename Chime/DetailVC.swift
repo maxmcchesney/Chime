@@ -9,6 +9,7 @@
 import UIKit
 
 
+
 // 
 class DetailVC: UIViewController {
 
@@ -19,7 +20,7 @@ class DetailVC: UIViewController {
     @IBOutlet weak var venueNeighborhoodLabel: UILabel!
     
     var dealsTVC = DetailTVC()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,6 +35,9 @@ class DetailVC: UIViewController {
         dealsTV.dataSource = dealsTVC
         dealsTV.reloadData()
         // hide toolbar
+        
+        
+        
         navigationController?.toolbarHidden = true
         
 
@@ -50,7 +54,10 @@ class DetailVC: UIViewController {
     
     var timer = NSTimer()
     var startTime = NSTimeInterval()
-
+    
+    var geoPoint: PFGeoPoint?
+    var location: CLLocation?
+    
     
     @IBAction func checkIn(sender: AnyObject) {
         
@@ -74,31 +81,53 @@ class DetailVC: UIViewController {
     }
     
     func updateTime() {
-        var currentTime = NSDate.timeIntervalSinceReferenceDate()
         
-        // find the difference between current time and start time.
-        var elapsedTime: NSTimeInterval = currentTime - startTime
+        var userLocation = GlobalVariableSharedInstance.currentLocation() as CLLocation
         
-        // calculate the hours in elapsed time.
-        let hours = UInt8(elapsedTime / 60 / 60)
+        var userLatitude = userLocation.coordinate.latitude
+        var userLongitude = userLocation.coordinate.longitude
         
-        // calculate the minutes in elapsed time.
-        let minutes = UInt8(elapsedTime / 60.0)
-        elapsedTime -= (NSTimeInterval(minutes) * 60)
+        let geoPoint = PFGeoPoint(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude) as PFGeoPoint
         
-        // calculate the seconds in elapsed time.
-        let seconds = UInt8(elapsedTime)
-        elapsedTime -= NSTimeInterval(seconds)
-        
-        // add the leading zero for hours, minutes, and seconds and store them as string constants
-//        let strHours = hours > 9 ? String(hours):"0" + String(hours)
-        let strHours = String(hours)
-        let strMinutes = minutes > 9 ? String(minutes):"0" + String(minutes)
-        let strSeconds = seconds > 9 ? String(seconds):"0" + String(seconds)
-        
-        // concatenate hours, minutes, and seconds as assign it to the UILabel
-        timerLabel.text = "\(strHours):\(strMinutes):\(strSeconds)"
+        if let venueLocation = self.location as CLLocation? {
+            
+            var venueLatitude = venueLocation.coordinate.latitude
+            var venueLongitude = userLocation.coordinate.longitude
+            
+            
+            if (userLatitude == venueLatitude) && (userLongitude == venueLongitude){
+                var currentTime = NSDate.timeIntervalSinceReferenceDate()
+                
+                // find the difference between current time and start time.
+                var elapsedTime: NSTimeInterval = currentTime - startTime
+                
+                // calculate the hours in elapsed time.
+                let hours = UInt8(elapsedTime / 60 / 60)
+                
+                // calculate the minutes in elapsed time.
+                let minutes = UInt8(elapsedTime / 60.0)
+                elapsedTime -= (NSTimeInterval(minutes) * 60)
+                
+                // calculate the seconds in elapsed time.
+                let seconds = UInt8(elapsedTime)
+                elapsedTime -= NSTimeInterval(seconds)
+                
+                // add the leading zero for hours, minutes, and seconds and store them as string constants
+                //        let strHours = hours > 9 ? String(hours):"0" + String(hours)
+                let strHours = String(hours)
+                let strMinutes = minutes > 9 ? String(minutes):"0" + String(minutes)
+                let strSeconds = seconds > 9 ? String(seconds):"0" + String(seconds)
+                
+                // concatenate hours, minutes, and seconds as assign it to the UILabel
+                timerLabel.text = "\(strHours):\(strMinutes):\(strSeconds)"
+                
+            }
+            
+            
 
+        }
+        
+        
     }
     
     override func viewWillDisappear(animated: Bool) {

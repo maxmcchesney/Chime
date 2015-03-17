@@ -10,7 +10,7 @@ import UIKit
 
 
 
-class LoginVC: UIViewController, FBLoginViewDelegate {
+class LoginVC: UIViewController, FBLoginViewDelegate, CLLocationManagerDelegate {
 
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
@@ -132,12 +132,16 @@ class LoginVC: UIViewController, FBLoginViewDelegate {
         user.password = passwordField.text
         user.email = emailField.text    // ?? not really using this yet
         
+        
         var location:CLLocation = CLLocation()
         
+        GlobalVariableSharedInstance.coreLocationManager.requestAlwaysAuthorization()
+
+        GlobalVariableSharedInstance.coreLocationManager.delegate = self
+
         location = GlobalVariableSharedInstance.currentLocation() as CLLocation
         
         let geoPoint = PFGeoPoint(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude) as PFGeoPoint
-        
         
         user["location"] = geoPoint
         
