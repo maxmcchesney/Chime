@@ -1,0 +1,209 @@
+//
+//  VenueRegistrationTVC.swift
+//  Chime
+//
+//  Created by Michael McChesney on 3/13/15.
+//  Copyright (c) 2015 Max McChesney. All rights reserved.
+//
+
+import UIKit
+
+class VenueRegistrationTVC: UITableViewController, sendGeoPointProtocol {
+    
+    @IBOutlet weak var venueNameField: UITextField!
+    @IBOutlet weak var venueAddressField: UITextField!
+    @IBOutlet weak var venuePhoneField: UITextField!
+    @IBOutlet weak var venueNeighborhoodField: UITextField!
+    
+    @IBOutlet weak var emailField: UITextField!
+    @IBOutlet weak var passwordField: UITextField!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        tableView.backgroundColor = UIColor.clearColor()    // set tableview background to clear
+        tableView.bounces = false   // stop tableView from bouncing
+    
+        view.backgroundColor = UIColor(red:0.81, green:0.96, blue:0.56, alpha:1)    // set background to green
+        
+        // set up gradient - doesn't work!
+//        let gradientLayer = CAGradientLayer()
+//        gradientLayer.frame = self.view.frame
+//        let topColor = UIColor(red:0.19, green:0.14, blue:0.68, alpha:0.4)
+//        let bottomColor = UIColor(red:0.71, green:0.93, blue:0.32, alpha:0.4)
+//        gradientLayer.colors = [topColor, bottomColor]
+//        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+//        gradientLayer.endPoint = CGPoint(x: 0, y: 1)
+//        view.layer.insertSublayer(gradientLayer, atIndex: 0)
+//        view.layer.addSublayer(gradientLayer)
+        
+        // load background image w/ gradient.
+        let bgImageView = UIImageView(frame: CGRectMake(0, 0, 414, 760))
+        
+//        println("tablviewFrame = \(tableView.contentSize)")
+//        println("viewFrame = \(self.viewForZoomingInScrollView(tableView))")
+        
+        let bgImage = UIImage(named: "bg")
+        bgImageView.image = bgImage
+//        bgImageView.contentMode = UIViewContentMode.ScaleToFill
+        view.insertSubview(bgImageView, atIndex: 0)
+
+        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+
+        
+    }
+
+    @IBAction func backToLoginVC(sender: AnyObject) {
+        // dismiss TVC and go back to login
+        self.dismissViewControllerAnimated(true, completion: nil)
+        
+    }
+    
+    /////////
+    /////////   LOG IN / SIGN UP
+    /////////
+    
+    // need to connect this to storyboard
+    @IBAction func checkFields(sender: AnyObject) {
+        // email / pw field validation
+        var fieldValues: [String] = [emailField.text,passwordField.text,venueNameField.text,venueAddressField.text,venuePhoneField.text,venueNeighborhoodField.text]
+        if find(fieldValues, "") != nil {
+            // all fields are not filled in, present alert
+            var alertViewController = UIAlertController(title: "Submission Error", message: "Please fill in all fields.", preferredStyle: UIAlertControllerStyle.Alert)
+            var defaultAction = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+            alertViewController.addAction(defaultAction)
+            presentViewController(alertViewController, animated: true, completion: nil)
+        } else {
+            // all fields are filled in, check if user exists
+            var userQuery = PFUser.query()
+            userQuery.whereKey("email", equalTo: emailField.text)
+            
+            userQuery.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
+                if objects.count > 0 {
+                    // user already exists, present error message
+                    println("User already exists, presenting error alert...")
+
+                    var aVC = UIAlertController(title: "Account Already Exists", message: "Please log in through the previous screen. This screen is for new account registration only.", preferredStyle: UIAlertControllerStyle.ActionSheet)
+                    var defaultAction = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+                    aVC.addAction(defaultAction)
+                    self.presentViewController(aVC, animated: true, completion: nil)
+                    
+                } else {
+                    // user not found, sign up user
+                    println("Sign Up fields good...")
+                    self.signUp()
+                }
+            })
+        }
+    }  // end: field validation
+    
+    
+    func signUp() {
+        // sign up user
+        var user = PFUser()
+        user.username = emailField.text
+        user.password = passwordField.text
+        user.email = emailField.text
+        
+        
+        var location:CLLocation = CLLocation()
+        
+        location = GlobalVariableSharedInstance.currentLocation() as CLLocation
+        
+        let geoPoint = PFGeoPoint(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude) as PFGeoPoint
+        
+        
+        user["location"] = geoPoint
+        
+        // save venue info to user as well?
+        user["isOwner"] = true
+        user["venueName"] = venueNameField.text
+        
+        // TODO: add hometown / city to user when signing up..  though maybe just have them enter it.  could present alert asking "is Atlanta your hometown?" and then adding it if they click "yes"
+        
+        user.signUpInBackgroundWithBlock {
+            (succeeded: Bool!, error: NSError!) -> Void in
+            if error == nil {
+                // sign up successful
+                println("Parse: Sign up successful. New account created: \(user.username)")
+                
+                self.saveVenue()
+                
+            } else {
+                // sign up failed
+                let errorString = error.userInfo?["error"] as NSString
+                println("Signup failed. Error message: \(errorString)")
+                // present alert to user
+                var alertViewController = UIAlertController(title: "Sign Up Error", message: "Our apologies! Please try again.", preferredStyle: UIAlertControllerStyle.Alert)
+                var defaultAction = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+                alertViewController.addAction(defaultAction)
+                self.presentViewController(alertViewController, animated: true, completion: nil)
+                
+            }
+        }
+    }  // end: sign up
+    
+    func saveVenue() {
+        
+        var address = self.venueAddressField.text
+        
+        GlobalVariableSharedInstance.delegate = self
+        
+        GlobalVariableSharedInstance.addressToLocation(address, completion: { (geoPoint) -> Void in
+            
+            if let geoPoint = geoPoint {
+                
+                var venueInfo:PFObject = PFObject(className: "Venues")
+                venueInfo["venueName"] = self.venueNameField.text
+                venueInfo["venueAddress"] = self.venueAddressField.text
+                venueInfo["venueNeighborhood"] = self.venueNeighborhoodField.text
+                venueInfo["venuePhone"] = self.venuePhoneField.text
+                venueInfo["location"] = geoPoint
+                venueInfo["venueOwner"] = PFUser.currentUser().email
+                
+                // are we using this information?
+                var latitude: CLLocationDegrees = geoPoint.latitude
+                var longitude: CLLocationDegrees = geoPoint.longitude
+                
+                var location = CLLocation.init(latitude: latitude, longitude: longitude)
+                
+                // list["location"] = location
+                
+                venueInfo.saveInBackgroundWithBlock({ (succeeded: Bool!, error: NSError!) -> Void in
+                    // venue is successfully saved to parse, dismiss vc
+                    println("Venue registration succeeded. Venue created: \(self.venueNameField.text)")
+                    
+                    // dismiss vc and push to navigationvc
+                    if let nc = self.storyboard?.instantiateViewControllerWithIdentifier("navigationC") as? RootNavigationController {
+//                        self.dismissViewControllerAnimated(true, completion: nil)   // necessary?
+                        self.presentViewController(nc, animated: true, completion: nil)
+                    }
+                    
+                })
+            }
+            
+        })
+        
+    }
+    
+    // not sure what this does but it conforms us to the protocol..
+    func didReceiveGeoPoint(location: PFGeoPoint) {
+        println("didReceiveGeoPoint function ran...")
+        
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        // dismiss keyboard when user touches outside textfields
+        view.endEditing(true)
+        super.touchesBegan(touches, withEvent: event)   // ?? is this necessary
+    }
+
+}

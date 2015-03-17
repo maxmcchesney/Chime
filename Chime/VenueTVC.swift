@@ -12,12 +12,7 @@ import UIKit
 
 class VenueTVC: UITableViewController {
     
-      var venues = [[:]]
-    
-
     var parseVenues: NSMutableArray = []
-    
-    
     
 //    var checkins = []
     
@@ -30,11 +25,11 @@ class VenueTVC: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
 
-        venues = ChimeData.mainData().venues
-
         tableView.backgroundColor = UIColor.clearColor()
-
+        
+        // load the venues from Parse
         self.loadVenuesFromParse()
+        
     }
 
     
@@ -50,20 +45,12 @@ class VenueTVC: UITableViewController {
         
         // check if user is logged in already
         checkIfLoggedIn()
-        
-//        venues = ChimeData.mainData().venues
-//        venues = ChimeData.m
 
-        
-        
          /*
 
         var firstVenue = venues[0] as [String: AnyObject]
         
-       
-        
         println(firstVenue)
-        
         
         println(firstVenue["venueAddress"])
         if let address = firstVenue["venueAddress"] as String? {
@@ -75,29 +62,14 @@ class VenueTVC: UITableViewController {
         
         */
         
-
-        
-        // unhide the toolbar
-        navigationController?.toolbarHidden = false
-//        // add the images back to navbar
-        for image in navImageViews {
-            navigationController?.navigationBar.addSubview(image)
-        }
-        
-        // check if user is logged in already
-        checkIfLoggedIn()
-        
-        /////////
-        /////////   PLACEHOLDER INFO
-        /////////
-        
     }
     
     func loadVenuesFromParse() {
         
         var query = PFQuery(className:"Venues")
-
         
+        // check if user is owner
+        println(PFUser.currentUser()["isOwner"])
         
         query.findObjectsInBackgroundWithBlock() {
             (objects:[AnyObject]!, error:NSError!)->Void in
@@ -112,15 +84,12 @@ class VenueTVC: UITableViewController {
                 
                self.sortVenuesByDistanceFromUser()
                 
-                
-                
-                // After loading the lists where we are the owner, load the list that other users has shared with user
-            
-            
             }
-            
-
         }
+        
+        
+        
+        
     }
     
     func sortVenuesByDistanceFromUser() {
@@ -136,7 +105,7 @@ class VenueTVC: UITableViewController {
                 distance = GlobalVariableSharedInstance.findDistance( location ) as NSNumber
 
             }
-            var dictionary = NSDictionary(objects: [venue, distance], forKeys: ["venue", "distance"])
+            var dictionary = NSDictionary(objects: [venue, distance], forKeys: ["venueName", "distance"])
             
             arrayOfVenuesDictionaries.append(dictionary)
 
@@ -144,25 +113,25 @@ class VenueTVC: UITableViewController {
         
         var sortedArray = self.sortArray(NSMutableArray(array: arrayOfVenuesDictionaries))
         
-        // Reinitiate our array of female users (with the size only of the not chosen female users)
+        // Reinitiate our array of venues
         self.parseVenues = NSMutableArray(capacity: sortedArray.count)
         
         // after using the distance key to sort the array of dictionary, add all the usernames (sorted by distance) to the array of female users
         for dictionary in sortedArray
         {
             
-            var venue = dictionary["venue"] as PFObject
+            var venue = dictionary["venueName"] as PFObject
             
             var distance = dictionary["distance"] as NSNumber
             
-            
-      
-                        venue["distance"] = Float(distance) * 0.000621371
+            venue["distance"] = Float(distance) * 0.000621371
             
             // make the last object the nearest user
             self.parseVenues.addObject(venue)
         }
 
+        // save the data to the singleton and reload the tableview
+        ChimeData.mainData().venues = self.parseVenues
         self.tableView.reloadData()
     }
     
@@ -201,7 +170,8 @@ class VenueTVC: UITableViewController {
         // check if user is already logged in
         if PFUser.currentUser() != nil {
             // user is already logged in
-            println("User is already logged in, presenting venues...")
+            println("User is already logged in...")
+            
         } else {
             // no user found, present loginVC
             if let lVC = storyboard?.instantiateViewControllerWithIdentifier("loginVC") as? LoginVC {
@@ -231,12 +201,13 @@ class VenueTVC: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
       
         return self.parseVenues.count
-        
-        
-       // return venues.count
+
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        /// 
+        
         let cell = tableView.dequeueReusableCellWithIdentifier("venueCell", forIndexPath: indexPath) as VenueCell
 
         // Configure the cell...
@@ -249,46 +220,27 @@ class VenueTVC: UITableViewController {
         cell.backgroundColor = cellColors[indexPath.row % 2]    // change to % 3 for tri-coloring
         cell.tagView.backgroundColor = cellColors[indexPath.row % 2].colorWithAlphaComponent(0.9)
         
-        
-        
-        // set cell labels
-        
-            /*
-        let venue = venues[indexPath.row]
-        let venueName: String = venue["venueName"] as String
-        let venueNeighborhood: String = venue["neighborhood"] as String
-        if let deals: [String:String] = venue["deals"] as? [String:String] {
-            cell.tagLabel.text = "$\(deals.count + 4)"  // TODO: placeholder $ amount right now
-        }
-        cell.venueName.text = venueName
-        cell.venueNeighborhood.text = venueNeighborhood
- */
-        
         // set cell labels
         
         if let venue: AnyObject = parseVenues[indexPath.row]  as AnyObject? {
             
-            if let venueName  = venue["name"] as String? {
+            if let venueName  = venue["venueName"] as String? {
                 cell.venueName.text = venueName
             }
-            if let venueNeighborhood: String = venue["neighborhood"] as String? {
+            if let venueNeighborhood: String = venue["venueNeighborhood"] as String? {
                 cell.venueNeighborhood.text = venueNeighborhood
             }
             
-            if let deals: [String:String] = venue["deals"] as? [String:String] {
-                cell.tagLabel.text = "$\(deals.count + 4)"  // TODO: placeholder $ amount right now
-            }
-            
-
+            // THIS NEEDS FIXING ONCE WE HAVE A WAY TO CREATE DEALS
+//            if let deals: [String:String] = venue["deals"] as? [String:String] {
+//                cell.tagNumberOfDealsLabel.text = "\(deals.count)"  // TODO: placeholder $ amount right now
+//            }
             
            if let distance = venue["distance"] as Float? {
              cell.venueDistance.text = "\(distance)mi"
             }
         }
    
-
-        
-        
         return cell
         
     }
@@ -303,10 +255,9 @@ class VenueTVC: UITableViewController {
         println("User has selected a venue, pushing detail view...")
         
         let dVC = self.storyboard?.instantiateViewControllerWithIdentifier("detailVC") as DetailVC
-//        dVC.navigationController?.toolbarHidden = true
-        
+
         // set selected venue
-        ChimeData.mainData().selectedVenue = venues[indexPath.row]
+        ChimeData.mainData().selectedVenue = parseVenues[indexPath.row] as? PFObject
         
         self.navigationController?.pushViewController(dVC, animated: true)
         

@@ -19,7 +19,7 @@ class DetailVC: UIViewController {
     @IBOutlet weak var venueNeighborhoodLabel: UILabel!
     
     var dealsTVC = DetailTVC()
-    var selectedVenue = [:]
+    var selectedVenue: PFObject!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +37,7 @@ class DetailVC: UIViewController {
         selectedVenue = ChimeData.mainData().selectedVenue
 
         venueNameLabel.text = selectedVenue["venueName"] as? String
-        venueNeighborhoodLabel.text = selectedVenue["neighborhood"] as? String
+        venueNeighborhoodLabel.text = selectedVenue["venueNeighborhood"] as? String
         
         // set tableview delegate and data source
         dealsTV.delegate = dealsTVC
@@ -45,7 +45,7 @@ class DetailVC: UIViewController {
         
         // pass selected venue and deals to tvc
         dealsTVC.selectedVenue = selectedVenue
-        dealsTVC.venueDeals = selectedVenue["deals"] as [String:String]
+//        dealsTVC.venueDeals = selectedVenue["venueDeals"] as [String:String] // not passing deals!
         
         dealsTV.reloadData()
         
@@ -197,7 +197,7 @@ class DetailVC: UIViewController {
 
 class DetailTVC: UITableViewController {
     
-    var selectedVenue = [:]
+    var selectedVenue: PFObject!
     var venueDeals: [String:String] = [:]
     
     
@@ -243,7 +243,7 @@ class DetailTVC: UITableViewController {
         cell.backgroundColor = cellColors[indexPath.row % 2]
         cell.tagView.backgroundColor = cellColors[indexPath.row % 2].colorWithAlphaComponent(0.9)
         
-        if let deals: [String:String] = selectedVenue["deals"] as? [String:String] {
+        if let deals: [String:String] = selectedVenue["venueDeals"] as? [String:String] {
             
             // sort the deals by time threshold
             let sortedKeys = Array(deals.keys).sorted(<)
@@ -268,19 +268,19 @@ class DetailTVC: UITableViewController {
 
         // DOESN'T WORK
         // set tag for cell 'claim' button
-        cell.claimButton.tag = indexPath.row
-        let bSelector: Selector = "dealClaimed"
-        cell.claimButton.addTarget(self, action: bSelector, forControlEvents: UIControlEvents.TouchUpInside)
+//        cell.claimButton.tag = indexPath.row
+//        let bSelector: Selector = "dealClaimed"
+//        cell.claimButton.addTarget(self, action: bSelector, forControlEvents: UIControlEvents.TouchUpInside)
         
         return cell
     }
     
     // DOESN'T WORK
-    func dealClaimed(sender: DoubleCircleButton) {
-        println("deal claimed \(sender.tag)")
-        println("here's the issue...")
-        
-    }
+//    func dealClaimed(sender: DoubleCircleButton) {
+//        println("deal claimed \(sender.tag)")
+//        println("here's the issue...")
+//        
+//    }
     
 }
 

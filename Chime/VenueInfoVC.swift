@@ -8,16 +8,14 @@
 
 import UIKit
 
-
-
-
 class VenueInfoVC: UIViewController, sendGeoPointProtocol {
 
+    // NOT BEING USED ANYMORE, HERE FOR REFERENCE
     
     @IBOutlet weak var barNameField: UITextField!
     @IBOutlet weak var addressField: UITextField!
-     @IBOutlet weak var neighborhoodField: UITextField!
-     @IBOutlet weak var phoneNumberField: UITextField!
+    @IBOutlet weak var neighborhoodField: UITextField!
+    @IBOutlet weak var phoneNumberField: UITextField!
     
     
     @IBAction func backToLogin(sender: AnyObject) {
@@ -50,6 +48,7 @@ class VenueInfoVC: UIViewController, sendGeoPointProtocol {
             
             
         else {
+            
             var address = addressField.text
             
             GlobalVariableSharedInstance.delegate = self
@@ -76,6 +75,7 @@ class VenueInfoVC: UIViewController, sendGeoPointProtocol {
                     
                     // list["location"] = location
                     
+                    // this won't work, if at the login screen there will never be a currentUser. maybe just add a field?
                     if let user = PFUser.currentUser() as PFUser? {
                         list["owner"] = user
                         

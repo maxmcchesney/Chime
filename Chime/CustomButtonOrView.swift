@@ -53,7 +53,6 @@ import UIKit
             gradientLayer?.colors = [dC2, dC1]
         }
 
-        
         gradientLayer?.startPoint = CGPoint(x: 0, y: 0)
         gradientLayer?.endPoint = CGPoint(x: 0, y: 1)
         self.layer.insertSublayer(gradientLayer, atIndex: 0)

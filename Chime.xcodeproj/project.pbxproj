@@ -47,6 +47,7 @@
 		D83150571AA79B1400B7050C /* CustomButtonOrView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83150561AA79B1400B7050C /* CustomButtonOrView.swift */; };
 		D83200541AA6973B0004E97E /* DetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83200531AA6973B0004E97E /* DetailVC.swift */; };
 		D83200B21AA756BC0004E97E /* DealCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83200B11AA756BC0004E97E /* DealCell.swift */; };
+		D83541461AB3619000B3A2E1 /* VenueRegistrationTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83541451AB3619000B3A2E1 /* VenueRegistrationTVC.swift */; };
 		D8AFFDEF1AA6245B00C395F5 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8AFFDEE1AA6245B00C395F5 /* FacebookSDK.framework */; };
 		D8AFFDF11AA641DA00C395F5 /* RootNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AFFDF01AA641DA00C395F5 /* RootNavigationController.swift */; };
 /* End PBXBuildFile section */
@@ -107,6 +108,7 @@
 		D83150561AA79B1400B7050C /* CustomButtonOrView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButtonOrView.swift; sourceTree = "<group>"; };
 		D83200531AA6973B0004E97E /* DetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailVC.swift; sourceTree = "<group>"; };
 		D83200B11AA756BC0004E97E /* DealCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DealCell.swift; sourceTree = "<group>"; };
+		D83541451AB3619000B3A2E1 /* VenueRegistrationTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueRegistrationTVC.swift; sourceTree = "<group>"; };
 		D8AFFDEE1AA6245B00C395F5 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		D8AFFDF01AA641DA00C395F5 /* RootNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootNavigationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -277,6 +279,7 @@
 				D80E21FC1AA546F1005C4CBE /* VenueTVC.swift */,
 				D83200531AA6973B0004E97E /* DetailVC.swift */,
 				BDC02A5D1AAF68C8002B85BC /* VenueInfoVC.swift */,
+				D83541451AB3619000B3A2E1 /* VenueRegistrationTVC.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -399,6 +402,7 @@
 				D83150551AA7845F00B7050C /* ChimeData.swift in Sources */,
 				D8AFFDF11AA641DA00C395F5 /* RootNavigationController.swift in Sources */,
 				BDC02A541AAF4C3D002B85BC /* Misc.swift in Sources */,
+				D83541461AB3619000B3A2E1 /* VenueRegistrationTVC.swift in Sources */,
 				BDC02A551AAF4C3D002B85BC /* SpringAnimation.swift in Sources */,
 				D83200541AA6973B0004E97E /* DetailVC.swift in Sources */,
 				D83200B21AA756BC0004E97E /* DealCell.swift in Sources */,

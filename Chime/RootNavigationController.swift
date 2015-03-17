@@ -11,8 +11,6 @@ import UIKit
 // array of imageViews
 var navImageViews: [UIImageView] = []
 
-
-
 class RootNavigationController: UINavigationController {
 
 //    // array of imageViews

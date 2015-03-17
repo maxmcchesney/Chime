@@ -141,7 +141,7 @@ class LoginVC: UIViewController, FBLoginViewDelegate {
         
         user["location"] = geoPoint
         
-
+        // TODO: add hometown / city to user when signing up..  though maybe just have them enter it.  could present alert asking "is Atlanta your hometown?" and then adding it if they click "yes"
         
         user.signUpInBackgroundWithBlock {
             (succeeded: Bool!, error: NSError!) -> Void in
