@@ -53,8 +53,6 @@ class DetailVC: UIViewController {
         
         // hide toolbar
         
-        
-        
         navigationController?.toolbarHidden = true
         
         // remove drink images from navbar (optional)
@@ -132,13 +130,7 @@ class DetailVC: UIViewController {
 //
 //        }
         
-        // TODO: make Check In btn change to "Leave Venue" btn
-        // - DONE - make time continue when you leave detailVC
-            // - (optional) fix how the time label jumps in the ViewWillAppear method
-        // - DONE - set up notifications
-        // - make the time trigger the availability of the deals
-        // - make it so timer is specific to venue
-        // - idea: 3D cube in venue name space that the user can mess with. when deal is claimed, it falls away revealing the price (an image of a shot glass, "25% off!", etc...
+
     }
     
     
