@@ -22,9 +22,10 @@ class VenueRegistrationTVC: UITableViewController {
         super.viewDidLoad()
 
         tableView.backgroundColor = UIColor.clearColor()    // set tableview background to clear
-        tableView.bounces = false   // stop tableView from bouncing
+        tableView.bounces = true   // stop tableView from bouncing
     
         view.backgroundColor = UIColor(red:0.81, green:0.96, blue:0.56, alpha:1)    // set background to green
+        view.backgroundColor = UIColor.lightGrayColor()
         
         // set up gradient - doesn't work!
 //        let gradientLayer = CAGradientLayer()
@@ -38,22 +39,61 @@ class VenueRegistrationTVC: UITableViewController {
 //        view.layer.addSublayer(gradientLayer)
         
         // load background image w/ gradient.
-        let bgImageView = UIImageView(frame: CGRectMake(0, 0, 414, 760))
+        let bgImageView = UIImageView(frame: UIScreen.mainScreen().bounds)
+//        let bgImageView = UIImageView()
         
 //        println("tablviewFrame = \(tableView.contentSize)")
 //        println("viewFrame = \(self.viewForZoomingInScrollView(tableView))")
         
-        let bgImage = UIImage(named: "bg")
+        let bgImage = UIImage(named: "greenBackground")
         bgImageView.image = bgImage
 //        bgImageView.contentMode = UIViewContentMode.ScaleToFill
-        view.insertSubview(bgImageView, atIndex: 0)
+//        view.insertSubview(bgImageView, atIndex: 0)
+        
+        
+        tableView.backgroundView = bgImageView
+        
+//        var layer = CALayer()
+//        layer.bounds = UIScreen.mainScreen().bounds
+//        layer.contents = bgImage?.CGImage
+//        tableView.backgroundView?.layer.insertSublayer(layer, atIndex: 0)
+        
+//        tableView.insertSubview(bgImageView, atIndex: 0)
+        
+        
+        /////////
+        /////////   SHIFT UI WITH KEYBOARD PRESENT
+        /////////
+        var keyboardHeight: CGFloat = 0
+        NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillShowNotification, object: nil, queue: NSOperationQueue.mainQueue()) { (notification: NSNotification!) -> Void in
+            if let kbSize = notification.userInfo?[UIKeyboardFrameEndUserInfoKey]?.CGRectValue().size {
+                // move constraint
+                keyboardHeight = kbSize.height
+
+                let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardHeight, right: 0.0)
+                self.tableView.contentInset = contentInsets
+                self.tableView.scrollIndicatorInsets = contentInsets
+//                self.tableView.scrollToRowAtIndexPath(NSIndexPath(index: 2), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+                
+                // animate constraint
+                self.view.layoutIfNeeded()
+            }
+        }
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillHideNotification, object: nil, queue: NSOperationQueue.mainQueue()) { (notification) -> Void in
+            // move constraint back
+            
+            self.tableView.contentInset = UIEdgeInsetsZero
+            self.tableView.scrollIndicatorInsets = UIEdgeInsetsZero
+
+            self.view.layoutIfNeeded()
+        } // end: keyboard shift
+        
 
         
     }
     
     override func viewWillAppear(animated: Bool) {
-
-        
     }
 
     @IBAction func backToLoginVC(sender: AnyObject) {
@@ -203,6 +243,7 @@ class VenueRegistrationTVC: UITableViewController {
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         // dismiss keyboard when user touches outside textfields
         view.endEditing(true)
+//        tableView.endEditing(true)
         super.touchesBegan(touches, withEvent: event)   // ?? is this necessary
     }
 

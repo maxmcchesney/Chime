@@ -10,12 +10,12 @@ import UIKit
 
 class DealCell: UITableViewCell {
     
-    @IBOutlet weak var tagLabel: UILabel!
+    @IBOutlet weak var tagTimeLabel: UILabel!
+    @IBOutlet weak var tagValueLabel: UILabel!
     
     @IBOutlet weak var tagView: UIView!
     
     @IBOutlet weak var dealLabel: UILabel!
-    @IBOutlet weak var claimButton: DoubleCircleButton!
 
     override func awakeFromNib() {
         super.awakeFromNib()

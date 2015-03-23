@@ -12,12 +12,18 @@ import UIKit
 
 class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDelegate, segmentedControllerDidChangeProtocol {
     
+    
     var parseVenues: NSMutableArray = []
     
 //    var checkins = []
     
+    
+    var isOwner: Bool = false
+    var ownerVenue: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -33,6 +39,7 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
         var nc = self.navigationController as RootNavigationController
         nc.delegate2 = self
         
+        if userLocation != nil { loadVenuesFromParse(false) }
         
         println("PFUSER: \(PFUser.currentUser())")
         
@@ -48,59 +55,90 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
     
     override func viewWillAppear(animated: Bool) {
         
-
-        // unhide the toolbar
-        navigationController?.toolbarHidden = false
-//        // add the images back to navbar
-        for image in navImageViews {
-            navigationController?.navigationBar.addSubview(image)
-        }
-        
         // check if user is logged in already
         checkIfLoggedIn()
 
-         /*
-
-        var firstVenue = venues[0] as [String: AnyObject]
-        
-        println(firstVenue)
-        
-        println(firstVenue["venueAddress"])
-        if let address = firstVenue["venueAddress"] as String? {
-
-            if let location: PFGeoPoint? = GlobalVariableSharedInstance.addressToLocation(address) as PFGeoPoint? {
-                println(location)
-            }
-        }
-        
-        */
+        if userLocation != nil { loadVenuesFromParse(false) }
         
     }
+    
+    func addNewVenue() {
+        // plus button pressed, send user to NewVenueTVC
+        let vC = storyboard?.instantiateViewControllerWithIdentifier("newVenueVC") as NewVenueVC
+        navigationController?.pushViewController(vC, animated: true)
+        
+    }
+    
+    /////////
+    /////////   LOAD VENUES FROM PARSE AND SORT ACCORDINGLY
+    /////////
     
     var userLocation: CLLocation?
     
     func loadVenuesFromParse(sortByDateCreated: Bool?) {
         
-        println(userLocation)
+//        println(userLocation)
         
+        if PFUser.currentUser() == nil {
+            return
+        }
         
-    
         var query = PFQuery(className:"Venues")
-        
-
-        // check if user is owner
-//        println(PFUser.currentUser()["isOwner"])
 
         if sortByDateCreated == true {
             query.orderByAscending("createdAt")
         }
         
         else {
+            // this only allows users to see deals near them.  what's the distance threshold?
             query.whereKey("location", nearGeoPoint: PFGeoPoint(location: userLocation))
 
         }
         
-        println(query)
+
+        /////////
+        /////////   CHECK IF USER IS OWNER, IF SO HIDE OTHER VENUES
+        /////////
+        
+//         check if user is owner
+        if let isVenueOwner: Bool = PFUser.currentUser()["isOwner"] as? Bool {
+            
+            if isVenueOwner {
+                // user is an owner, load only his venues
+                let ownerVenue = PFUser.currentUser()["venueName"] as String
+                println("User is an owner of: \(ownerVenue)")
+                query.whereKey("venueOwner", equalTo: PFUser.currentUser().username)
+                
+                // set the title in the nav controller
+                self.title = "Venues"
+                navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 24)!, NSForegroundColorAttributeName: UIColor.whiteColor()]
+                
+                // add plus button
+                let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: Selector("addNewVenue"))
+                self.navigationItem.rightBarButtonItem = addButton
+                
+                // TODO: user is owner, either hide the toolbar or change it to "my venues" and "all venues"
+                navigationController?.toolbarHidden = true
+                isOwner = true
+            }
+        }
+        
+        if !isOwner {
+            
+            // unhide the toolbar
+            navigationController?.toolbarHidden = false
+            self.navigationItem.rightBarButtonItem = nil
+            self.title = ""
+            //        // add the images back to navbar
+            for image in navImageViews {
+                navigationController?.navigationBar.addSubview(image)
+            }
+            
+        }
+        
+//        if isOwner {
+//            query.whereKey("venueOwner", equalTo: PFUser.currentUser().username)
+//        }
         
         query.findObjectsInBackgroundWithBlock() {
             (objects:[AnyObject]!, error:NSError!)->Void in
@@ -120,18 +158,17 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
                 self.tableView.reloadData()
 //               self.sortVenuesByDistanceFromUser()
                 
+            } else {
+                println(error)
             }
-
-            println(error)
             
         }
-        
-        
-        
-        
+
     }
     
-    
+    /////////
+    /////////   SORT VENUES BY DISTANCE FROM USER
+    /////////
     
     func sortVenuesByDistanceFromUser() {
         
@@ -206,6 +243,9 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
         return array
     }
 
+    /////////
+    /////////   CHECK IF LOGGED IN
+    /////////
     
     func checkIfLoggedIn() {
         // check if user is already logged in
@@ -227,6 +267,7 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
         println("User logging out...")
         PFUser.logOut()
         checkIfLoggedIn()
+        isOwner = false
     }
 
 
@@ -267,6 +308,12 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
             
             if let venueName  = venue["venueName"] as String? {
                 cell.venueName.text = venueName
+                
+                // if user is owner, change label to reflect that (optional)
+//                if isOwner {
+//                    cell.venueName.text = venueName + " (owner)"
+//                }
+                
             }
             if let venueNeighborhood: String = venue["venueNeighborhood"] as String? {
                 cell.venueNeighborhood.text = venueNeighborhood
@@ -283,7 +330,10 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
                 let venueLocation = CLLocation(latitude: venueGeo.latitude, longitude: venueGeo.longitude)
                 let distance = Float(userLocation.distanceFromLocation(venueLocation)) * 0.000621371
                 
-                cell.venueDistance.text = "\(distance)mi"
+                // round distance
+                let roundedDistance = round(distance * 100) / 100
+                
+                cell.venueDistance.text = "\(roundedDistance)mi"
                 
             }
             
@@ -297,11 +347,6 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
         
     }
     
-    
-    /////////
-    /////////   PUSH DETAIL VIEW CONTROLLER WHEN CELL IS SELECTED
-    /////////
-    
     func didReceiveUserLocation(location: CLLocation) {
         
         userLocation = location
@@ -309,52 +354,57 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
         self.loadVenuesFromParse(false)
     }
     
+    /////////
+    /////////   PUSH DETAIL VIEW CONTROLLER WHEN CELL IS SELECTED
+    /////////
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        println("User has selected a venue, pushing detail view...")
+        let venue: AnyObject = self.parseVenues[indexPath.row]  // should this be AnyObject or PFObject like below?
         
-        let venue: AnyObject = self.parseVenues[indexPath.row]
-        
-
-        let venueGeo = venue["location"] as PFGeoPoint
-        let venueLocation = CLLocation(latitude: venueGeo.latitude, longitude: venueGeo.longitude)
-        
-        
-        let dVC = self.storyboard?.instantiateViewControllerWithIdentifier("detailVC") as DetailVC
-
         // set selected venue
         ChimeData.mainData().selectedVenue = parseVenues[indexPath.row] as? PFObject
         
-        dVC.geoPoint = venueGeo
-        dVC.location = venueLocation
-//        dVC.navigationController?.toolbarHidden = true
+        // if user is an owner, push to vendorDetailVC, otherwise, send user to DetailVC
+        if isOwner {
+            println("User is an owner, pushing vendor detail view...")
+            
+            let vDVC = self.storyboard?.instantiateViewControllerWithIdentifier("vendorDetailVC") as VendorDetailVC
+            
+            self.navigationController?.pushViewController(vDVC, animated: true)
+            
+        } else {
+            
+            println("User has selected a venue, pushing detail view...")
+            
+            let venueGeo = venue["location"] as PFGeoPoint
+            let venueLocation = CLLocation(latitude: venueGeo.latitude, longitude: venueGeo.longitude)
+            
+            let dVC = self.storyboard?.instantiateViewControllerWithIdentifier("detailVC") as DetailVC
+            
+            dVC.geoPoint = venueGeo
+            dVC.location = venueLocation
+            
+            self.navigationController?.pushViewController(dVC, animated: true)
+            
+        }
 
-        self.navigationController?.pushViewController(dVC, animated: true)
-        
     }
     
-    
+    /////////
+    /////////   SORT VENUES BASED ON SEGMENT CONTROLLER
+    /////////
     
      func segmentedControllerDidChange(value: Int) {
-        
-        
+        // sort venues based on distance or creation date
         if value == 0 {
-            
-            
             self.loadVenuesFromParse(false)
-            
-        }
-        
-        
-        if value == 1 {
-            
-            self.loadVenuesFromParse(true)
-            
-            
-            
         }
 
-        //
+        if value == 1 {
+            self.loadVenuesFromParse(true)
+        }
+        // TODO: allow owners to sort b/w all venues and their venues
     }
     
 

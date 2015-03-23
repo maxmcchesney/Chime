@@ -6,3 +6,4 @@
 #import <Bolts/Bolts.h>
 #import <FacebookSDK/FacebookSDK.h>
 #import <ParseFacebookUtils/PFFacebookUtils.h>
+#import "CustomSlider.h"
