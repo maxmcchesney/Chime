@@ -66,6 +66,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+        
+        println(notification)
+        
+    }
+    
     // handle user actions from local notification
     func application(application: UIApplication!,
         handleActionWithIdentifier identifier: String!,

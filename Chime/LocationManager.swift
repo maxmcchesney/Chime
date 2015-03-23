@@ -55,7 +55,7 @@ class LocationManager: NSObject,  CLLocationManagerDelegate
         }
         else
         {
-            var alert:UIAlertView = UIAlertView(title: "Message", message: "Location Services not Enabled. Please enable Location Services", delegate: nil, cancelButtonTitle: "ok")
+            var alert:UIAlertView = UIAlertView(title: "Error", message: "Location Services not Enabled. Please enable Location Services in your phone settings.", delegate: nil, cancelButtonTitle: "Ok")
             alert.show()
         }
     }
@@ -64,7 +64,7 @@ class LocationManager: NSObject,  CLLocationManagerDelegate
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!)
     {
-        println("did update")
+        println("Location updated...")
         
         if (locations.count > 0)
         {
@@ -89,7 +89,7 @@ class LocationManager: NSObject,  CLLocationManagerDelegate
     {
         if (status == CLAuthorizationStatus.AuthorizedAlways)
         {
-            println("authorized")
+            println("Location manager is authorized...")
         }
         else if(status == CLAuthorizationStatus.Denied)
         {
@@ -105,7 +105,7 @@ class LocationManager: NSObject,  CLLocationManagerDelegate
         
         
         if (location==nil) {
-            println("location is nil!")
+            println("Location is nil!")
             location = CLLocation(latitude: 51.368123, longitude: -0.021973)
         }
         /*        if (("iPhone Simulator" == UIDevice.currentDevice().model) || ("iPad Simulator" == UIDevice.currentDevice().model))
@@ -119,7 +119,7 @@ class LocationManager: NSObject,  CLLocationManagerDelegate
     
     func findLocation() {
         
-        println(coreLocationManager)
+//        println(coreLocationManager)
         coreLocationManager.startUpdatingLocation()
         
     }
@@ -138,7 +138,7 @@ class LocationManager: NSObject,  CLLocationManagerDelegate
             var locationFromGeoPoint:CLLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
             let current_location:CLLocation? = GlobalVariableSharedInstance.currentLocation()
             distance = abs(locationFromGeoPoint.distanceFromLocation(current_location))
-            println("DISTANCE \(distance)")
+//            println("DISTANCE \(distance)")
         }
         
         
@@ -208,7 +208,7 @@ class LocationManager: NSObject,  CLLocationManagerDelegate
                 
             } else {
                 
-                println("Error while trying to find latitude and longtitude of address search")
+                println("Error while trying to find latitude and longtitude of address search...")
                 
                 
             }

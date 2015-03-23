@@ -49,7 +49,7 @@ import UIKit
         if self.enabled {
             gradientLayer?.colors = [c2, c1]
         } else {
-            println("btn is disabled")
+//            println("btn is disabled")
             gradientLayer?.colors = [dC2, dC1]
         }
 

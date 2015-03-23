@@ -16,31 +16,101 @@ class ChimeData: NSObject {
     var startTime = NSTimeInterval()
     var startDate: NSDate?
     var timeLabel = ""
-    var timerIsRunning: Bool = false
+    var timerIsRunning: Bool = false 
     
     var selectedVenue: PFObject?
+    var checkedInVenue: PFObject?
 
-    /////////
-    /////////   PLACEHOLDER INFO (if you put too much here, it will index crash. you have to append for more data.)
-    /////////
+
     var venues: NSMutableArray = []  // placeholder info
-    
-//    DATA MODEL
-//        [
-//            "venueName":"The Family Dog",
-//            "venueAddress":"1402 North Highland Avenue Northeast, Atlanta, GA 30306",
-//            "deals":[
-//            "1":"ONE FREE PBR",    // the number is the # of hours for the deal threshold as a string
-//            "2":"TWO FREE FIREBALL SHOTS",
-//            "3":"$10 OFF YOUR FINAL TAB ($25 MINIMUM)",
-//            ],
-//            "neighborhood":"virginia highlands",
-//            "phone":"(404) 249-0180",
-//            "accountCreated":"5/12/14"
-//        ],
 
+    /////////
+    /////////   refresh the venues list in singleton
+    /////////
+    
+    func refreshSelectedVenueFromParse(completion: () -> ()) {
+        
+        if selectedVenue == nil { return }
+        
+        let query = PFQuery(className: "Venues")
+        
+        query.getObjectInBackgroundWithId(selectedVenue?.objectId, block: { (venue, error) -> Void in
+            
+            if error == nil {
+                // selectedVenue successfully loaded from Parse, update it.
+                
+                self.selectedVenue = venue
+                
+            } else {
+                println("Error refreshing selectedVenue from Parse. Error: \(error)")
+            }
+            
+            completion()
+            
+        })
+        
+    }
+
+    /////////
+    /////////   refresh the venues list in singleton
+    /////////
+    
+    
+    func refreshVenuesFromParse(sortByDateCreated: Bool?) {
+        
+        if PFUser.currentUser() == nil {
+            return
+        }
+        
+        var query = PFQuery(className:"Venues")
+        
+        if sortByDateCreated == true {
+            query.orderByAscending("createdAt")
+        }
+        
+        /////////
+        /////////   CHECK IF USER IS OWNER, IF SO HIDE OTHER VENUES
+        /////////
+        
+        //         check if user is owner
+        if let isVenueOwner: Bool = PFUser.currentUser()["isOwner"] as? Bool {
+            
+            if isVenueOwner {
+                // user is an owner, load only his venues
+                let ownerVenue = PFUser.currentUser()["venueName"] as String
+                query.whereKey("venueOwner", equalTo: PFUser.currentUser().username)
+                
+            }
+        }
+        
+        query.findObjectsInBackgroundWithBlock() {
+            (objects:[AnyObject]!, error:NSError!)->Void in
+            if ((error) == nil) {
+                
+                println(objects)
+                
+                self.venues = []
+                
+                for object in objects {
+                    
+                    let venue = object as PFObject
+                    self.venues.addObject(venue)
+                    
+                }
+                
+            } else {
+                println(error)
+            }
+            
+        }
+        
+    }
 
     
+    
+    
+    
+    ////////////
     
     
     class func mainData() -> ChimeData {

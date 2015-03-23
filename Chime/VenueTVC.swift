@@ -57,10 +57,15 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
         
         // check if user is logged in already
         checkIfLoggedIn()
-        
-        
 
         if userLocation != nil { loadVenuesFromParse(false) }
+        
+    }
+    
+    func addNewVenue() {
+        // plus button pressed, send user to NewVenueTVC
+        let vC = storyboard?.instantiateViewControllerWithIdentifier("newVenueVC") as NewVenueVC
+        navigationController?.pushViewController(vC, animated: true)
         
     }
     
@@ -104,12 +109,12 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
                 println("User is an owner of: \(ownerVenue)")
                 query.whereKey("venueOwner", equalTo: PFUser.currentUser().username)
                 
-                // DOESNT WORK FOR SOME REASON
-                self.title = "Your Venues"
-                navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 22)!, NSForegroundColorAttributeName: UIColor.whiteColor()]
+                // set the title in the nav controller
+                self.title = "Venues"
+                navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 24)!, NSForegroundColorAttributeName: UIColor.whiteColor()]
                 
                 // add plus button
-                let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: nil)
+                let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: Selector("addNewVenue"))
                 self.navigationItem.rightBarButtonItem = addButton
                 
                 // TODO: user is owner, either hide the toolbar or change it to "my venues" and "all venues"
@@ -118,12 +123,7 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
             }
         }
         
-        if isOwner {
-            
-            // TODO: user is owner, either hide the toolbar or change it to "my venues" and "all venues"
-            //            navigationController?.toolbarHidden = true
-            
-        } else {
+        if !isOwner {
             
             // unhide the toolbar
             navigationController?.toolbarHidden = false
@@ -133,8 +133,6 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
             for image in navImageViews {
                 navigationController?.navigationBar.addSubview(image)
             }
-            
-            //            navigationController?.navigationItem.setRightBarButtonItem(nil, animated: false)
             
         }
         
@@ -160,9 +158,9 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
                 self.tableView.reloadData()
 //               self.sortVenuesByDistanceFromUser()
                 
+            } else {
+                println(error)
             }
-
-            println(error)
             
         }
 
@@ -362,23 +360,35 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        println("User has selected a venue, pushing detail view...")
+        let venue: AnyObject = self.parseVenues[indexPath.row]  // should this be AnyObject or PFObject like below?
         
-        let venue: AnyObject = self.parseVenues[indexPath.row]
-        
-        let venueGeo = venue["location"] as PFGeoPoint
-        let venueLocation = CLLocation(latitude: venueGeo.latitude, longitude: venueGeo.longitude)
-        
-        let dVC = self.storyboard?.instantiateViewControllerWithIdentifier("detailVC") as DetailVC
-
         // set selected venue
         ChimeData.mainData().selectedVenue = parseVenues[indexPath.row] as? PFObject
         
-        dVC.geoPoint = venueGeo
-        dVC.location = venueLocation
+        // if user is an owner, push to vendorDetailVC, otherwise, send user to DetailVC
+        if isOwner {
+            println("User is an owner, pushing vendor detail view...")
+            
+            let vDVC = self.storyboard?.instantiateViewControllerWithIdentifier("vendorDetailVC") as VendorDetailVC
+            
+            self.navigationController?.pushViewController(vDVC, animated: true)
+            
+        } else {
+            
+            println("User has selected a venue, pushing detail view...")
+            
+            let venueGeo = venue["location"] as PFGeoPoint
+            let venueLocation = CLLocation(latitude: venueGeo.latitude, longitude: venueGeo.longitude)
+            
+            let dVC = self.storyboard?.instantiateViewControllerWithIdentifier("detailVC") as DetailVC
+            
+            dVC.geoPoint = venueGeo
+            dVC.location = venueLocation
+            
+            self.navigationController?.pushViewController(dVC, animated: true)
+            
+        }
 
-        self.navigationController?.pushViewController(dVC, animated: true)
-        
     }
     
     /////////

@@ -16,7 +16,6 @@
 		BDC02A5A1AAF5AE7002B85BC /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDC02A571AAF5AE7002B85BC /* FacebookSDK.framework */; };
 		BDC02A5B1AAF5AE7002B85BC /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDC02A581AAF5AE7002B85BC /* FBAudienceNetwork.framework */; };
 		BDC02A5C1AAF5AE7002B85BC /* FBAudienceNetwork.README.txt in Resources */ = {isa = PBXBuildFile; fileRef = BDC02A591AAF5AE7002B85BC /* FBAudienceNetwork.README.txt */; };
-		BDC02A5E1AAF68C8002B85BC /* VenueInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC02A5D1AAF68C8002B85BC /* VenueInfoVC.swift */; };
 		D80E21AE1AA51BEE005C4CBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80E21AD1AA51BEE005C4CBE /* AppDelegate.swift */; };
 		D80E21B31AA51BEE005C4CBE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D80E21B11AA51BEE005C4CBE /* Main.storyboard */; };
 		D80E21B51AA51BEE005C4CBE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D80E21B41AA51BEE005C4CBE /* Images.xcassets */; };
@@ -43,6 +42,7 @@
 		D80E21FD1AA546F1005C4CBE /* VenueTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80E21FC1AA546F1005C4CBE /* VenueTVC.swift */; };
 		D80E21FF1AA54F5D005C4CBE /* Readme in Resources */ = {isa = PBXBuildFile; fileRef = D80E21FE1AA54F5D005C4CBE /* Readme */; };
 		D80E22011AA5F933005C4CBE /* VenueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80E22001AA5F933005C4CBE /* VenueCell.swift */; };
+		D824EACC1ABCCC03004E2664 /* NewVenueVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D824EACB1ABCCC03004E2664 /* NewVenueVC.swift */; };
 		D83150551AA7845F00B7050C /* ChimeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83150541AA7845F00B7050C /* ChimeData.swift */; };
 		D83150571AA79B1400B7050C /* CustomButtonOrView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83150561AA79B1400B7050C /* CustomButtonOrView.swift */; };
 		D83200541AA6973B0004E97E /* DetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83200531AA6973B0004E97E /* DetailVC.swift */; };
@@ -50,6 +50,10 @@
 		D83541461AB3619000B3A2E1 /* VenueRegistrationTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83541451AB3619000B3A2E1 /* VenueRegistrationTVC.swift */; };
 		D8AFFDEF1AA6245B00C395F5 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8AFFDEE1AA6245B00C395F5 /* FacebookSDK.framework */; };
 		D8AFFDF11AA641DA00C395F5 /* RootNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AFFDF01AA641DA00C395F5 /* RootNavigationController.swift */; };
+		D8FB67221AB9FBE600110CD4 /* VendorDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FB67211AB9FBE600110CD4 /* VendorDetailVC.swift */; };
+		D8FB67241ABA047700110CD4 /* VendorCreateDealVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FB67231ABA047700110CD4 /* VendorCreateDealVC.swift */; };
+		D8FB67271ABA25B000110CD4 /* CustomSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = D8FB67261ABA25B000110CD4 /* CustomSlider.m */; };
+		D8FB67291ABA357F00110CD4 /* CustomArrowIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FB67281ABA357F00110CD4 /* CustomArrowIndicator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,7 +76,6 @@
 		BDC02A571AAF5AE7002B85BC /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		BDC02A581AAF5AE7002B85BC /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
 		BDC02A591AAF5AE7002B85BC /* FBAudienceNetwork.README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FBAudienceNetwork.README.txt; sourceTree = "<group>"; };
-		BDC02A5D1AAF68C8002B85BC /* VenueInfoVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueInfoVC.swift; sourceTree = "<group>"; };
 		D80E21A81AA51BED005C4CBE /* Chime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D80E21AC1AA51BEE005C4CBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D80E21AD1AA51BEE005C4CBE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -104,6 +107,7 @@
 		D80E21FC1AA546F1005C4CBE /* VenueTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueTVC.swift; sourceTree = "<group>"; };
 		D80E21FE1AA54F5D005C4CBE /* Readme */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme; sourceTree = "<group>"; };
 		D80E22001AA5F933005C4CBE /* VenueCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueCell.swift; sourceTree = "<group>"; };
+		D824EACB1ABCCC03004E2664 /* NewVenueVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewVenueVC.swift; sourceTree = "<group>"; };
 		D83150541AA7845F00B7050C /* ChimeData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChimeData.swift; sourceTree = "<group>"; };
 		D83150561AA79B1400B7050C /* CustomButtonOrView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButtonOrView.swift; sourceTree = "<group>"; };
 		D83200531AA6973B0004E97E /* DetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailVC.swift; sourceTree = "<group>"; };
@@ -111,6 +115,11 @@
 		D83541451AB3619000B3A2E1 /* VenueRegistrationTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueRegistrationTVC.swift; sourceTree = "<group>"; };
 		D8AFFDEE1AA6245B00C395F5 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		D8AFFDF01AA641DA00C395F5 /* RootNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootNavigationController.swift; sourceTree = "<group>"; };
+		D8FB67211AB9FBE600110CD4 /* VendorDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VendorDetailVC.swift; sourceTree = "<group>"; };
+		D8FB67231ABA047700110CD4 /* VendorCreateDealVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VendorCreateDealVC.swift; sourceTree = "<group>"; };
+		D8FB67251ABA25B000110CD4 /* CustomSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSlider.h; sourceTree = "<group>"; };
+		D8FB67261ABA25B000110CD4 /* CustomSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomSlider.m; sourceTree = "<group>"; };
+		D8FB67281ABA357F00110CD4 /* CustomArrowIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomArrowIndicator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -267,6 +276,9 @@
 				D80E22001AA5F933005C4CBE /* VenueCell.swift */,
 				D83200B11AA756BC0004E97E /* DealCell.swift */,
 				D83150561AA79B1400B7050C /* CustomButtonOrView.swift */,
+				D8FB67251ABA25B000110CD4 /* CustomSlider.h */,
+				D8FB67261ABA25B000110CD4 /* CustomSlider.m */,
+				D8FB67281ABA357F00110CD4 /* CustomArrowIndicator.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -276,10 +288,12 @@
 			children = (
 				D8AFFDF01AA641DA00C395F5 /* RootNavigationController.swift */,
 				D80E21CD1AA521E4005C4CBE /* LoginVC.swift */,
+				D83541451AB3619000B3A2E1 /* VenueRegistrationTVC.swift */,
 				D80E21FC1AA546F1005C4CBE /* VenueTVC.swift */,
 				D83200531AA6973B0004E97E /* DetailVC.swift */,
-				BDC02A5D1AAF68C8002B85BC /* VenueInfoVC.swift */,
-				D83541451AB3619000B3A2E1 /* VenueRegistrationTVC.swift */,
+				D8FB67211AB9FBE600110CD4 /* VendorDetailVC.swift */,
+				D8FB67231ABA047700110CD4 /* VendorCreateDealVC.swift */,
+				D824EACB1ABCCC03004E2664 /* NewVenueVC.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -393,19 +407,23 @@
 				D80E21AE1AA51BEE005C4CBE /* AppDelegate.swift in Sources */,
 				D80E22011AA5F933005C4CBE /* VenueCell.swift in Sources */,
 				BDC02A531AAF4C3D002B85BC /* DesignableView.swift in Sources */,
-				BDC02A5E1AAF68C8002B85BC /* VenueInfoVC.swift in Sources */,
 				BDC02A4A1AAF4BD1002B85BC /* LocationManager.swift in Sources */,
 				D80E21FD1AA546F1005C4CBE /* VenueTVC.swift in Sources */,
 				BDC02A521AAF4C3D002B85BC /* BlurView.swift in Sources */,
 				D80E21D21AA52262005C4CBE /* DoubleCircleButton.swift in Sources */,
 				D83150571AA79B1400B7050C /* CustomButtonOrView.swift in Sources */,
 				D83150551AA7845F00B7050C /* ChimeData.swift in Sources */,
+				D8FB67241ABA047700110CD4 /* VendorCreateDealVC.swift in Sources */,
 				D8AFFDF11AA641DA00C395F5 /* RootNavigationController.swift in Sources */,
+				D8FB67291ABA357F00110CD4 /* CustomArrowIndicator.swift in Sources */,
+				D824EACC1ABCCC03004E2664 /* NewVenueVC.swift in Sources */,
 				BDC02A541AAF4C3D002B85BC /* Misc.swift in Sources */,
 				D83541461AB3619000B3A2E1 /* VenueRegistrationTVC.swift in Sources */,
 				BDC02A551AAF4C3D002B85BC /* SpringAnimation.swift in Sources */,
 				D83200541AA6973B0004E97E /* DetailVC.swift in Sources */,
 				D83200B21AA756BC0004E97E /* DealCell.swift in Sources */,
+				D8FB67271ABA25B000110CD4 /* CustomSlider.m in Sources */,
+				D8FB67221AB9FBE600110CD4 /* VendorDetailVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -23,9 +23,15 @@ class LoginVC: UIViewController, FBLoginViewDelegate, CLLocationManagerDelegate 
     @IBOutlet weak var fbLetter: UILabel!
     @IBOutlet weak var fbButton: UIButton!
     
+    var loginBottomConstraintOriginal: CGFloat!
+    var signUpConstraintOriginal: CGFloat!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        loginBottomConstraintOriginal = loginBottomConstraint.constant
+        signUpConstraintOriginal = signUpConstraint.constant
+        
         // set up custom facebook button
         fbIcon.layer.cornerRadius = 3
         fbButton.layer.cornerRadius = 4
@@ -53,8 +59,8 @@ class LoginVC: UIViewController, FBLoginViewDelegate, CLLocationManagerDelegate 
         
         NSNotificationCenter.defaultCenter().addObserverForName(UIKeyboardWillHideNotification, object: nil, queue: NSOperationQueue.mainQueue()) { (notification) -> Void in
             // move constraint back
-            self.loginBottomConstraint.constant -= keyboardHeight
-            self.signUpConstraint.constant -= keyboardHeight
+            self.loginBottomConstraint.constant = self.loginBottomConstraintOriginal
+            self.signUpConstraint.constant = self.signUpConstraintOriginal
             // fade in logo image
             self.wordCloudImage.alpha = 1.0
             // animate constraint

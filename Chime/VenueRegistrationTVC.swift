@@ -39,16 +39,25 @@ class VenueRegistrationTVC: UITableViewController {
 //        view.layer.addSublayer(gradientLayer)
         
         // load background image w/ gradient.
-        let bgImageView = UIImageView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height + 225))
+        let bgImageView = UIImageView(frame: UIScreen.mainScreen().bounds)
 //        let bgImageView = UIImageView()
         
 //        println("tablviewFrame = \(tableView.contentSize)")
 //        println("viewFrame = \(self.viewForZoomingInScrollView(tableView))")
         
-        let bgImage = UIImage(named: "venueRegistrationBG")
+        let bgImage = UIImage(named: "greenBackground")
         bgImageView.image = bgImage
 //        bgImageView.contentMode = UIViewContentMode.ScaleToFill
-        view.insertSubview(bgImageView, atIndex: 0)
+//        view.insertSubview(bgImageView, atIndex: 0)
+        
+        
+        tableView.backgroundView = bgImageView
+        
+//        var layer = CALayer()
+//        layer.bounds = UIScreen.mainScreen().bounds
+//        layer.contents = bgImage?.CGImage
+//        tableView.backgroundView?.layer.insertSublayer(layer, atIndex: 0)
+        
 //        tableView.insertSubview(bgImageView, atIndex: 0)
         
         
