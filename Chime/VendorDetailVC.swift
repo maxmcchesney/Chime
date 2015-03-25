@@ -46,7 +46,8 @@ class VendorDetailVC: UIViewController {
         
         venueNameLabel.text = selectedVenue["venueName"] as? String
         venueNeighborhoodLabel.text = selectedVenue["venueNeighborhood"] as? String
-        venuePhoneLabel.text = selectedVenue["venuePhone"] as? String
+        // TODO: change the phone label to show how many users are in a venue
+//        venuePhoneLabel.text = selectedVenue["venuePhone"] as? String
         
         // set the title in the nav controller
         self.title = selectedVenue["venueName"] as? String
@@ -112,157 +113,11 @@ class VendorDetailVC: UIViewController {
         
     }
     
-//    func toggleCheckInButton() {
-//        
-//        if ChimeData.mainData().timerIsRunning {
-//            
-//            checkInButton.enabled = false
-//            
-//            // change appearance of checkIn button to disabled
-//            checkInButton.setTitle("Checked In, Enjoy!", forState: UIControlState.Disabled)
-//            
-//            // neither of these is working...
-//            checkInButton.setNeedsDisplay()
-//            view.setNeedsDisplay()
-//            
-//        } else {
-//            
-//            checkInButton.enabled = true
-//            checkInButton.setNeedsDisplay()
-//            
-//        }
-//        
-//        
-//        
-//    }
-    
-    /////////
-    /////////   TIMER
-    /////////
-    
-//    var timer = NSTimer()
-//    var startTime = NSTimeInterval()
-//    
-//    var dealTime = NSTimeInterval()
-//    
-//    var geoPoint: PFGeoPoint?
-//    var location: CLLocation?
-    
-    
-//    @IBAction func checkIn(sender: AnyObject) {
-//        
-//        // start timer
-//        ChimeData.mainData().timerIsRunning = true
-//        
-//        let aSelector: Selector = "updateTime"
-//        timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: aSelector, userInfo: nil, repeats: true)
-//        
-//        // check singleton for startTime, if nil, set it here
-//        if ChimeData.mainData().startTime > 0 {
-//            startTime = ChimeData.mainData().startTime
-//        } else {
-//            startTime = NSDate.timeIntervalSinceReferenceDate()
-//        }
-//        
-//        // NEED TO ADD THIS BACK ONCE DEALS LOAD
-//        //        let venueDeals = selectedVenue["deals"] as [String:String]
-//        //
-//        //        for (time, deal) in venueDeals {
-//        //
-//        //            // convert time from hours (string) to seconds (double) and set notifications
-//        //            let dealThreshold: NSTimeInterval = ((time as NSString).doubleValue * 10) // change this to * 60 * 60 for production
-//        //
-//        //            println("Deal time (sec): \(dealThreshold) for deal: '\(deal)'")
-//        //
-//        //            let fireDate = NSDate(timeInterval: dealThreshold, sinceDate: NSDate())
-//        //
-//        //            setLocalNotification(fireDate, andAlert: deal)
-//        //
-//        //
-//        //        }
-//        
-//        
-//    }
-    
-    
-    
-//    func updateTime() {
-//        
-//        var currentTime = NSDate.timeIntervalSinceReferenceDate()
-//        
-//        // find the difference between current time and start time.
-//        var elapsedTime: NSTimeInterval = currentTime - startTime
-//        
-//        // calculate the hours in elapsed time.
-//        let hours = UInt8(elapsedTime / 60 / 60)
-//        
-//        // calculate the minutes in elapsed time.
-//        let minutes = UInt8(elapsedTime / 60.0)
-//        elapsedTime -= (NSTimeInterval(minutes) * 60)
-//        
-//        
-//        var userLocation = GlobalVariableSharedInstance.currentLocation() as CLLocation
-//        
-//        var userLatitude = userLocation.coordinate.latitude
-//        var userLongitude = userLocation.coordinate.longitude
-//        
-//        let geoPoint = PFGeoPoint(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude) as PFGeoPoint
-//        
-//        if let venueLocation = self.location as CLLocation? {
-//            
-//            var venueLatitude = venueLocation.coordinate.latitude
-//            var venueLongitude = userLocation.coordinate.longitude
-//            
-//            if (userLatitude == venueLatitude) && (userLongitude == venueLongitude){
-//                var currentTime = NSDate.timeIntervalSinceReferenceDate()
-//                
-//                // find the difference between current time and start time.
-//                var elapsedTime: NSTimeInterval = currentTime - startTime
-//                
-//                // calculate the hours in elapsed time.
-//                let hours = UInt8(elapsedTime / 60 / 60)
-//                
-//                // calculate the minutes in elapsed time.
-//                let minutes = UInt8(elapsedTime / 60.0)
-//                elapsedTime -= (NSTimeInterval(minutes) * 60)
-//                
-//                // calculate the seconds in elapsed time.
-//                let seconds = UInt8(elapsedTime)
-//                elapsedTime -= NSTimeInterval(seconds)
-//                
-//                // add the leading zero for hours, minutes, and seconds and store them as string constants
-//                //        let strHours = hours > 9 ? String(hours):"0" + String(hours)
-//                let strHours = String(hours)
-//                let strMinutes = minutes > 9 ? String(minutes):"0" + String(minutes)
-//                let strSeconds = seconds > 9 ? String(seconds):"0" + String(seconds)
-//                
-//                // concatenate hours, minutes, and seconds as assign it to the UILabel
-//                timerLabel.text = "\(strHours):\(strMinutes):\(strSeconds)"
-//                
-//            }
-//            
-//        }
-//        
-//    }
-    
-    
     override func viewWillDisappear(animated: Bool) {
-        
-        // save startTime to Singleton for when user navigates away from detailVC
-//        if startTime > 0 {
-//            ChimeData.mainData().startTime = startTime
-//            ChimeData.mainData().timeLabel = timerLabel.text!
-//        }
         
     }
     
     override func viewWillAppear(animated: Bool) {
-        
-        // retrieve startTime from Singleton if it's saved
-//        if ChimeData.mainData().startTime > 0 {
-//            timerLabel.text = ChimeData.mainData().timeLabel    // works but causes time to jump the difference
-//            checkIn(self)
-//        }
         
     }
     

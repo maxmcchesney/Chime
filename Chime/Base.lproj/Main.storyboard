@@ -411,6 +411,14 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="topColorAlpha">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="bottomColorAlpha">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="loginSignUp:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Ttb-X2-ERa"/>
                                 </connections>
@@ -433,6 +441,12 @@
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="topColor">
                                         <color key="value" red="0.5725490196078431" green="0.5725490196078431" blue="0.5725490196078431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="bottomColorAlpha">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="topColorAlpha">
+                                        <real key="value" value="1"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
@@ -764,7 +778,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="neighborhood" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a4W-fo-NMm">
                                             <rect key="frame" x="75" y="52" width="442" height="19"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
-                                            <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CiW-1w-Buk" customClass="CustomArrowIndicator" customModule="Chime" customModuleProvider="target">
@@ -797,7 +811,7 @@
                                                 <constraint firstAttribute="width" constant="55" id="bvg-l4-Tli"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
-                                            <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -954,25 +968,25 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="60" height="100"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="time" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gWu-6q-Qm9">
-                                                            <rect key="frame" x="0.0" y="2" width="60" height="23"/>
+                                                            <rect key="frame" x="0.0" y="2" width="60" height="22.5"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="19"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="value" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HYz-Qt-e43">
-                                                            <rect key="frame" x="0.0" y="47" width="60" height="23"/>
+                                                            <rect key="frame" x="0.0" y="47" width="60" height="22.5"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="19"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wMC-8x-lIM">
-                                                            <rect key="frame" x="1" y="69" width="58" height="29"/>
+                                                            <rect key="frame" x="1" y="69" width="58" height="28.5"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="24"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 hr" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OHI-gw-nPc">
-                                                            <rect key="frame" x="1" y="24" width="58" height="29"/>
+                                                            <rect key="frame" x="1" y="24" width="58" height="28.5"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="24"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
@@ -1079,7 +1093,6 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TLM-Uw-6Tt" customClass="DesignableButton" customModule="Chime" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="128" width="500" height="45"/>
-                                        <color key="backgroundColor" red="0.77647058820000003" green="0.50196078430000002" blue="0.20392156859999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="500" id="YNt-Ey-MFc"/>
                                             <constraint firstAttribute="height" constant="45" id="owU-1p-OWI"/>
@@ -1090,6 +1103,14 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="topColorAlpha">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="bottomColorAlpha">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <variation key="default">
                                             <mask key="constraints">
                                                 <exclude reference="YNt-Ey-MFc"/>
@@ -1097,14 +1118,14 @@
                                             </mask>
                                         </variation>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Venue Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ncc-ds-GQu">
-                                        <rect key="frame" x="198" y="0.0" width="204" height="44"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Venue Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="24" translatesAutoresizingMaskIntoConstraints="NO" id="ncc-ds-GQu">
+                                        <rect key="frame" x="8" y="0.0" width="584" height="44"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="37"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="neighborhood" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5gZ-Jn-60j">
-                                        <rect key="frame" x="228" y="44" width="145" height="30"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="neighborhood" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5gZ-Jn-60j">
+                                        <rect key="frame" x="8" y="44" width="584" height="29.5"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="25"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -1130,10 +1151,22 @@
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerSize">
                                                 <real key="value" value="0.0"/>
                                             </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="topColorAlpha">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="bottomColorAlpha">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="bottomColor">
+                                                <color key="value" red="0.15686274510000001" green="0.16862745100000001" blue="0.20784313730000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="topColor">
+                                                <color key="value" red="0.57254901960000004" green="0.57254901960000004" blue="0.57254901960000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12 users clocked in now" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ka0-lG-aQa">
-                                        <rect key="frame" x="182" y="73" width="236" height="28"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12 users clocked in now" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ka0-lG-aQa">
+                                        <rect key="frame" x="8" y="73" width="584" height="27.5"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="23"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -1173,7 +1206,9 @@
                                 <constraints>
                                     <constraint firstItem="TLM-Uw-6Tt" firstAttribute="leading" secondItem="3YN-KO-mkl" secondAttribute="leading" id="4Fc-gE-oUT"/>
                                     <constraint firstAttribute="centerX" secondItem="Ka0-lG-aQa" secondAttribute="centerX" id="4Hx-K6-QEi"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="ncc-ds-GQu" secondAttribute="trailing" id="5g4-sM-Xok"/>
                                     <constraint firstAttribute="centerX" secondItem="ncc-ds-GQu" secondAttribute="centerX" id="HA6-pU-JZA"/>
+                                    <constraint firstItem="Ka0-lG-aQa" firstAttribute="leading" secondItem="3YN-KO-mkl" secondAttribute="leadingMargin" id="Kyj-Ch-9IP"/>
                                     <constraint firstAttribute="trailing" secondItem="k8J-am-kPA" secondAttribute="trailing" id="NAd-P6-Yef"/>
                                     <constraint firstItem="k8J-am-kPA" firstAttribute="leading" secondItem="3YN-KO-mkl" secondAttribute="leading" id="OqQ-ak-PyR"/>
                                     <constraint firstItem="4Po-ew-GfM" firstAttribute="leading" secondItem="3YN-KO-mkl" secondAttribute="leading" id="Orx-5F-O7X"/>
@@ -1181,12 +1216,16 @@
                                     <constraint firstItem="TLM-Uw-6Tt" firstAttribute="top" secondItem="4Po-ew-GfM" secondAttribute="bottom" id="W46-d8-hON"/>
                                     <constraint firstItem="uz5-m4-yBU" firstAttribute="leading" secondItem="TLM-Uw-6Tt" secondAttribute="trailing" id="Wuh-VW-TLn"/>
                                     <constraint firstAttribute="bottom" secondItem="TLM-Uw-6Tt" secondAttribute="bottom" constant="2" id="XoU-Gg-5jM"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="Ka0-lG-aQa" secondAttribute="trailing" id="Zac-sU-oC1"/>
                                     <constraint firstItem="5gZ-Jn-60j" firstAttribute="top" secondItem="ncc-ds-GQu" secondAttribute="bottom" id="ZdY-oH-2Bn"/>
                                     <constraint firstAttribute="height" constant="175" id="bAX-3d-q6C"/>
                                     <constraint firstAttribute="bottom" secondItem="k8J-am-kPA" secondAttribute="bottom" id="f8E-tz-HmK"/>
                                     <constraint firstAttribute="trailing" secondItem="4Po-ew-GfM" secondAttribute="trailing" id="hI8-Dr-3Yn"/>
                                     <constraint firstAttribute="centerX" secondItem="5gZ-Jn-60j" secondAttribute="centerX" id="hQb-Nz-R9N"/>
                                     <constraint firstAttribute="trailing" secondItem="uz5-m4-yBU" secondAttribute="trailing" id="nYa-fO-WMy"/>
+                                    <constraint firstItem="ncc-ds-GQu" firstAttribute="leading" secondItem="3YN-KO-mkl" secondAttribute="leadingMargin" id="pLg-nv-j9K"/>
+                                    <constraint firstItem="5gZ-Jn-60j" firstAttribute="leading" secondItem="3YN-KO-mkl" secondAttribute="leadingMargin" id="qad-aP-a7D"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="5gZ-Jn-60j" secondAttribute="trailing" id="r19-bl-lzH"/>
                                     <constraint firstAttribute="bottom" secondItem="uz5-m4-yBU" secondAttribute="bottom" constant="2" id="sb0-mM-3yh"/>
                                     <constraint firstItem="ncc-ds-GQu" firstAttribute="top" secondItem="3YN-KO-mkl" secondAttribute="top" id="zHr-8H-Yqz"/>
                                 </constraints>
@@ -1660,6 +1699,14 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="topColorAlpha">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="bottomColorAlpha">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <variation key="default">
                                             <mask key="constraints">
                                                 <exclude reference="Gss-M0-Jy1"/>
@@ -1702,6 +1749,18 @@
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerSize">
                                                 <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="topColorAlpha">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="bottomColorAlpha">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="bottomColor">
+                                                <color key="value" red="0.15686274510000001" green="0.16862745100000001" blue="0.20784313730000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="topColor">
+                                                <color key="value" red="0.57254901960000004" green="0.57254901960000004" blue="0.57254901960000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
@@ -1896,7 +1955,7 @@
                                 </constraints>
                                 <string key="text">Chime keeps customers in your venue longer.  Users “Chime In” when they arrive to begin a timer that rewards them based on their length of stay.  Remember, the better the deals you offer, the longer they’re likely to stay!</string>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5K1-cA-k1F" customClass="DesignableButton" customModule="Chime" customModuleProvider="target">
@@ -1911,6 +1970,9 @@
                                 </state>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="topColorAlpha">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="bottomColorAlpha">
                                         <real key="value" value="1"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>

@@ -54,12 +54,12 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
         
         // HIDE BANNER VIEW - NOT WORKING!!!
 //        bannerFrame = bannerView.frame
-//        bannerView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 0)
+        bannerView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 0)
 //        bannerView.hidden = true
 //        bannerButton.hidden = true
 //        bannerDownArrow.hidden = true
 //        bannerLabel.hidden = true
-//        bannerView.removeFromSuperview()
+        bannerView.removeFromSuperview()
 
     }
 
@@ -74,21 +74,21 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
         
         // hide the banner view
 //        bannerView.hidden = true
-        bannerLabel.text = "Chime in and start saving!"
-        bannerDownArrow.hidden = true
-        bannerButton.hidden = true
+//        bannerLabel.text = "Chime in and start saving!"
+//        bannerDownArrow.hidden = true
+//        bannerButton.hidden = true
         if let venue = ChimeData.mainData().checkedInVenue as PFObject? {
             
             // SHOW BANNER VIEW!!! NOT WORKING!
             
-            let vName: String = ChimeData.mainData().checkedInVenue?["venueName"] as String
+//            let vName: String = ChimeData.mainData().checkedInVenue?["venueName"] as String
 //            view.insertSubview(bannerView, aboveSubview: tableView)
 //            tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0)
 //            tableView.addSubview(bannerView)
-//            bannerView.frame = CGRectMake(0, -44, UIScreen.mainScreen().bounds.width, 44)
-            bannerLabel.text = "You're checked in at \(vName)!"
-            bannerDownArrow.hidden = false
-            bannerButton.hidden = false
+//            bannerView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44)
+//            bannerLabel.text = "You're checked in at \(vName)!"
+//            bannerDownArrow.hidden = false
+//            bannerButton.hidden = false
 //            bannerView.hidden = false
 //            bannerButton.hidden = false
 //            bannerDownArrow.hidden = false
@@ -158,6 +158,10 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
                 // add plus button
                 let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: Selector("addNewVenue"))
                 self.navigationItem.rightBarButtonItem = addButton
+                
+                // remove the bannerView
+//                bannerView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 0)
+//                bannerView.removeFromSuperview()
                 
                 // TODO: user is owner, either hide the toolbar or change it to "my venues" and "all venues"
                 navigationController?.toolbarHidden = true
@@ -396,10 +400,6 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
 //                cell.venueNeighborhood.textColor = blueActivated
 //                cell.indicatorArrow.strokeColor = blueActivated
 //                cell.indicatorArrow.setNeedsDisplay()
-
-//                let vName: String = ChimeData.mainData().checkedInVenue?["venueName"] as String
-//                view.addSubview(bannerView)
-//                bannerLabel.text = "You're checked in at \(vName)!"
              
             }
 
