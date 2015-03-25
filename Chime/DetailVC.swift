@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import AVFoundation
+import AudioToolbox
 
-
+let blueActivated = UIColor(red:0.29, green:0.56, blue:0.89, alpha:1)
 
 // 
 class DetailVC: UIViewController {
@@ -27,9 +29,28 @@ class DetailVC: UIViewController {
 
     var selectedVenue: PFObject!
     var venueDeals: [[String:AnyObject]] = []
-
+    
+//    var audioPlayer = AVAudioPlayer()
+    var soundID:SystemSoundID = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        if let filePath = NSBundle.mainBundle().pathForResource("Tock", ofType: "aif") {
+//            let fileURL = NSURL(fileURLWithPath: filePath)
+//        }
+//
+//            audioPlayer = AVAudioPlayer(contentsOfURL: fileURL, error: nil)
+//            audioPlayer.prepareToPlay()
+//        }
+        
+        // Get the main bundle for the app
+        let mainBundle = CFBundleGetMainBundle()
+//        let cfName =
+        let soundFileURLRef = CFBundleCopyResourceURL(mainBundle, "tap", "aif", nil)
+
+        AudioServicesCreateSystemSoundID(soundFileURLRef, &soundID)
+        
         
         // if already checkedIn ...  checkInButton.enabled = false
         toggleCheckInButton()
@@ -60,10 +81,18 @@ class DetailVC: UIViewController {
         // pass selected venue and deals to tvc
         dealsTVC.selectedVenue = selectedVenue
         if let deals = selectedVenue["venueDeals"] as? [[String:AnyObject]] {
+            
+            for deal in deals {
+                let status: Bool = deal["active"] as Bool
+                if !status {
+                    // remove the deal before passing it to tableview
+                }
+            }
+            
             venueDeals = deals
             dealsTVC.venueDeals = deals
             if deals.count > 0 {
-                instructionLabel.text = "chime in to start the clock and start saving. when the timer reaches the deals' required time, the deal will become available. just show your phone to your server to collect your reward!"
+                instructionLabel.text = "Chime in to start the clock. When the timer reaches a deal's threshold, it will become available. Just show your phone to your server to collect your reward!"
             }
         }
         
@@ -77,6 +106,16 @@ class DetailVC: UIViewController {
         for image in navImageViews {
             image.removeFromSuperview()
         }
+        
+        // add observer for notification center when deal is activated
+        NSNotificationCenter.defaultCenter().addObserverForName("dealActivated", object: nil, queue: NSOperationQueue.mainQueue()) { (notification) -> Void in
+            
+//            println("RECEIVED NOTIFICATION::: \(notification)")
+            let activatedDeal = notification.userInfo as [String:AnyObject]
+            ChimeData.mainData().activatedDeals.append(activatedDeal)
+            self.dealsTV.reloadData()
+            self.makeVibrate()
+        }
 
     }
     
@@ -84,6 +123,12 @@ class DetailVC: UIViewController {
         
         refreshSelectedVenue()
         selectedVenue = ChimeData.mainData().selectedVenue
+        
+        checkStartTimeAgainstDeals()
+        
+        // set the badge icon to 0
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        badgeNumber = 0
         
     }
     
@@ -95,7 +140,17 @@ class DetailVC: UIViewController {
             self.selectedVenue = ChimeData.mainData().selectedVenue
             
             self.dealsTVC.selectedVenue = self.selectedVenue
+            
             if let deals = self.selectedVenue["venueDeals"] as? [[String:AnyObject]] {
+                
+                // TODO: If deal is inactive, remove it from the dictionary before passing it to the TV
+//                for deal in deals {
+//                    let status: Bool = deal["active"] as Bool
+//                    if !status {
+//                        
+//                    }
+//                }
+                
                 self.dealsTVC.venueDeals = deals
             }
             
@@ -112,9 +167,8 @@ class DetailVC: UIViewController {
             checkInButton.enabled = false
             
             // change appearance of checkIn button to disabled
-            checkInButton.setTitle("checked In, enjoy!", forState: UIControlState.Disabled)
+            checkInButton.setTitle("Chimed in, enjoy!", forState: UIControlState.Disabled)
             
-            // neither of these is working...
             checkInButton.setNeedsDisplay()
             view.setNeedsDisplay()
             
@@ -126,9 +180,33 @@ class DetailVC: UIViewController {
         }
         
     }
+    
+
+    
+    // CREATE SOUNDS AND VIBRATE WHEN CHECKING IN
+    // TODO: SOUND DOESNT WORK
+    func playChime() {
+
+        if let path = NSBundle.mainBundle().pathForResource("Tock", ofType: "aif") {
+            let URL = NSURL(fileURLWithPath: path)
+            
+            var sID = SystemSoundID()
+            AudioServicesCreateSystemSoundID(URL, &sID)
+            
+            AudioServicesPlayAlertSound(sID)
+            
+        }
+        
+    }
+    
+    // make phone vibrate
+    func makeVibrate() {
+        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+    }
+
 
     /////////
-    /////////   TIMER
+    /////////   TIMER / CHECK IN
     /////////
     
     var timer = NSTimer()
@@ -138,8 +216,6 @@ class DetailVC: UIViewController {
 
     var geoPoint: PFGeoPoint?
     var location: CLLocation?
-
-    var dealThresholds = []
     
     @IBAction func checkIn(sender: AnyObject) {
         
@@ -154,27 +230,26 @@ class DetailVC: UIViewController {
             return
         }
         
-        if ChimeData.mainData().timerIsRunning { return }
+        if ChimeData.mainData().timerIsRunning || ChimeData.mainData().startTime > 0 { return }
         
         let userInsideVenueRadius = checkUserDistanceFromVenue()
         
         // TODO: trigger some sort of observer to stop the timer / deals when the user exits the venue radius
-        
+        /////////
+        /////////   CHECK IF USER IS WITHIN THE RADIUS OF VENUE
+        /////////
         if userInsideVenueRadius {
+            
+            // make sound and vibrate
+            makeVibrate()
+            playChime()
             
             // start timer
             ChimeData.mainData().timerIsRunning = true
             ChimeData.mainData().checkedInVenue = selectedVenue
             
-            let aSelector: Selector = "updateTime"
-            timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: aSelector, userInfo: nil, repeats: true)
-            
-            // check singleton for startTime, if nil, set it here
-            if ChimeData.mainData().startTime > 0 {
-                startTime = ChimeData.mainData().startTime
-            } else {
-                startTime = NSDate.timeIntervalSinceReferenceDate()
-            }
+            // check if it was running previously
+            checkTimer()
             
             for deal in venueDeals {
                 
@@ -190,7 +265,8 @@ class DetailVC: UIViewController {
                     
                     let fireDate = NSDate(timeInterval: dealThreshold, sinceDate: NSDate())
                     println("Setting local notification for deal \(deal), at time threshold \(time).")
-                    setLocalNotification(fireDate, andAlert: rewardDescription)
+//                    setLocalNotification(fireDate, andAlert: rewardDescription)
+                    setLocalNotification(fireDate, andAlert: rewardDescription, andDeal: deal)
                     
                     toggleCheckInButton()
                     
@@ -220,7 +296,7 @@ class DetailVC: UIViewController {
             
             let userDistanceFromVenue = userLocation.distanceFromLocation(venueLocation)
 
-            let venueRadius: CLLocationDistance = 500   // measured in meters
+            let venueRadius: CLLocationDistance = 500   // measured in meters, CHANGE THIS FOR PRODUCTION
             
             if userDistanceFromVenue <= venueRadius {
                 
@@ -251,6 +327,8 @@ class DetailVC: UIViewController {
             alertViewController.addAction(defaultAction)
             presentViewController(alertViewController, animated: true, completion: nil)
             
+            makeVibrate()
+            
             return
         }
         
@@ -279,15 +357,66 @@ class DetailVC: UIViewController {
         // concatenate hours, minutes, and seconds as assign it to the UILabel
         timerLabel.text = "\(strHours):\(strMinutes):\(strSeconds)"
         
+        // listen for if the elapsed time is greater than the dealthreshold and do something if so.
+//        checkTimeAgainstDeals(elapsedTime)
+        
     }
     
-    func setLocalNotification(fireDate: NSDate, andAlert alert: String) {
+    func checkStartTimeAgainstDeals() {
+        
+        // don't check the deals if the timer isn't running, otherwise do...
+        if ChimeData.mainData().timerIsRunning || startTime == 0 { return }
+        
+        for deal in venueDeals {
+            
+            let active: Bool = deal["active"] as Bool
+            
+            if active {
+                
+                let time = deal["timeThreshold"] as NSString
+//                let rewardDescription = deal["rewardDescription"] as String
+                
+                // convert time from hours (string) to seconds (double) and set notifications
+                let dealThreshold: NSTimeInterval = time.doubleValue * 10 // change this to * 60 * 60 for production
+                
+                var currentTime = NSDate.timeIntervalSinceReferenceDate()
+                
+                // find the difference between current time and start time.
+                var elapsedTime: NSTimeInterval = currentTime - startTime
+                
+                println("dealthreshold: \(dealThreshold), elapsed time: \(elapsedTime)")
+
+                if elapsedTime > dealThreshold {
+                    // deal should be activated, append to array of activated deals
+                    
+//                    self.dealsTVC.activatedDeals.append(deal)
+                    ChimeData.mainData().activatedDeals.append(deal)
+                    
+//                    println("DEAL IS ACTIVATED BC OF ELAPSED TIME!!!!  \(deal)")
+                    
+                    self.dealsTV.reloadData()
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+    var badgeNumber: Int = 0
+    
+    func setLocalNotification(fireDate: NSDate, andAlert alert: String, andDeal deal: [String:AnyObject]) {
+        
+        badgeNumber++
         
         var notification = UILocalNotification()
         notification.category = "FIRST_CATEGORY"
         notification.alertBody = "You did it! Claim your prize: \(alert)"
         notification.fireDate = fireDate
-//        notification.userInfo = 
+        notification.userInfo = deal
+//        notification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1  // TODO: THIS WILL ALWAYS BE 1 WHEN THIS RUNS...
+        notification.applicationIconBadgeNumber = badgeNumber
         
         UIApplication.sharedApplication().scheduleLocalNotification(notification)
         
@@ -303,14 +432,25 @@ class DetailVC: UIViewController {
             timer.invalidate()
             ChimeData.mainData().timerIsRunning = false
             
-            
         }
         
     }
     
+    func checkTimer() {
+        let aSelector: Selector = "updateTime"
+        timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: aSelector, userInfo: nil, repeats: true)
+        
+        // check singleton for startTime, if nil, set it here
+        if ChimeData.mainData().startTime > 0 {
+            startTime = ChimeData.mainData().startTime
+        } else {
+            startTime = NSDate.timeIntervalSinceReferenceDate()
+        }
+    }
+    
     override func viewWillAppear(animated: Bool) {
         
-        println("Selected Venue ID: \(ChimeData.mainData().selectedVenue?.objectId) | Checked In Venue ID: \(ChimeData.mainData().checkedInVenue?.objectId)")
+//        println("Selected Venue ID: \(ChimeData.mainData().selectedVenue?.objectId) | Checked In Venue ID: \(ChimeData.mainData().checkedInVenue?.objectId)")
         
         // retrieve startTime from Singleton if it's saved
         if ChimeData.mainData().startTime > 0 {
@@ -318,11 +458,13 @@ class DetailVC: UIViewController {
             if ChimeData.mainData().checkedInVenue?.objectId == selectedVenue.objectId {
                 
                 timerLabel.text = ChimeData.mainData().timeLabel    // works but causes time to jump the difference
-                checkIn(self)
+//                checkIn(self)
+                
+                checkTimer()
                 
             } else {
                 
-                self.checkInButton.setTitle("you're elsewhere..", forState: UIControlState.Disabled)
+                self.checkInButton.setTitle("You're not here..", forState: UIControlState.Disabled)
             }
 
         }
@@ -341,6 +483,7 @@ class DetailTVC: UITableViewController {
     var selectedVenue: PFObject!
     var venueDeals: [[String:AnyObject]] = []
     
+//    var activatedDeals: [[String:AnyObject]] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -388,10 +531,32 @@ class DetailTVC: UITableViewController {
             let dealTime = deal["timeThreshold"] as String
             let dealValue = deal["estimatedValue"] as Int
             
-            
             cell.tagTimeLabel.text = "\(dealTime) hr"
             cell.dealLabel.text = "\(dealName)"
-//            cell.tagValueLabel.text = 
+            
+            if dealValue >= 50 {
+                cell.tagValueLabel.text = "$50+"
+            } else {
+                cell.tagValueLabel.text = "$\(dealValue)"
+            }
+            
+//            let dealStatus: Bool = deal["active"] as Bool   // not being used at the moment
+//            if !dealStatus { cell.resignFirstResponder() }
+            
+            // check if deal is activated and present in activatedDeals array
+            for aD in ChimeData.mainData().activatedDeals {
+                if NSDictionary(dictionary: deal) == aD {
+//                    println("\(deal) is activated!")
+                    cell.tagView.backgroundColor = blueActivated
+//                    cell.indicatorArrow.strokeColor = blueActivated
+                    cell.indicatorArrow.hidden = false
+                    cell.layer.borderColor = UIColor.blueColor().colorWithAlphaComponent(0.3).CGColor
+                    cell.layer.borderWidth = 1
+                    cell.indicatorArrow.setNeedsDisplay()
+                    cell.claimInstructionsLabel.hidden = false
+                    cell.dealLabel.text = "CLAIM: \(dealName)"
+                }
+            }
             
         }
         

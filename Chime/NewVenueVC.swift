@@ -58,8 +58,6 @@ class NewVenueVC: UIViewController {
     }  // end: field validation
     
     
-
-    
     func saveVenue() {
         
         var address = self.venueAddressField.text
@@ -78,24 +76,25 @@ class NewVenueVC: UIViewController {
                 venueInfo["location"] = geoPoint
                 venueInfo["venueOwner"] = PFUser.currentUser().email
                 
-                // are we using this information?
-                var latitude: CLLocationDegrees = geoPoint.latitude
-                var longitude: CLLocationDegrees = geoPoint.longitude
-                
-                var location = CLLocation.init(latitude: latitude, longitude: longitude)
-                
                 // list["location"] = location
                 
                 venueInfo.saveInBackgroundWithBlock({ (succeeded: Bool!, error: NSError!) -> Void in
-                    // venue is successfully saved to parse, dismiss vc
-                    println("Venue registration succeeded. Venue created: \(self.venueNameField.text)")
                     
-                    // dismiss vc and push to navigationvc
-                    if let nc = self.storyboard?.instantiateViewControllerWithIdentifier("navigationC") as? RootNavigationController {
-                        //                        self.dismissViewControllerAnimated(true, completion: nil)   // necessary?
-                        self.presentViewController(nc, animated: true, completion: nil)
+                    if error == nil {
+                        // venue is successfully saved to parse, dismiss vc
+                        println("Venue registration succeeded. Venue created: \(self.venueNameField.text)")
+                        
+                        makeVibrate()
+                        
+                        // dismiss vc and push to navigationvc
+                        if let nc = self.storyboard?.instantiateViewControllerWithIdentifier("navigationC") as? RootNavigationController {
+                            //                        self.dismissViewControllerAnimated(true, completion: nil)   // necessary?
+                            self.presentViewController(nc, animated: true, completion: nil)
+                        }
+                    } else {
+                        println(error)
                     }
-                    
+
                 })
             }
             

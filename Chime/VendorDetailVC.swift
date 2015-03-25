@@ -61,7 +61,7 @@ class VendorDetailVC: UIViewController {
         if let deals = selectedVenue["venueDeals"] as? [[String:AnyObject]] {
             dealsTVC.venueDeals = deals
             if deals.count > 0 {
-                instructionLabel.text = "click on a deal to toggle its availability"
+                instructionLabel.text = "Click on a deal to toggle whether users see it as available."
             }
         }
         
@@ -94,6 +94,7 @@ class VendorDetailVC: UIViewController {
             self.dealsTVC.selectedVenue = self.selectedVenue
             if let deals = self.selectedVenue["venueDeals"] as? [[String:AnyObject]] {
                 self.dealsTVC.venueDeals = deals
+                self.instructionLabel.text = "Click on a deal to toggle whether users see it as available."
             }
             
             self.dealsTV.reloadData()
@@ -305,6 +306,7 @@ class VendorDetailTVC: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("dealCell", forIndexPath: indexPath) as DealCell
         
         // Configure the cell...
+        cell.indicatorArrow.hidden = false
         
         // set up the cell coloring
         let lighterColor: UIColor = UIColor(red:0.71, green:0.87, blue:0.55, alpha:0.5)
@@ -318,19 +320,64 @@ class VendorDetailTVC: UITableViewController {
         if let deals = selectedVenue["venueDeals"] as? [[String:AnyObject]] {
             
             let deal = deals[indexPath.row]
-            println(deal)
+//            println(deal)
             
             let dealName = deal["rewardDescription"] as String
             let dealTime = deal["timeThreshold"] as String
-//            let dealTime: String = String(format: "%f", dT)
-
+            let dealValue = deal["estimatedValue"] as Int
             
             cell.tagTimeLabel.text = "\(dealTime) hr"
             cell.dealLabel.text = "\(dealName)"
             
+            if dealValue >= 50 {
+                cell.tagValueLabel.text = "$50+"
+            } else {
+                cell.tagValueLabel.text = "$\(dealValue)"
+            }
+            
+            let status: Bool = deal["active"] as Bool
+            if !status {
+                // deal is inactive
+                cell.backgroundColor = UIColor.lightGrayColor()
+                cell.tagView.backgroundColor = UIColor.grayColor()
+                cell.dealLabel.text = "\(dealName) (inactive)"
+            }
+            
         }
         
         return cell
+    }
+    
+    /////////
+    /////////   TOGGLE DEAL AVAILABILITY
+    /////////
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        // toggle the deals availability when a cell is touched
+        println("Owner has selected a deal cell...")
+        
+        if let deals: NSMutableArray = selectedVenue["venueDeals"] as? NSMutableArray {
+            
+            var deal = deals[indexPath.row] as [String:AnyObject]
+            
+            var status: Bool = deal["active"] as Bool
+            
+            if status {
+                // deal is active, switch to inactive
+                deal["active"] = false
+            } else {
+                // deal is inactive switch to active
+                deal["active"] = true
+            }
+            
+            deals.replaceObjectAtIndex(indexPath.row, withObject: deal)
+
+            selectedVenue.saveInBackground()
+            
+        }
+
+        tableView.reloadData()
+        
     }
     
     /*

@@ -20,9 +20,11 @@ class ChimeData: NSObject {
     
     var selectedVenue: PFObject?
     var checkedInVenue: PFObject?
-
-
+    
+    
     var venues: NSMutableArray = []  // placeholder info
+    
+    var activatedDeals: [[String:AnyObject]] = []
 
     /////////
     /////////   refresh the venues list in singleton

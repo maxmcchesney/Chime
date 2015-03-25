@@ -7,6 +7,13 @@
 //
 
 import UIKit
+import AVFoundation
+import AudioToolbox
+
+// make phone vibrate
+func makeVibrate() {
+    AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+}
 
 // array of imageViews
 var navImageViews: [UIImageView] = []

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AudioToolbox
 
 
 
@@ -97,6 +98,7 @@ class LoginVC: UIViewController, FBLoginViewDelegate, CLLocationManagerDelegate 
                     println("Sign Up fields good...")
                     self.signUp()
                 }
+                makeVibrate()
             })
         }
     }  // end: field validation

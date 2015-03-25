@@ -15,10 +15,11 @@ class VenueCell: UITableViewCell {
     @IBOutlet weak var venueDistance: UILabel!
     @IBOutlet weak var tagDealsTitleLabel: UILabel!
     @IBOutlet weak var tagUsersTitleLabel: UILabel!
+    @IBOutlet weak var indicatorArrow: CustomArrowIndicator!
     
     
     @IBOutlet weak var tagNumberOfDealsLabel: UILabel!
-    @IBOutlet weak var tagNumberOfUsersLabel: UILabel!
+    @IBOutlet weak var tagValueLabel: UILabel!
     
     @IBOutlet weak var tagView: UIView!
 

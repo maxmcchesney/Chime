@@ -27,39 +27,13 @@ class VenueRegistrationTVC: UITableViewController {
         view.backgroundColor = UIColor(red:0.81, green:0.96, blue:0.56, alpha:1)    // set background to green
         view.backgroundColor = UIColor.lightGrayColor()
         
-        // set up gradient - doesn't work!
-//        let gradientLayer = CAGradientLayer()
-//        gradientLayer.frame = self.view.frame
-//        let topColor = UIColor(red:0.19, green:0.14, blue:0.68, alpha:0.4)
-//        let bottomColor = UIColor(red:0.71, green:0.93, blue:0.32, alpha:0.4)
-//        gradientLayer.colors = [topColor, bottomColor]
-//        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-//        gradientLayer.endPoint = CGPoint(x: 0, y: 1)
-//        view.layer.insertSublayer(gradientLayer, atIndex: 0)
-//        view.layer.addSublayer(gradientLayer)
-        
         // load background image w/ gradient.
         let bgImageView = UIImageView(frame: UIScreen.mainScreen().bounds)
-//        let bgImageView = UIImageView()
-        
-//        println("tablviewFrame = \(tableView.contentSize)")
-//        println("viewFrame = \(self.viewForZoomingInScrollView(tableView))")
         
         let bgImage = UIImage(named: "greenBackground")
         bgImageView.image = bgImage
-//        bgImageView.contentMode = UIViewContentMode.ScaleToFill
-//        view.insertSubview(bgImageView, atIndex: 0)
-        
         
         tableView.backgroundView = bgImageView
-        
-//        var layer = CALayer()
-//        layer.bounds = UIScreen.mainScreen().bounds
-//        layer.contents = bgImage?.CGImage
-//        tableView.backgroundView?.layer.insertSublayer(layer, atIndex: 0)
-        
-//        tableView.insertSubview(bgImageView, atIndex: 0)
-        
         
         /////////
         /////////   SHIFT UI WITH KEYBOARD PRESENT
@@ -88,8 +62,6 @@ class VenueRegistrationTVC: UITableViewController {
 
             self.view.layoutIfNeeded()
         } // end: keyboard shift
-        
-
         
     }
     
@@ -155,8 +127,7 @@ class VenueRegistrationTVC: UITableViewController {
         
         let geoPoint = PFGeoPoint(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude) as PFGeoPoint
         
-        
-        user["location"] = geoPoint
+        user["location"] = geoPoint // why are we saving the users location to Parse?
         
         // save venue info to user as well?
         user["isOwner"] = true
@@ -205,16 +176,16 @@ class VenueRegistrationTVC: UITableViewController {
                 venueInfo["venueOwner"] = PFUser.currentUser().email
                 
                 // are we using this information?
-                var latitude: CLLocationDegrees = geoPoint.latitude
-                var longitude: CLLocationDegrees = geoPoint.longitude
-                
-                var location = CLLocation.init(latitude: latitude, longitude: longitude)
-                
-                // list["location"] = location
+//                var latitude: CLLocationDegrees = geoPoint.latitude
+//                var longitude: CLLocationDegrees = geoPoint.longitude
+//                
+//                var location = CLLocation.init(latitude: latitude, longitude: longitude)
                 
                 venueInfo.saveInBackgroundWithBlock({ (succeeded: Bool!, error: NSError!) -> Void in
                     // venue is successfully saved to parse, dismiss vc
                     println("Venue registration succeeded. Venue created: \(self.venueNameField.text)")
+                    
+                    makeVibrate()
                     
                     // dismiss vc and push to navigationvc
                     if let nc = self.storyboard?.instantiateViewControllerWithIdentifier("navigationC") as? RootNavigationController {

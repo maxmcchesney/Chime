@@ -12,18 +12,20 @@ import UIKit
 
 class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDelegate, segmentedControllerDidChangeProtocol {
     
+    @IBOutlet weak var bannerView: UIView!
+    @IBOutlet weak var bannerLabel: UILabel!
+    @IBOutlet weak var bannerButton: DesignableButton!
+    @IBOutlet weak var bannerDownArrow: CustomDownArrow!
     
     var parseVenues: NSMutableArray = []
-    
-//    var checkins = []
-    
     
     var isOwner: Bool = false
     var ownerVenue: String?
     
+    var bannerFrame: CGRect?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -49,14 +51,53 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
         GlobalVariableSharedInstance.initLocationManager()
         // calls finddistance indefinitly
         GlobalVariableSharedInstance.findLocation()
+        
+        // HIDE BANNER VIEW - NOT WORKING!!!
+//        bannerFrame = bannerView.frame
+//        bannerView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 0)
+//        bannerView.hidden = true
+//        bannerButton.hidden = true
+//        bannerDownArrow.hidden = true
+//        bannerLabel.hidden = true
+//        bannerView.removeFromSuperview()
 
     }
 
     
     override func viewWillAppear(animated: Bool) {
         
+        // set the badge icon to 0
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        
         // check if user is logged in already
         checkIfLoggedIn()
+        
+        // hide the banner view
+//        bannerView.hidden = true
+        bannerLabel.text = "Chime in and start saving!"
+        bannerDownArrow.hidden = true
+        bannerButton.hidden = true
+        if let venue = ChimeData.mainData().checkedInVenue as PFObject? {
+            
+            // SHOW BANNER VIEW!!! NOT WORKING!
+            
+            let vName: String = ChimeData.mainData().checkedInVenue?["venueName"] as String
+//            view.insertSubview(bannerView, aboveSubview: tableView)
+//            tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0)
+//            tableView.addSubview(bannerView)
+//            bannerView.frame = CGRectMake(0, -44, UIScreen.mainScreen().bounds.width, 44)
+            bannerLabel.text = "You're checked in at \(vName)!"
+            bannerDownArrow.hidden = false
+            bannerButton.hidden = false
+//            bannerView.hidden = false
+//            bannerButton.hidden = false
+//            bannerDownArrow.hidden = false
+//            bannerLabel.hidden = false
+//            println("BANNER FRAME IS: \(bannerFrame)")
+
+            
+        }  // maybe add an else statement and move the hiding of the bannerview from viewDidLoad to here?
+        
 
         if userLocation != nil { loadVenuesFromParse(false) }
         
@@ -86,12 +127,13 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
         var query = PFQuery(className:"Venues")
 
         if sortByDateCreated == true {
-            query.orderByAscending("createdAt")
+            query.orderByDescending("createdAt")
         }
         
         else {
-            // this only allows users to see deals near them.  what's the distance threshold?
-            query.whereKey("location", nearGeoPoint: PFGeoPoint(location: userLocation))
+            // this only allows users to see deals near them.  TODO: Change withinMiles based on something?
+            query.whereKey("location", nearGeoPoint: PFGeoPoint(location: userLocation), withinMiles: 50.0)
+//            query.whereKey("location", nearGeoPoint: PFGeoPoint(location: userLocation))
 
         }
         
@@ -156,7 +198,6 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
                 }
                 
                 self.tableView.reloadData()
-//               self.sortVenuesByDistanceFromUser()
                 
             } else {
                 println(error)
@@ -267,10 +308,40 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
         println("User logging out...")
         PFUser.logOut()
         checkIfLoggedIn()
+        
+        // reset everything
         isOwner = false
+        ChimeData.mainData().checkedInVenue = nil
+        ChimeData.mainData().selectedVenue = nil
+        ChimeData.mainData().timerIsRunning = false
+        ChimeData.mainData().startTime = 0
+        ChimeData.mainData().activatedDeals = []
+        ChimeData.mainData().timeLabel = ""
+
     }
+    
+    /////////
+    /////////   GO TO CHECKED IN VENUE BUTTON
+    /////////
 
-
+    @IBAction func goToVenue(sender: AnyObject) {
+//    user has pressed button to go to checked in venue
+        
+        ChimeData.mainData().selectedVenue = ChimeData.mainData().checkedInVenue
+        if let venue = ChimeData.mainData().checkedInVenue {
+            
+            let venueGeo = venue["location"] as PFGeoPoint
+            let venueLocation = CLLocation(latitude: venueGeo.latitude, longitude: venueGeo.longitude)
+            
+            let dVC = self.storyboard?.instantiateViewControllerWithIdentifier("detailVC") as DetailVC
+            
+            dVC.geoPoint = venueGeo
+            dVC.location = venueLocation
+            
+            self.navigationController?.pushViewController(dVC, animated: true)
+            
+        }
+    }
     
     /////////
     /////////   CONFIGURE TABLEVIEW
@@ -294,6 +365,7 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
 
         // Configure the cell...
         
+        
         // set up the cell coloring
         let lighterColor: UIColor = UIColor(red:0.71, green:0.87, blue:0.55, alpha:0.5)
         let middleColor: UIColor = UIColor(red:0.56, green:0.78, blue:0.35, alpha:0.5)
@@ -309,20 +381,53 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
             if let venueName  = venue["venueName"] as String? {
                 cell.venueName.text = venueName
                 
-                // if user is owner, change label to reflect that (optional)
-//                if isOwner {
-//                    cell.venueName.text = venueName + " (owner)"
-//                }
                 
             }
             if let venueNeighborhood: String = venue["venueNeighborhood"] as String? {
                 cell.venueNeighborhood.text = venueNeighborhood
             }
             
-            // THIS NEEDS FIXING ONCE WE HAVE A WAY TO CREATE DEALS
-//            if let deals: [String:String] = venue["deals"] as? [String:String] {
-//                cell.tagNumberOfDealsLabel.text = "\(deals.count)"  // TODO: placeholder $ amount right now
-//            }
+            if venue.objectId == ChimeData.mainData().checkedInVenue?.objectId {
+                
+                println("\(venue) has been checked in to...")
+                // venue is the one checked in to, set tag to blue and neighborhood text
+                cell.tagView.backgroundColor = blueActivated.colorWithAlphaComponent(0.5)
+                cell.venueNeighborhood.text = "Chimed in here!"
+//                cell.venueNeighborhood.textColor = blueActivated
+//                cell.indicatorArrow.strokeColor = blueActivated
+//                cell.indicatorArrow.setNeedsDisplay()
+
+//                let vName: String = ChimeData.mainData().checkedInVenue?["venueName"] as String
+//                view.addSubview(bannerView)
+//                bannerLabel.text = "You're checked in at \(vName)!"
+             
+            }
+
+//            set the deal count label
+            if let deals: [[String:AnyObject]] = venue["venueDeals"] as? [[String:AnyObject]] {
+                
+                cell.tagNumberOfDealsLabel.text = "\(deals.count)"
+                
+                var totalValue = 0
+                for deal in deals {
+                    let value = deal["estimatedValue"] as Int
+                    totalValue += value
+                }
+                
+                cell.tagValueLabel.text = "$\(totalValue)"
+                
+                if totalValue >= 50 {
+                    cell.tagValueLabel.text = "$50+"
+                } else {
+                    cell.tagValueLabel.text = "$\(totalValue)"
+                }
+                
+            } else {
+                // venue has no deals
+                cell.tagValueLabel.text = "n/a"
+                cell.tagNumberOfDealsLabel.text = "0"
+                cell.tagView.backgroundColor = UIColor.lightGrayColor()
+            }
             
             if let userLocation = userLocation {
                 
@@ -337,10 +442,6 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
                 
             }
             
-//            Float(distance) * 0.000621371
-            
-//           if let distance = venue["distance"] as Float? {
-//            }
         }
    
         return cell
@@ -406,15 +507,6 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
         }
         // TODO: allow owners to sort b/w all venues and their venues
     }
-    
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
-    }
-    */
 
     /*
     // Override to support editing the table view.
@@ -428,30 +520,6 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
     }
     */
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

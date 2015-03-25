@@ -44,4 +44,48 @@ DetailTVC
 
 Future Features
 ==
+
+GENERAL
+- Update the createNewVenue VCs so they collect the address a better way
+- Add Sounds for checking in and notifications and claiming deals.
+
+SETTINGS
+- Add settings page!
+    - Change password, profile picture, hometown, payment info???, etc.
+    - MAYBE allow user to select b/w a couple color themes?
+
+FOURSQUARE
+- Allow owners to select their venue from the FourSquare API
+- Show small image of each venue on cell?  (If available...)
+    - Alternatively, show image in the detailVC 'sky' portion
+
+SOCIAL
 - Invite friends (from Facebook)
+- See how many people are checked in to a venue
+    - See which friends are in which venues
+
+GAMEIFY
+- Create deal reward that == "venue points" (i.e. stay 4 hours and get 1 point at The Ivy.  Collect 5 and get...)
+- Leaderboard showing who spends the most time at each venue (similar to 'Mayor' system)
+
+MAP
+- Add map that shows all the venues with some details in their accessory view.
+
+UI
+- Make buttons and cells have 3 gradient colors
+- Update images in navbar to look better
+    - MAYBE play sound when they're clicked, or add gravity and make them fall away.
+- Add metallic border to the check in button and the clock
+- Make the "sky" in the DetailVC reflect day vs. night
+- Add first-time-user modals throughout
+- Update the "New Venue" VCs so they look better and collect the address in a different way.
+
+MAYBE!
+- Change the "sky" in the DetailVC and VendorDetailVC reflect current weather?
+
+
+
+
+
+
+

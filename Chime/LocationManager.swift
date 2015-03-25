@@ -33,7 +33,7 @@ class LocationManager: NSObject,  CLLocationManagerDelegate
 */
 
     
-    class var SharedLocationManager:LocationManager
+    class var SharedLocationManager: LocationManager
     {
         GlobalVariableSharedInstance.coreLocationManager.requestAlwaysAuthorization()
         
@@ -49,9 +49,10 @@ class LocationManager: NSObject,  CLLocationManagerDelegate
         if (CLLocationManager.locationServicesEnabled())
         {
             coreLocationManager.delegate = self
-            coreLocationManager.desiredAccuracy = kCLLocationAccuracyKilometer
+            coreLocationManager.desiredAccuracy = kCLLocationAccuracyBest
             coreLocationManager.startUpdatingLocation()
             coreLocationManager.startMonitoringSignificantLocationChanges()
+//            coreLocationManager.st
         }
         else
         {

@@ -16,10 +16,18 @@ class DealCell: UITableViewCell {
     @IBOutlet weak var tagView: UIView!
     
     @IBOutlet weak var dealLabel: UILabel!
+    @IBOutlet weak var indicatorArrow: CustomArrowIndicator!
+    @IBOutlet weak var claimInstructionsLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        // hide the indicator arrow
+        indicatorArrow.hidden = true
+        
+        claimInstructionsLabel.hidden = true
+        
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

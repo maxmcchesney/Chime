@@ -67,8 +67,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+        // set badge icon to 0
+        application.applicationIconBadgeNumber = 0
         
-        println(notification)
+//        println("Local Notification ran! ::: \(notification)")
+        // notify the rest of the app that a notification was received...
+        NSNotificationCenter.defaultCenter().postNotificationName("dealActivated", object: self, userInfo: notification.userInfo)
         
     }
     
@@ -115,6 +119,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Facebook event logging
         FBAppEvents.activateApp()
 //        FBAppCall.handleDidBecomeActiveWithSession(PFFacebookUtils.session())
+
+        
     }
 
     func applicationWillTerminate(application: UIApplication) {

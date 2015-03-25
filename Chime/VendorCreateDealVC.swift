@@ -77,8 +77,11 @@ class VendorCreateDealVC: UIViewController, CustomSliderDelegate {
         
 //            var timeRequired = Int(floor(value * 10)) // use this one for 1-10 incremented by 1
             timeRequired = Double(round((value * 9) * 2)) / 2  // use this one for 1-10 incremented by .5
-
-            timeRequiredLabel.text = "time required: \(timeRequired) hr"
+            if timeRequired >= 1 {
+                timeRequiredLabel.text = "Time Required: \(timeRequired) hrs"
+            } else {
+                timeRequiredLabel.text = "Time Required: \(timeRequired) hr"
+            }
             
         }
         
@@ -87,9 +90,9 @@ class VendorCreateDealVC: UIViewController, CustomSliderDelegate {
             
             estimatedValue = Int(floor(value * 50))
             if estimatedValue < 50 {
-                estimatedValueLabel.text = "estimated value: $\(estimatedValue)"
+                estimatedValueLabel.text = "Estimated Value: $\(estimatedValue)"
             } else {
-                estimatedValueLabel.text = "estimated value: $\(estimatedValue)+"
+                estimatedValueLabel.text = "Estimated Value: $\(estimatedValue)+"
             }
 
         }
@@ -97,7 +100,7 @@ class VendorCreateDealVC: UIViewController, CustomSliderDelegate {
     }
     
     func saveSliderValue() {
-        // set the preview cell labels to the slider values
+        // set the preview cell labels to the slider values (add the hrs and + if required)
         previewTagLabel.text = "\(timeRequired) hr"
         previewTagValueLabel.text = "$\(estimatedValue)"
     }
@@ -162,6 +165,7 @@ class VendorCreateDealVC: UIViewController, CustomSliderDelegate {
                         if success {
                             println("New deal successfully saved to Parse...")
                             // new deal is saved successfully, pop view controller
+                            makeVibrate()
                             self.navigationController?.popViewControllerAnimated(true)
                         } else {
                             println("Error saving deal to Parse: \(error)")
