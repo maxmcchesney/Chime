@@ -41,7 +41,6 @@ class NewVenueVC: UIViewController {
     /////////   SAVE VENUE
     /////////
     
-    // need to connect this to storyboard
     @IBAction func checkFields(sender: AnyObject) {
         // email / pw field validation
         var fieldValues: [String] = [venueNameField.text,venueAddressField.text,venuePhoneField.text,venueNeighborhoodField.text]

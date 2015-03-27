@@ -24,19 +24,32 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
     
     var bannerFrame: CGRect?
     
+    /////////
+    /////////   CHECK IF LOGGED IN
+    /////////
+    
+    func checkIfLoggedIn() {
+        // check if user is already logged in
+        if PFUser.currentUser() != nil {
+            // user is already logged in
+            println("User is already logged in...")
+            
+        } else {
+            // no user found, present loginVC
+            if let lVC = storyboard?.instantiateViewControllerWithIdentifier("loginVC") as? LoginVC {
+                self.presentViewController(lVC, animated: false, completion: nil)
+                println("No currentUser found, presenting log in...")
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        // check if user is logged in already
+        checkIfLoggedIn()
 
         tableView.backgroundColor = UIColor.clearColor()
-        
-        // load the venues from Parse
-        // self.loadVenuesFromParse()
 
         var nc = self.navigationController as RootNavigationController
         nc.delegate2 = self
@@ -52,52 +65,72 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
         // calls finddistance indefinitly
         GlobalVariableSharedInstance.findLocation()
         
-        // HIDE BANNER VIEW - NOT WORKING!!!
-//        bannerFrame = bannerView.frame
-        bannerView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 0)
-//        bannerView.hidden = true
-//        bannerButton.hidden = true
-//        bannerDownArrow.hidden = true
-//        bannerLabel.hidden = true
-        bannerView.removeFromSuperview()
-
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        if !isOwner {
+            
+            // unhide the toolbar
+            navigationController?.toolbarHidden = false
+            self.navigationItem.rightBarButtonItem = nil
+            self.title = ""
 
+        // add the images back to navbar
+            
+            for image in navImageViews {
+                
+                self.navigationController?.navigationBar.addSubview(image)
+                
+                image.hidden = false
+                
+                // animate the buttons from the bottom
+                var scale1 = CGAffineTransformMakeScale(0.5, 0.5)
+                var translate1 = CGAffineTransformMakeTranslation(200, 0)
+                image.transform = CGAffineTransformConcat(scale1, translate1)
+                
+                animationWithDuration(1) {
+                    
+                    var scale = CGAffineTransformMakeScale(1, 1)
+                    var translate = CGAffineTransformMakeTranslation(0, 0)
+                    image.transform = CGAffineTransformConcat(scale, translate)
+
+                }
+                
+            }
+            
+        }
+        
+    }
     
     override func viewWillAppear(animated: Bool) {
+        
+        // hide images for animation
+        for image in navImageViews {
+            image.hidden = true
+            image.removeFromSuperview()
+        }
         
         // set the badge icon to 0
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         
-        // check if user is logged in already
-        checkIfLoggedIn()
-        
-        // hide the banner view
-//        bannerView.hidden = true
-//        bannerLabel.text = "Chime in and start saving!"
-//        bannerDownArrow.hidden = true
-//        bannerButton.hidden = true
         if let venue = ChimeData.mainData().checkedInVenue as PFObject? {
             
-            // SHOW BANNER VIEW!!! NOT WORKING!
+            // SHOW BANNER VIEW
+            let vName: String = ChimeData.mainData().checkedInVenue?["venueName"] as String
+            bannerLabel.text = "You're checked in at \(vName)!"
+            bannerView.hidden = false
+            bannerView.frame.size.height = 44
+            tableView.tableHeaderView = bannerView
             
-//            let vName: String = ChimeData.mainData().checkedInVenue?["venueName"] as String
-//            view.insertSubview(bannerView, aboveSubview: tableView)
-//            tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0)
-//            tableView.addSubview(bannerView)
-//            bannerView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44)
-//            bannerLabel.text = "You're checked in at \(vName)!"
-//            bannerDownArrow.hidden = false
-//            bannerButton.hidden = false
-//            bannerView.hidden = false
-//            bannerButton.hidden = false
-//            bannerDownArrow.hidden = false
-//            bannerLabel.hidden = false
-//            println("BANNER FRAME IS: \(bannerFrame)")
-
+        } else {
             
-        }  // maybe add an else statement and move the hiding of the bannerview from viewDidLoad to here?
-        
+            // HIDE BANNER VIEW
+            bannerView.hidden = true
+            bannerView.frame.size.height = 0
+            tableView.tableHeaderView = bannerView
+            
+        }
 
         if userLocation != nil { loadVenuesFromParse(false) }
         
@@ -137,7 +170,6 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
 
         }
         
-
         /////////
         /////////   CHECK IF USER IS OWNER, IF SO HIDE OTHER VENUES
         /////////
@@ -159,10 +191,6 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
                 let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: Selector("addNewVenue"))
                 self.navigationItem.rightBarButtonItem = addButton
                 
-                // remove the bannerView
-//                bannerView.frame = CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 0)
-//                bannerView.removeFromSuperview()
-                
                 // TODO: user is owner, either hide the toolbar or change it to "my venues" and "all venues"
                 navigationController?.toolbarHidden = true
                 isOwner = true
@@ -175,16 +203,8 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
             navigationController?.toolbarHidden = false
             self.navigationItem.rightBarButtonItem = nil
             self.title = ""
-            //        // add the images back to navbar
-            for image in navImageViews {
-                navigationController?.navigationBar.addSubview(image)
-            }
-            
+
         }
-        
-//        if isOwner {
-//            query.whereKey("venueOwner", equalTo: PFUser.currentUser().username)
-//        }
         
         query.findObjectsInBackgroundWithBlock() {
             (objects:[AnyObject]!, error:NSError!)->Void in
@@ -239,7 +259,7 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
         // Reinitiate our array of venues
         self.parseVenues = NSMutableArray(capacity: sortedArray.count)
         
-        // after using the distance key to sort the array of dictionary, add all the usernames (sorted by distance) to the array of female users
+        // after using the distance key to sort the array of dictionary, add all the usernames (sorted by distance)
         for dictionary in sortedArray
         {
             
@@ -288,25 +308,6 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
         return array
     }
 
-    /////////
-    /////////   CHECK IF LOGGED IN
-    /////////
-    
-    func checkIfLoggedIn() {
-        // check if user is already logged in
-        if PFUser.currentUser() != nil {
-            // user is already logged in
-            println("User is already logged in...")
-            
-        } else {
-            // no user found, present loginVC
-            if let lVC = storyboard?.instantiateViewControllerWithIdentifier("loginVC") as? LoginVC {
-                self.presentViewController(lVC, animated: true, completion: nil)
-                println("No currentUser found, presenting log in...")
-            }
-        }
-    }
-    
     @IBAction func logOut(sender: UIBarButtonItem) {
         // log out user
         println("User logging out...")

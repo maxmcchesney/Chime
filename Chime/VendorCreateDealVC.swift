@@ -25,8 +25,6 @@ class VendorCreateDealVC: UIViewController, CustomSliderDelegate {
     @IBOutlet weak var timeSliderValue: CustomSlider!
     @IBOutlet weak var valueCustomSlider: CustomSlider!
     
-    
-    
     var selectedVenue: PFObject!
     var venueName: String!
     var venueID: String!
@@ -189,7 +187,6 @@ class VendorCreateDealVC: UIViewController, CustomSliderDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-//    var string1Showing = false
     var cellTouched = false
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         
@@ -233,15 +230,5 @@ class VendorCreateDealVC: UIViewController, CustomSliderDelegate {
         view.endEditing(true)
         super.touchesBegan(touches, withEvent: event)   // ?? is this necessary
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

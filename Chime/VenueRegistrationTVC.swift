@@ -18,6 +18,11 @@ class VenueRegistrationTVC: UITableViewController {
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     
+    @IBOutlet weak var chimeLabel: UILabel!
+    @IBOutlet weak var welcomeTextLabel: UILabel!
+    
+    @IBOutlet weak var backButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -66,6 +71,43 @@ class VenueRegistrationTVC: UITableViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
+        // hide stuff for animations
+        chimeLabel.hidden = true
+        welcomeTextLabel.hidden = true
+        backButton.hidden = true
+        
+        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        // animate the logo from the bottom
+        var scale1 = CGAffineTransformMakeScale(0.5, 0.5)
+        var translate1 = CGAffineTransformMakeTranslation(0, 400)
+        self.chimeLabel.transform = CGAffineTransformConcat(scale1, translate1)
+        
+        animationWithDuration(2) {
+            self.chimeLabel.hidden = false
+            var scale = CGAffineTransformMakeScale(1, 1)
+            var translate = CGAffineTransformMakeTranslation(0, 0)
+            self.chimeLabel.transform = CGAffineTransformConcat(scale, translate)
+        }
+        
+        // animate the rest
+        var scale2 = CGAffineTransformMakeScale(0.5, 0.5)
+        var translate2 = CGAffineTransformMakeTranslation(200, 0)
+        self.backButton.transform = CGAffineTransformConcat(scale1, translate1)
+        self.welcomeTextLabel.transform = CGAffineTransformConcat(scale1, translate1)
+        
+        animationWithDuration(2) {
+            self.backButton.hidden = false
+            self.welcomeTextLabel.hidden = false
+            var scale = CGAffineTransformMakeScale(1, 1)
+            var translate = CGAffineTransformMakeTranslation(0, 0)
+            self.backButton.transform = CGAffineTransformConcat(scale, translate)
+            self.welcomeTextLabel.transform = CGAffineTransformConcat(scale, translate)
+        }
+        
     }
 
     @IBAction func backToLoginVC(sender: AnyObject) {
@@ -174,12 +216,6 @@ class VenueRegistrationTVC: UITableViewController {
                 venueInfo["venuePhone"] = self.venuePhoneField.text
                 venueInfo["location"] = geoPoint
                 venueInfo["venueOwner"] = PFUser.currentUser().email
-                
-                // are we using this information?
-//                var latitude: CLLocationDegrees = geoPoint.latitude
-//                var longitude: CLLocationDegrees = geoPoint.longitude
-//                
-//                var location = CLLocation.init(latitude: latitude, longitude: longitude)
                 
                 venueInfo.saveInBackgroundWithBlock({ (succeeded: Bool!, error: NSError!) -> Void in
                     // venue is successfully saved to parse, dismiss vc
