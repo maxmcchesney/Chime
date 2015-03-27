@@ -9,8 +9,6 @@
 import UIKit
 import AudioToolbox
 
-
-
 class LoginVC: UIViewController, FBLoginViewDelegate, CLLocationManagerDelegate {
 
     @IBOutlet weak var emailField: UITextField!
@@ -19,16 +17,28 @@ class LoginVC: UIViewController, FBLoginViewDelegate, CLLocationManagerDelegate 
     @IBOutlet weak var signUpConstraint: NSLayoutConstraint!
     @IBOutlet weak var wordCloudImage: UIImageView!
     @IBOutlet weak var wordCloudChimeImage: UIImageView!    // not doing anything with this
+    @IBOutlet weak var passwordLineView: UIView!
+    @IBOutlet weak var emailLineView: UIView!
 
     @IBOutlet weak var fbIcon: UIView!
     @IBOutlet weak var fbLetter: UILabel!
     @IBOutlet weak var fbButton: UIButton!
+    
+    @IBOutlet weak var logoContainerView: UIView!
+    
+    @IBOutlet weak var businessOwnerButton: UIButton!
+    
+    @IBOutlet weak var orLabel: UILabel!
+    @IBOutlet weak var signUpButton: DesignableButton!
+    @IBOutlet weak var loginButton: DesignableButton!
     
     var loginBottomConstraintOriginal: CGFloat!
     var signUpConstraintOriginal: CGFloat!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+        logoContainerView.hidden = true
 
         loginBottomConstraintOriginal = loginBottomConstraint.constant
         signUpConstraintOriginal = signUpConstraint.constant
@@ -68,8 +78,108 @@ class LoginVC: UIViewController, FBLoginViewDelegate, CLLocationManagerDelegate 
             self.view.layoutIfNeeded()
         } // end: keyboard shift
         
+        // set up animations
+        self.emailField.hidden = true
 
     }  // end: viewDidLoad
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        // animations
+        
+        // animate the text fields from the right
+        var scale1 = CGAffineTransformMakeScale(0.5, 0.5)
+        var translate1 = CGAffineTransformMakeTranslation(200, 0)
+        self.emailField.transform = CGAffineTransformConcat(scale1, translate1)
+        self.passwordField.transform = CGAffineTransformConcat(scale1, translate1)
+        self.businessOwnerButton.transform = CGAffineTransformConcat(scale1, translate1)
+        
+        spring(1) {
+            
+            self.emailField.hidden = false
+            self.passwordField.hidden = false
+            self.businessOwnerButton.hidden = false
+            var scale = CGAffineTransformMakeScale(1, 1)
+            var translate = CGAffineTransformMakeTranslation(0, 0)
+            self.emailField.transform = CGAffineTransformConcat(scale, translate)
+            self.passwordField.transform = CGAffineTransformConcat(scale, translate)
+            self.businessOwnerButton.transform = CGAffineTransformConcat(scale, translate)
+        }
+        
+        // animate the facebook button and text field lines from the left
+        var scale3 = CGAffineTransformMakeScale(0.5, 0.5)
+        var translate3 = CGAffineTransformMakeTranslation(-200, 0)
+        self.fbIcon.transform = CGAffineTransformConcat(scale3, translate3)
+        self.fbLetter.transform = CGAffineTransformConcat(scale3, translate3)
+        self.fbButton.transform = CGAffineTransformConcat(scale3, translate3)
+        self.emailLineView.transform = CGAffineTransformConcat(scale3, translate3)
+        self.passwordLineView.transform = CGAffineTransformConcat(scale3, translate3)
+        self.orLabel.transform = CGAffineTransformConcat(scale3, translate3)
+        spring(1) {
+            
+            self.fbIcon.hidden = false
+            self.fbLetter.hidden = false
+            self.fbButton.hidden = false
+            self.emailLineView.hidden = false
+            self.passwordLineView.hidden = false
+            self.orLabel.hidden = false
+            var scale = CGAffineTransformMakeScale(1, 1)
+            var translate = CGAffineTransformMakeTranslation(0, 0)
+            self.fbIcon.transform = CGAffineTransformConcat(scale, translate)
+            self.fbLetter.transform = CGAffineTransformConcat(scale, translate)
+            self.fbButton.transform = CGAffineTransformConcat(scale, translate)
+            self.emailLineView.transform = CGAffineTransformConcat(scale, translate)
+            self.passwordLineView.transform = CGAffineTransformConcat(scale, translate)
+            self.orLabel.transform = CGAffineTransformConcat(scale, translate)
+        }
+        
+        // animate the logo from the bottom
+        var scale2 = CGAffineTransformMakeScale(0.5, 0.5)
+        var translate2 = CGAffineTransformMakeTranslation(0, 400)
+        self.logoContainerView.transform = CGAffineTransformConcat(scale2, translate2)
+        
+        animationWithDuration(2) {
+            self.logoContainerView.hidden = false
+            var scale = CGAffineTransformMakeScale(1, 1)
+            var translate = CGAffineTransformMakeTranslation(0, 0)
+            self.logoContainerView.transform = CGAffineTransformConcat(scale, translate)
+        }
+        
+        // animate the buttons from the bottom
+        var scale4 = CGAffineTransformMakeScale(0.5, 0.5)
+        var translate4 = CGAffineTransformMakeTranslation(0, 50)
+        self.signUpButton.transform = CGAffineTransformConcat(scale4, translate4)
+        self.loginButton.transform = CGAffineTransformConcat(scale4, translate4)
+        
+        animationWithDuration(1) {
+            self.signUpButton.hidden = false
+            self.loginButton.hidden = false
+            var scale = CGAffineTransformMakeScale(1, 1)
+            var translate = CGAffineTransformMakeTranslation(0, 0)
+            self.signUpButton.transform = CGAffineTransformConcat(scale, translate)
+            self.loginButton.transform = CGAffineTransformConcat(scale, translate)
+        }
+        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        // hide stuff for animations
+        logoContainerView.hidden = true
+        emailField.hidden = true
+        passwordField.hidden = true
+        signUpButton.hidden = true
+        loginButton.hidden = true
+        businessOwnerButton.hidden = true
+        fbIcon.hidden = true
+        fbButton.hidden = true
+        fbLetter.hidden = true
+        emailLineView.hidden = true
+        passwordLineView.hidden = true
+        orLabel.hidden = true
+        
+    }
+    
 
     /////////
     /////////   LOG IN / SIGN UP
@@ -218,7 +328,6 @@ class LoginVC: UIViewController, FBLoginViewDelegate, CLLocationManagerDelegate 
         })
         
     }
-    
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         // dismiss keyboard when user touches outside textfields

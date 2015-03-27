@@ -12,7 +12,6 @@ import AudioToolbox
 
 let blueActivated = UIColor(red:0.29, green:0.56, blue:0.89, alpha:1)
 
-// 
 class DetailVC: UIViewController {
 
     @IBOutlet weak var dealsTV: UITableView!
@@ -22,8 +21,6 @@ class DetailVC: UIViewController {
     @IBOutlet weak var venueNeighborhoodLabel: UILabel!
     @IBOutlet weak var venuePhoneLabel: UILabel!
     @IBOutlet weak var instructionLabel: UILabel!
-    
-    
     
     var dealsTVC = DetailTVC()
 
@@ -70,6 +67,7 @@ class DetailVC: UIViewController {
         // set tableview delegate and data source
         dealsTV.delegate = dealsTVC
         dealsTV.dataSource = dealsTVC
+        dealsTVC.vc = self
         
         // set labels for selected venue
         selectedVenue = ChimeData.mainData().selectedVenue
@@ -99,7 +97,6 @@ class DetailVC: UIViewController {
         dealsTV.reloadData()
         
         // hide toolbar
-        
         navigationController?.toolbarHidden = true
         
         // remove drink images from navbar (optional)
@@ -130,7 +127,79 @@ class DetailVC: UIViewController {
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         badgeNumber = 0
         
+        // ANIMATIONS
+        
+        // animate the name from the top
+        var scale1 = CGAffineTransformMakeScale(0.5, 0.5)
+        var translate1 = CGAffineTransformMakeTranslation(0, -150)
+        self.venueNameLabel.transform = CGAffineTransformConcat(scale1, translate1)
+        
+        animationWithDuration(1.5) {
+            self.venueNameLabel.hidden = false
+            var scale = CGAffineTransformMakeScale(1, 1)
+            var translate = CGAffineTransformMakeTranslation(0, 0)
+            self.venueNameLabel.transform = CGAffineTransformConcat(scale, translate)
+        }
+        
+        // animate the neighborhood and phone labels from the
+        var scale2 = CGAffineTransformMakeScale(0.5, 0.5)
+        var translate2 = CGAffineTransformMakeTranslation(0, 150)
+        self.venueNeighborhoodLabel.transform = CGAffineTransformConcat(scale2, translate2)
+        self.venuePhoneLabel.transform = CGAffineTransformConcat(scale2, translate2)
+        
+        animationWithDuration(1.25) {
+            self.venueNeighborhoodLabel.hidden = false
+            self.venuePhoneLabel.hidden = false
+            var scale = CGAffineTransformMakeScale(1, 1)
+            var translate = CGAffineTransformMakeTranslation(0, 0)
+            self.venueNeighborhoodLabel.transform = CGAffineTransformConcat(scale, translate)
+            self.venuePhoneLabel.transform = CGAffineTransformConcat(scale, translate)
+        }
+        
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        // hide stuff for animations
+        venueNameLabel.hidden = true
+        venueNeighborhoodLabel.hidden = true
+        venuePhoneLabel.hidden = true
+        
+        
+        // retrieve startTime from Singleton if it's saved
+        if ChimeData.mainData().startTime > 0 {
+            
+            if ChimeData.mainData().checkedInVenue?.objectId == selectedVenue.objectId {
+                
+                timerLabel.text = ChimeData.mainData().timeLabel    // works but causes time to jump the difference
+                //                checkIn(self)
+                
+                checkTimer()
+                
+            } else {
+                
+                self.checkInButton.setTitle("You're not here..", forState: UIControlState.Disabled)
+            }
+            
+        }
+        
+    }
+    
+    
+    override func viewWillDisappear(animated: Bool) {
+        
+        // save startTime to Singleton for when user navigates away from detailVC
+        if startTime > 0 {
+            
+            ChimeData.mainData().startTime = startTime
+            ChimeData.mainData().timeLabel = timerLabel.text!
+            timer.invalidate()
+            ChimeData.mainData().timerIsRunning = false
+            
+        }
+        
+    }
+    
     
     func refreshSelectedVenue() {
         // refresh the selected venue to reflect any added deals
@@ -143,15 +212,22 @@ class DetailVC: UIViewController {
             
             if let deals = self.selectedVenue["venueDeals"] as? [[String:AnyObject]] {
                 
-                // TODO: If deal is inactive, remove it from the dictionary before passing it to the TV
-//                for deal in deals {
-//                    let status: Bool = deal["active"] as Bool
-//                    if !status {
-//                        
-//                    }
-//                }
+                self.dealsTVC.venueDeals = []
                 
-                self.dealsTVC.venueDeals = deals
+//                 TODO: If deal is inactive, remove it from the dictionary before passing it to the TV
+                for deal in deals {
+                    
+                    if let status: Bool = deal["active"] as? Bool {
+                        
+                        if status {
+                            
+                            self.dealsTVC.venueDeals.append(deal)
+                            
+                        }
+                        
+                    }
+                }
+                
             }
             
             self.dealsTV.reloadData()
@@ -166,7 +242,19 @@ class DetailVC: UIViewController {
                 
             checkInButton.enabled = false
             
-            // change appearance of checkIn button to disabled
+            // change appearance of checkIn button to disabled with animation
+            
+            // animate the logo from the bottom
+            var scale1 = CGAffineTransformMakeScale(1.5, 1.5)
+            var translate1 = CGAffineTransformMakeTranslation(0, 0)
+            checkInButton.titleLabel?.transform = CGAffineTransformConcat(scale1, translate1)
+            
+            animationWithDuration(2) {
+                var scale = CGAffineTransformMakeScale(1, 1)
+                var translate = CGAffineTransformMakeTranslation(0, 0)
+                self.checkInButton.titleLabel?.transform = CGAffineTransformConcat(scale, translate)
+            }
+            
             checkInButton.setTitle("Chimed in, enjoy!", forState: UIControlState.Disabled)
             
             checkInButton.setNeedsDisplay()
@@ -180,8 +268,6 @@ class DetailVC: UIViewController {
         }
         
     }
-    
-
     
     // CREATE SOUNDS AND VIBRATE WHEN CHECKING IN
     // TODO: SOUND DOESNT WORK
@@ -234,7 +320,6 @@ class DetailVC: UIViewController {
         
         let userInsideVenueRadius = checkUserDistanceFromVenue()
         
-        // TODO: trigger some sort of observer to stop the timer / deals when the user exits the venue radius
         /////////
         /////////   CHECK IF USER IS WITHIN THE RADIUS OF VENUE
         /////////
@@ -357,9 +442,6 @@ class DetailVC: UIViewController {
         // concatenate hours, minutes, and seconds as assign it to the UILabel
         timerLabel.text = "\(strHours):\(strMinutes):\(strSeconds)"
         
-        // listen for if the elapsed time is greater than the dealthreshold and do something if so.
-//        checkTimeAgainstDeals(elapsedTime)
-        
     }
     
     func checkStartTimeAgainstDeals() {
@@ -374,7 +456,6 @@ class DetailVC: UIViewController {
             if active {
                 
                 let time = deal["timeThreshold"] as NSString
-//                let rewardDescription = deal["rewardDescription"] as String
                 
                 // convert time from hours (string) to seconds (double) and set notifications
                 let dealThreshold: NSTimeInterval = time.doubleValue * 10 // change this to * 60 * 60 for production
@@ -387,13 +468,9 @@ class DetailVC: UIViewController {
                 println("dealthreshold: \(dealThreshold), elapsed time: \(elapsedTime)")
 
                 if elapsedTime > dealThreshold {
+                    
                     // deal should be activated, append to array of activated deals
-                    
-//                    self.dealsTVC.activatedDeals.append(deal)
                     ChimeData.mainData().activatedDeals.append(deal)
-                    
-//                    println("DEAL IS ACTIVATED BC OF ELAPSED TIME!!!!  \(deal)")
-                    
                     self.dealsTV.reloadData()
                     
                 }
@@ -415,24 +492,10 @@ class DetailVC: UIViewController {
         notification.alertBody = "You did it! Claim your prize: \(alert)"
         notification.fireDate = fireDate
         notification.userInfo = deal
-//        notification.applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber + 1  // TODO: THIS WILL ALWAYS BE 1 WHEN THIS RUNS...
+
         notification.applicationIconBadgeNumber = badgeNumber
         
         UIApplication.sharedApplication().scheduleLocalNotification(notification)
-        
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-
-        // save startTime to Singleton for when user navigates away from detailVC
-        if startTime > 0 {
-            
-            ChimeData.mainData().startTime = startTime
-            ChimeData.mainData().timeLabel = timerLabel.text!
-            timer.invalidate()
-            ChimeData.mainData().timerIsRunning = false
-            
-        }
         
     }
     
@@ -448,34 +511,6 @@ class DetailVC: UIViewController {
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
-        
-//        println("Selected Venue ID: \(ChimeData.mainData().selectedVenue?.objectId) | Checked In Venue ID: \(ChimeData.mainData().checkedInVenue?.objectId)")
-        
-        // retrieve startTime from Singleton if it's saved
-        if ChimeData.mainData().startTime > 0 {
-            
-            if ChimeData.mainData().checkedInVenue?.objectId == selectedVenue.objectId {
-                
-                timerLabel.text = ChimeData.mainData().timeLabel    // works but causes time to jump the difference
-//                checkIn(self)
-                
-                checkTimer()
-                
-            } else {
-                
-                self.checkInButton.setTitle("You're not here..", forState: UIControlState.Disabled)
-            }
-
-        }
-        
-        // check to see if a venue has been checked in to and if this is that venue
-//        if ChimeData.mainData().checkedInVenue == selectedVenue {
-//            println("Selected Venue has been checked in to...")
-//        }
-        
-    }
-
 }
 
 class DetailTVC: UITableViewController {
@@ -483,17 +518,16 @@ class DetailTVC: UITableViewController {
     var selectedVenue: PFObject!
     var venueDeals: [[String:AnyObject]] = []
     
+    var vc: DetailVC!
+    
 //    var activatedDeals: [[String:AnyObject]] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
     
     override func viewWillAppear(animated: Bool) {
-
     }
-    
     
     /////////
     /////////   CONFIGURE TABLEVIEW
@@ -504,7 +538,6 @@ class DetailTVC: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        println("Deal count: \(venueDeals.count)")
         return venueDeals.count
     }
     
@@ -525,7 +558,6 @@ class DetailTVC: UITableViewController {
         if let deals = selectedVenue["venueDeals"] as? [[String:AnyObject]] {
             
             let deal = deals[indexPath.row]
-//            println(deal)
             
             let dealName = deal["rewardDescription"] as String
             let dealTime = deal["timeThreshold"] as String
@@ -540,13 +572,10 @@ class DetailTVC: UITableViewController {
                 cell.tagValueLabel.text = "$\(dealValue)"
             }
             
-//            let dealStatus: Bool = deal["active"] as Bool   // not being used at the moment
-//            if !dealStatus { cell.resignFirstResponder() }
-            
             // check if deal is activated and present in activatedDeals array
             for aD in ChimeData.mainData().activatedDeals {
                 if NSDictionary(dictionary: deal) == aD {
-//                    println("\(deal) is activated!")
+
                     cell.tagView.backgroundColor = blueActivated
 //                    cell.indicatorArrow.strokeColor = blueActivated
                     cell.indicatorArrow.hidden = false
@@ -555,7 +584,26 @@ class DetailTVC: UITableViewController {
                     cell.indicatorArrow.setNeedsDisplay()
                     cell.claimInstructionsLabel.hidden = false
                     cell.dealLabel.text = "CLAIM: \(dealName)"
+                    
+                    // animate the scale of the deal label
+                    var scale1 = CGAffineTransformMakeScale(2, 2)
+                    var translate1 = CGAffineTransformMakeTranslation(0, 0)
+                    cell.dealLabel.transform = CGAffineTransformConcat(scale1, translate1)
+                    cell.indicatorArrow.transform = CGAffineTransformConcat(scale1, translate1)
+                    cell.claimInstructionsLabel.transform = CGAffineTransformConcat(scale1, translate1)
+                    
+                    spring(2) {
+                        
+                        var scale = CGAffineTransformMakeScale(1, 1)
+                        var translate = CGAffineTransformMakeTranslation(0, 0)
+                        cell.dealLabel.transform = CGAffineTransformConcat(scale, translate)
+                        cell.indicatorArrow.transform = CGAffineTransformConcat(scale, translate)
+                        cell.claimInstructionsLabel.transform = CGAffineTransformConcat(scale, translate)
+                        
+                    }
+                    
                 }
+                
             }
             
         }
@@ -563,12 +611,29 @@ class DetailTVC: UITableViewController {
         return cell
     }
     
-    // DOESN'T WORK
-//    func dealClaimed(sender: DoubleCircleButton) {
-//        println("deal claimed \(sender.tag)")
-//        println("here's the issue...")
-//        
-//    }
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        
+        if let deals = selectedVenue["venueDeals"] as? [[String:AnyObject]] {
+            
+            let deal = deals[indexPath.row]
+
+            if let status: Bool = deal["active"] as? Bool {
+                
+                if status {
+                    
+                    var alertViewController = UIAlertController(title: "Claim Deal", message: "Show this to your server to redeem your reward!", preferredStyle: UIAlertControllerStyle.Alert)
+                    var defaultAction = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+                    alertViewController.addAction(defaultAction)
+                    vc.presentViewController(alertViewController, animated: true, completion: nil)
+                    
+                }
+                
+            }
+
+        }
+        
+    }
     
 }
 

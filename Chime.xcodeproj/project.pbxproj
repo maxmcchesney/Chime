@@ -12,7 +12,6 @@
 		BDC02A531AAF4C3D002B85BC /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC02A4E1AAF4C3D002B85BC /* DesignableView.swift */; };
 		BDC02A541AAF4C3D002B85BC /* Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC02A4F1AAF4C3D002B85BC /* Misc.swift */; };
 		BDC02A551AAF4C3D002B85BC /* SpringAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC02A501AAF4C3D002B85BC /* SpringAnimation.swift */; };
-		BDC02A561AAF4C3D002B85BC /* TipoType - Libertad.otf in Resources */ = {isa = PBXBuildFile; fileRef = BDC02A511AAF4C3D002B85BC /* TipoType - Libertad.otf */; };
 		BDC02A5A1AAF5AE7002B85BC /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDC02A571AAF5AE7002B85BC /* FacebookSDK.framework */; };
 		BDC02A5B1AAF5AE7002B85BC /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDC02A581AAF5AE7002B85BC /* FBAudienceNetwork.framework */; };
 		BDC02A5C1AAF5AE7002B85BC /* FBAudienceNetwork.README.txt in Resources */ = {isa = PBXBuildFile; fileRef = BDC02A591AAF5AE7002B85BC /* FBAudienceNetwork.README.txt */; };
@@ -72,7 +71,6 @@
 		BDC02A4E1AAF4C3D002B85BC /* DesignableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
 		BDC02A4F1AAF4C3D002B85BC /* Misc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Misc.swift; sourceTree = "<group>"; };
 		BDC02A501AAF4C3D002B85BC /* SpringAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpringAnimation.swift; sourceTree = "<group>"; };
-		BDC02A511AAF4C3D002B85BC /* TipoType - Libertad.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "TipoType - Libertad.otf"; sourceTree = "<group>"; };
 		BDC02A571AAF5AE7002B85BC /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		BDC02A581AAF5AE7002B85BC /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
 		BDC02A591AAF5AE7002B85BC /* FBAudienceNetwork.README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FBAudienceNetwork.README.txt; sourceTree = "<group>"; };
@@ -166,7 +164,6 @@
 				BDC02A4E1AAF4C3D002B85BC /* DesignableView.swift */,
 				BDC02A4F1AAF4C3D002B85BC /* Misc.swift */,
 				BDC02A501AAF4C3D002B85BC /* SpringAnimation.swift */,
-				BDC02A511AAF4C3D002B85BC /* TipoType - Libertad.otf */,
 			);
 			name = Animations;
 			sourceTree = "<group>";
@@ -382,7 +379,6 @@
 			files = (
 				BDC02A5C1AAF5AE7002B85BC /* FBAudienceNetwork.README.txt in Resources */,
 				D80E21FF1AA54F5D005C4CBE /* Readme in Resources */,
-				BDC02A561AAF4C3D002B85BC /* TipoType - Libertad.otf in Resources */,
 				D80E21B31AA51BEE005C4CBE /* Main.storyboard in Resources */,
 				D80E21B81AA51BEE005C4CBE /* LaunchScreen.xib in Resources */,
 				D80E21B51AA51BEE005C4CBE /* Images.xcassets in Resources */,

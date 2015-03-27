@@ -23,14 +23,14 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gmy-Vj-qN6">
                     <rect key="frame" x="115" y="80" width="250" height="213"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wordCloud-Chime" translatesAutoresizingMaskIntoConstraints="NO" id="uH9-kh-TQF">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uH9-kh-TQF">
                             <rect key="frame" x="33" y="0.0" width="217" height="126"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="217" id="PP5-Jb-vqd"/>
                                 <constraint firstAttribute="height" constant="126" id="yaL-X6-4pf"/>
                             </constraints>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wordCloud" translatesAutoresizingMaskIntoConstraints="NO" id="eD2-qa-NI1">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eD2-qa-NI1">
                             <rect key="frame" x="8" y="81" width="210" height="132"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="132" id="1ja-ry-68i"/>
@@ -57,14 +57,15 @@
                     </variation>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="loading..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mDK-2c-a8t">
-                    <rect key="frame" x="172" y="322" width="138" height="43"/>
-                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="36"/>
+                    <rect key="frame" x="162" y="216" width="157" height="49"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="41"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
             <color key="backgroundColor" red="0.80784313730000001" green="0.96470588239999999" blue="0.54117647059999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstAttribute="centerY" secondItem="mDK-2c-a8t" secondAttribute="centerY" id="28t-Zg-K2y"/>
                 <constraint firstAttribute="centerX" secondItem="Gmy-Vj-qN6" secondAttribute="centerX" id="32I-KL-iU4"/>
                 <constraint firstItem="8ie-xW-0ye" firstAttribute="top" secondItem="2sp-SI-ZET" secondAttribute="bottom" id="ACO-4b-wAb"/>
                 <constraint firstItem="Gmy-Vj-qN6" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="80" id="Dg0-wc-8qL"/>
@@ -76,7 +77,6 @@
                 <constraint firstAttribute="bottom" secondItem="2sp-SI-ZET" secondAttribute="bottom" id="ghO-Kv-frk"/>
                 <constraint firstAttribute="centerX" secondItem="Gmy-Vj-qN6" secondAttribute="centerX" id="il2-XY-3Nz"/>
                 <constraint firstAttribute="centerX" secondItem="mDK-2c-a8t" secondAttribute="centerX" id="mr4-eA-2ob"/>
-                <constraint firstItem="8ie-xW-0ye" firstAttribute="top" secondItem="mDK-2c-a8t" secondAttribute="bottom" constant="75" id="s7B-Wq-fXC"/>
                 <constraint firstItem="2sp-SI-ZET" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="tDE-IU-uJJ"/>
                 <constraint firstItem="Gmy-Vj-qN6" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="75" id="tGR-9U-ir9"/>
                 <constraint firstItem="2sp-SI-ZET" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ye1-BE-2HM"/>
@@ -96,7 +96,5 @@
     </objects>
     <resources>
         <image name="bg" width="640" height="1136"/>
-        <image name="wordCloud" width="365" height="216"/>
-        <image name="wordCloud-Chime" width="303" height="174"/>
     </resources>
 </document>

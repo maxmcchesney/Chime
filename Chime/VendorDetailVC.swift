@@ -133,16 +133,6 @@ class VendorDetailTVC: UITableViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        
-        // update selectedVenue and venueDeals
-//        selectedVenue = ChimeData.mainData().selectedVenue
-//        
-//        if let deals = selectedVenue["venueDeals"] as? [[String:AnyObject]] {
-//            venueDeals = deals
-//        }
-//        
-//        tableView.reloadData()
-        
     }
 
     /////////
