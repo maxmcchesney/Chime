@@ -188,7 +188,9 @@ class VendorCreateDealVC: UIViewController, CustomSliderDelegate {
     }
     
     var cellTouched = false
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    
+    
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         
         var fieldValues: [String] = [describeRewardField.text,additionalDetailsField.text]
         
@@ -202,7 +204,9 @@ class VendorCreateDealVC: UIViewController, CustomSliderDelegate {
 
         }
         
-        if let touch = touches.allObjects.last as? UITouch {
+        let touchesSet=touches as NSSet
+        
+        if let touch = touchesSet.allObjects.last as? UITouch {
             
             let location = touch.locationInView(previewCellView)
         

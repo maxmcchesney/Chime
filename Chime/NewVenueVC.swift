@@ -77,7 +77,7 @@ class NewVenueVC: UIViewController {
                 
                 // list["location"] = location
                 
-                venueInfo.saveInBackgroundWithBlock({ (succeeded: Bool!, error: NSError!) -> Void in
+                venueInfo.saveInBackgroundWithBlock({ (succeeded: Bool, error: NSError!) -> Void in
                     
                     if error == nil {
                         // venue is successfully saved to parse, dismiss vc
@@ -112,7 +112,7 @@ class NewVenueVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         // dismiss keyboard when user touches outside textfields
         view.endEditing(true)
         //        tableView.endEditing(true)

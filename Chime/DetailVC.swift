@@ -81,7 +81,7 @@ class DetailVC: UIViewController {
         if let deals = selectedVenue["venueDeals"] as? [[String:AnyObject]] {
             
             for deal in deals {
-                let status: Bool = deal["active"] as Bool
+                let status: Bool = deal["active"] as! Bool
                 if !status {
                     // remove the deal before passing it to tableview
                 }
@@ -108,7 +108,7 @@ class DetailVC: UIViewController {
         NSNotificationCenter.defaultCenter().addObserverForName("dealActivated", object: nil, queue: NSOperationQueue.mainQueue()) { (notification) -> Void in
             
 //            println("RECEIVED NOTIFICATION::: \(notification)")
-            let activatedDeal = notification.userInfo as [String:AnyObject]
+            let activatedDeal = notification.userInfo as! [String:AnyObject]
             ChimeData.mainData().activatedDeals.append(activatedDeal)
             self.dealsTV.reloadData()
             self.makeVibrate()
@@ -338,12 +338,12 @@ class DetailVC: UIViewController {
             
             for deal in venueDeals {
                 
-                let active: Bool = deal["active"] as Bool
+                let active: Bool = deal["active"] as! Bool
                 
                 if active {
                     
-                    let time = deal["timeThreshold"] as NSString
-                    let rewardDescription = deal["rewardDescription"] as String
+                    let time = deal["timeThreshold"] as! NSString
+                    let rewardDescription = deal["rewardDescription"] as! String
                     
                     // convert time from hours (string) to seconds (double) and set notifications
                     let dealThreshold: NSTimeInterval = time.doubleValue * 10 // change this to * 60 * 60 for production
@@ -451,11 +451,11 @@ class DetailVC: UIViewController {
         
         for deal in venueDeals {
             
-            let active: Bool = deal["active"] as Bool
+            let active: Bool = deal["active"] as! Bool
             
             if active {
                 
-                let time = deal["timeThreshold"] as NSString
+                let time = deal["timeThreshold"] as! NSString
                 
                 // convert time from hours (string) to seconds (double) and set notifications
                 let dealThreshold: NSTimeInterval = time.doubleValue * 10 // change this to * 60 * 60 for production
@@ -542,7 +542,7 @@ class DetailTVC: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("dealCell", forIndexPath: indexPath) as DealCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("dealCell", forIndexPath: indexPath) as! DealCell
         
         // Configure the cell...
         
@@ -559,9 +559,9 @@ class DetailTVC: UITableViewController {
             
             let deal = deals[indexPath.row]
             
-            let dealName = deal["rewardDescription"] as String
-            let dealTime = deal["timeThreshold"] as String
-            let dealValue = deal["estimatedValue"] as Int
+            let dealName = deal["rewardDescription"] as! String
+            let dealTime = deal["timeThreshold"] as! String
+            let dealValue = deal["estimatedValue"] as! Int
             
             cell.tagTimeLabel.text = "\(dealTime) hr"
             cell.dealLabel.text = "\(dealName)"

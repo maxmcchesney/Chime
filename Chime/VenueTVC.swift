@@ -51,7 +51,7 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
 
         tableView.backgroundColor = UIColor.clearColor()
 
-        var nc = self.navigationController as RootNavigationController
+        var nc = self.navigationController as! RootNavigationController
         nc.delegate2 = self
         
         if userLocation != nil { loadVenuesFromParse(false) }
@@ -117,7 +117,7 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
         if let venue = ChimeData.mainData().checkedInVenue as PFObject? {
             
             // SHOW BANNER VIEW
-            let vName: String = ChimeData.mainData().checkedInVenue?["venueName"] as String
+            let vName: String = ChimeData.mainData().checkedInVenue?["venueName"] as! String
             bannerLabel.text = "You're checked in at \(vName)!"
             bannerView.hidden = false
             bannerView.frame.size.height = 44
@@ -138,7 +138,7 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
     
     func addNewVenue() {
         // plus button pressed, send user to NewVenueTVC
-        let vC = storyboard?.instantiateViewControllerWithIdentifier("newVenueVC") as NewVenueVC
+        let vC = storyboard?.instantiateViewControllerWithIdentifier("newVenueVC") as! NewVenueVC
         navigationController?.pushViewController(vC, animated: true)
         
     }
@@ -179,7 +179,7 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
             
             if isVenueOwner {
                 // user is an owner, load only his venues
-                let ownerVenue = PFUser.currentUser()["venueName"] as String
+                let ownerVenue = PFUser.currentUser()["venueName"] as! String
                 println("User is an owner of: \(ownerVenue)")
                 query.whereKey("venueOwner", equalTo: PFUser.currentUser().username)
                 
@@ -216,7 +216,7 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
                 
                 for object in objects {
                     
-                    let venue = object as PFObject
+                    let venue = object as! PFObject
                     self.parseVenues.addObject(venue)
                     
                 }
@@ -263,9 +263,9 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
         for dictionary in sortedArray
         {
             
-            var venue = dictionary["venueName"] as PFObject
+            var venue = dictionary["venueName"] as! PFObject
             
-            var distance = dictionary["distance"] as NSNumber
+            var distance = dictionary["distance"] as! NSNumber
             
             venue["distance"] = Float(distance) * 0.000621371
             
@@ -289,11 +289,11 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
             for var j = i+1; j < n ; j++
             {
                 // first element and second element
-                var firstDictionary = array.objectAtIndex(i) as NSDictionary
-                var secondDictionary = array.objectAtIndex(j) as NSDictionary
+                var firstDictionary = array.objectAtIndex(i) as! NSDictionary
+                var secondDictionary = array.objectAtIndex(j) as! NSDictionary
                 
                 // if the value for key ditstance is smaller in the second than in the first inverse
-                if (Int(secondDictionary["distance"] as NSNumber) < Int(firstDictionary["distance"] as NSNumber))
+                if (Int(secondDictionary["distance"] as! NSNumber) < Int(firstDictionary["distance"] as! NSNumber))
                 {
                     // first element (NOT USEFUL)
                     var temp = firstDictionary
@@ -335,10 +335,10 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
         ChimeData.mainData().selectedVenue = ChimeData.mainData().checkedInVenue
         if let venue = ChimeData.mainData().checkedInVenue {
             
-            let venueGeo = venue["location"] as PFGeoPoint
+            let venueGeo = venue["location"] as! PFGeoPoint
             let venueLocation = CLLocation(latitude: venueGeo.latitude, longitude: venueGeo.longitude)
             
-            let dVC = self.storyboard?.instantiateViewControllerWithIdentifier("detailVC") as DetailVC
+            let dVC = self.storyboard?.instantiateViewControllerWithIdentifier("detailVC") as! DetailVC
             
             dVC.geoPoint = venueGeo
             dVC.location = venueLocation
@@ -366,7 +366,7 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
         
         /// 
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("venueCell", forIndexPath: indexPath) as VenueCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("venueCell", forIndexPath: indexPath) as! VenueCell
 
         // Configure the cell...
         
@@ -383,12 +383,12 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
         
         if let venue: AnyObject = parseVenues[indexPath.row]  as AnyObject? {
             
-            if let venueName  = venue["venueName"] as String? {
+            if let venueName  = venue["venueName"] as! String? {
                 cell.venueName.text = venueName
                 
                 
             }
-            if let venueNeighborhood: String = venue["venueNeighborhood"] as String? {
+            if let venueNeighborhood: String = venue["venueNeighborhood"] as! String? {
                 cell.venueNeighborhood.text = venueNeighborhood
             }
             
@@ -411,7 +411,7 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
                 
                 var totalValue = 0
                 for deal in deals {
-                    let value = deal["estimatedValue"] as Int
+                    let value = deal["estimatedValue"] as! Int
                     totalValue += value
                 }
                 
@@ -432,7 +432,7 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
             
             if let userLocation = userLocation {
                 
-                let venueGeo = venue["location"] as PFGeoPoint
+                let venueGeo = venue["location"] as! PFGeoPoint
                 let venueLocation = CLLocation(latitude: venueGeo.latitude, longitude: venueGeo.longitude)
                 let distance = Float(userLocation.distanceFromLocation(venueLocation)) * 0.000621371
                 
@@ -471,7 +471,7 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
         if isOwner {
             println("User is an owner, pushing vendor detail view...")
             
-            let vDVC = self.storyboard?.instantiateViewControllerWithIdentifier("vendorDetailVC") as VendorDetailVC
+            let vDVC = self.storyboard?.instantiateViewControllerWithIdentifier("vendorDetailVC") as! VendorDetailVC
             
             self.navigationController?.pushViewController(vDVC, animated: true)
             
@@ -479,10 +479,10 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
             
             println("User has selected a venue, pushing detail view...")
             
-            let venueGeo = venue["location"] as PFGeoPoint
+            let venueGeo = venue["location"] as! PFGeoPoint
             let venueLocation = CLLocation(latitude: venueGeo.latitude, longitude: venueGeo.longitude)
             
-            let dVC = self.storyboard?.instantiateViewControllerWithIdentifier("detailVC") as DetailVC
+            let dVC = self.storyboard?.instantiateViewControllerWithIdentifier("detailVC") as! DetailVC
             
             dVC.geoPoint = venueGeo
             dVC.location = venueLocation

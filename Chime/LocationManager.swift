@@ -70,7 +70,7 @@ class LocationManager: NSObject,  CLLocationManagerDelegate
         if (locations.count > 0)
         {
             // the last location is the good one?
-            var newLocation:CLLocation = locations[0] as CLLocation
+            var newLocation:CLLocation = locations[0] as! CLLocation
             coreLocationManager.stopUpdatingLocation()
             delegate?.didReceiveUserLocation(newLocation)
             
@@ -152,13 +152,13 @@ class LocationManager: NSObject,  CLLocationManagerDelegate
         
 
         
-        geocoder.geocodeAddressString(addressString, {(placemarks: [AnyObject]!, error: NSError!) -> Void in
+        geocoder.geocodeAddressString(addressString, completionHandler: {(placemarks: [AnyObject]!, error: NSError!) -> Void in
             
             if (error == nil) {
                 
             
                 
-                var placemark: CLPlacemark = placemarks.last as CLPlacemark
+                var placemark: CLPlacemark = placemarks.last as! CLPlacemark
                 var location = placemark.location as CLLocation
                 var locationLat = placemark.location.coordinate.latitude
                 var locationLon = placemark.location.coordinate.longitude
@@ -190,13 +190,13 @@ class LocationManager: NSObject,  CLLocationManagerDelegate
         var geoPoint: PFGeoPoint?
         
         // this is not in the main thread, so if return value for geopoint, geopoint will be nil bfefore it gets set in that method (this is why we should use completion block)
-        geocoder.geocodeAddressString(addressString, {(placemarks: [AnyObject]!, error: NSError!) -> Void in
+        geocoder.geocodeAddressString(addressString,  completionHandler: {(placemarks: [AnyObject]!, error: NSError!) -> Void in
             
             if (error == nil) {
                 
                 
                 
-                var placemark: CLPlacemark = placemarks.last as CLPlacemark
+                var placemark: CLPlacemark = placemarks.last as! CLPlacemark
                 var location = placemark.location as CLLocation
                 var locationLat = placemark.location.coordinate.latitude
                 var locationLon = placemark.location.coordinate.longitude

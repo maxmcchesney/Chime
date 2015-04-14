@@ -266,7 +266,7 @@ class LoginVC: UIViewController, FBLoginViewDelegate, CLLocationManagerDelegate 
         // TODO: add hometown / city to user when signing up..  though maybe just have them enter it.  could present alert asking "is Atlanta your hometown?" and then adding it if they click "yes"
         
         user.signUpInBackgroundWithBlock {
-            (succeeded: Bool!, error: NSError!) -> Void in
+            (succeeded: Bool, error: NSError!) -> Void in
             if error == nil {
                 // sign up successful, dismiss loginVC
                 println("Parse: Signup successful. New account created: \(user.username)")
@@ -280,7 +280,7 @@ class LoginVC: UIViewController, FBLoginViewDelegate, CLLocationManagerDelegate 
 
             } else {
                 // sign up failed
-                let errorString = error.userInfo?["error"] as NSString
+                let errorString = error.userInfo?["error"] as! NSString
                 println("Signup failed. Error message: \(errorString)")
                 // present alert to user
                 var alertViewController = UIAlertController(title: "Sign Up Error", message: "Our apologies! Please try again.", preferredStyle: UIAlertControllerStyle.Alert)
@@ -300,7 +300,7 @@ class LoginVC: UIViewController, FBLoginViewDelegate, CLLocationManagerDelegate 
     @IBAction func loginWithFacebook(sender: AnyObject) {
         // log in user with Facebook
         println("User requests to log in with Facebook...")
-        PFFacebookUtils.logInWithPermissions(["public_profile","email","user_friends"], {
+        PFFacebookUtils.logInWithPermissions(["public_profile","email","user_friends"], block: {
             (user: PFUser!, error: NSError!) -> Void in
             if let user = user {
                 if user.isNew {
@@ -309,9 +309,9 @@ class LoginVC: UIViewController, FBLoginViewDelegate, CLLocationManagerDelegate 
                     // if logged in, try and link to existing Parse User
                     // ?? is this in the right place?
                     if !PFFacebookUtils.isLinkedWithUser(user) {
-                        PFFacebookUtils.linkUser(user, permissions:nil, {
-                            (succeeded: Bool!, error: NSError!) -> Void in
-                            if (succeeded != nil) {
+                        PFFacebookUtils.linkUser(user, permissions:nil, block:  {
+                            (succeeded: Bool, error: NSError!) -> Void in
+                            if (succeeded) {
                                 println("Woohoo, user logged in with Facebook!")
                             }
                         })
@@ -329,7 +329,9 @@ class LoginVC: UIViewController, FBLoginViewDelegate, CLLocationManagerDelegate 
         
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    
+    
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         // dismiss keyboard when user touches outside textfields
         view.endEditing(true)
         super.touchesBegan(touches, withEvent: event)   // ?? is this necessary

@@ -52,14 +52,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let defaultActions: NSArray = [firstAction, secondAction]
         let minimalActions: NSArray = [firstAction, secondAction]
         
-        firstCategory.setActions(defaultActions, forContext: UIUserNotificationActionContext.Default)
-        firstCategory.setActions(minimalActions, forContext: UIUserNotificationActionContext.Minimal)
+        firstCategory.setActions(defaultActions as [AnyObject], forContext: UIUserNotificationActionContext.Default)
+        firstCategory.setActions(minimalActions as [AnyObject], forContext: UIUserNotificationActionContext.Minimal)
         
         let categories = NSSet(object: firstCategory)
         
         // should I add .Sound to notification type?
         let types: UIUserNotificationType = UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound
-        let mySettings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: types, categories: categories)
+        let mySettings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: types, categories: categories as Set<NSObject>)
         UIApplication.sharedApplication().registerUserNotificationSettings(mySettings)
         
         
@@ -77,10 +77,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     // handle user actions from local notification
-    func application(application: UIApplication!,
-        handleActionWithIdentifier identifier: String!,
-        forLocalNotification notification: UILocalNotification!,
-        completionHandler: (() -> Void)!) {
+    func application(application: UIApplication,
+        handleActionWithIdentifier identifier: String?,
+        forLocalNotification notification: UILocalNotification,
+        completionHandler: (() -> Void)) {
             
             if identifier == "CLAIM_DEAL" {
                 println("User selected 'Claim Deal' from local notification.")

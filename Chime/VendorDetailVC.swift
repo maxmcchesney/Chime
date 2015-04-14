@@ -108,7 +108,7 @@ class VendorDetailVC: UIViewController {
         
         // plus button pressed, present createDealVC to user
         println("Vendor request to create new deal. Pushing to vendorCreateDealVC...")
-        let vC = storyboard?.instantiateViewControllerWithIdentifier("vendorCreateDealVC") as VendorCreateDealVC
+        let vC = storyboard?.instantiateViewControllerWithIdentifier("vendorCreateDealVC") as! VendorCreateDealVC
         self.navigationController?.pushViewController(vC, animated: true)
         
     }
@@ -148,7 +148,7 @@ class VendorDetailTVC: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("dealCell", forIndexPath: indexPath) as DealCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("dealCell", forIndexPath: indexPath) as! DealCell
         
         // Configure the cell...
         cell.indicatorArrow.hidden = false
@@ -167,9 +167,9 @@ class VendorDetailTVC: UITableViewController {
             let deal = deals[indexPath.row]
 //            println(deal)
             
-            let dealName = deal["rewardDescription"] as String
-            let dealTime = deal["timeThreshold"] as String
-            let dealValue = deal["estimatedValue"] as Int
+            let dealName = deal["rewardDescription"] as! String
+            let dealTime = deal["timeThreshold"] as! String
+            let dealValue = deal["estimatedValue"] as! Int
             
             cell.tagTimeLabel.text = "\(dealTime) hr"
             cell.dealLabel.text = "\(dealName)"
@@ -180,7 +180,7 @@ class VendorDetailTVC: UITableViewController {
                 cell.tagValueLabel.text = "$\(dealValue)"
             }
             
-            let status: Bool = deal["active"] as Bool
+            let status: Bool = deal["active"] as! Bool
             if !status {
                 // deal is inactive
                 cell.backgroundColor = UIColor.lightGrayColor()
@@ -203,9 +203,9 @@ class VendorDetailTVC: UITableViewController {
         
         if let deals: NSMutableArray = selectedVenue["venueDeals"] as? NSMutableArray {
             
-            var deal = deals[indexPath.row] as [String:AnyObject]
+            var deal = deals[indexPath.row] as! [String:AnyObject]
             
-            var status: Bool = deal["active"] as Bool
+            var status: Bool = deal["active"] as! Bool
             
             if status {
                 // deal is active, switch to inactive

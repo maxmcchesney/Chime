@@ -178,7 +178,7 @@ class VenueRegistrationTVC: UITableViewController {
         // TODO: add hometown / city to user when signing up..  though maybe just have them enter it.  could present alert asking "is Atlanta your hometown?" and then adding it if they click "yes"
         
         user.signUpInBackgroundWithBlock {
-            (succeeded: Bool!, error: NSError!) -> Void in
+            (succeeded: Bool, error: NSError!) -> Void in
             if error == nil {
                 // sign up successful
                 println("Parse: Sign up successful. New account created: \(user.username)")
@@ -187,7 +187,7 @@ class VenueRegistrationTVC: UITableViewController {
                 
             } else {
                 // sign up failed
-                let errorString = error.userInfo?["error"] as NSString
+                let errorString = error.userInfo?["error"] as! NSString
                 println("Signup failed. Error message: \(errorString)")
                 // present alert to user
                 var alertViewController = UIAlertController(title: "Sign Up Error", message: "Our apologies! Please try again.", preferredStyle: UIAlertControllerStyle.Alert)
@@ -217,7 +217,7 @@ class VenueRegistrationTVC: UITableViewController {
                 venueInfo["location"] = geoPoint
                 venueInfo["venueOwner"] = PFUser.currentUser().email
                 
-                venueInfo.saveInBackgroundWithBlock({ (succeeded: Bool!, error: NSError!) -> Void in
+                venueInfo.saveInBackgroundWithBlock({ (succeeded: Bool, error: NSError!) -> Void in
                     // venue is successfully saved to parse, dismiss vc
                     println("Venue registration succeeded. Venue created: \(self.venueNameField.text)")
                     
@@ -247,7 +247,7 @@ class VenueRegistrationTVC: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         // dismiss keyboard when user touches outside textfields
         view.endEditing(true)
 //        tableView.endEditing(true)
