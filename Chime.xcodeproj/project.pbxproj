@@ -269,10 +269,10 @@
 			isa = PBXGroup;
 			children = (
 				BDC02A4B1AAF4C18002B85BC /* Animations */,
-				D80E21D11AA52262005C4CBE /* DoubleCircleButton.swift */,
 				D80E22001AA5F933005C4CBE /* VenueCell.swift */,
 				D83200B11AA756BC0004E97E /* DealCell.swift */,
 				D83150561AA79B1400B7050C /* CustomButtonOrView.swift */,
+				D80E21D11AA52262005C4CBE /* DoubleCircleButton.swift */,
 				D8FB67251ABA25B000110CD4 /* CustomSlider.h */,
 				D8FB67261ABA25B000110CD4 /* CustomSlider.m */,
 				D8FB67281ABA357F00110CD4 /* CustomArrowIndicator.swift */,
@@ -286,11 +286,11 @@
 				D8AFFDF01AA641DA00C395F5 /* RootNavigationController.swift */,
 				D80E21CD1AA521E4005C4CBE /* LoginVC.swift */,
 				D83541451AB3619000B3A2E1 /* VenueRegistrationTVC.swift */,
-				D80E21FC1AA546F1005C4CBE /* VenueTVC.swift */,
-				D83200531AA6973B0004E97E /* DetailVC.swift */,
+				D824EACB1ABCCC03004E2664 /* NewVenueVC.swift */,
 				D8FB67211AB9FBE600110CD4 /* VendorDetailVC.swift */,
 				D8FB67231ABA047700110CD4 /* VendorCreateDealVC.swift */,
-				D824EACB1ABCCC03004E2664 /* NewVenueVC.swift */,
+				D80E21FC1AA546F1005C4CBE /* VenueTVC.swift */,
+				D83200531AA6973B0004E97E /* DetailVC.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";

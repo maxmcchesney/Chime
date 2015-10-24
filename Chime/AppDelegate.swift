@@ -40,6 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         secondAction.identifier = "IGNORE_DEAL"
         secondAction.title = "😢 IGNORE"
         
+    
         secondAction.activationMode = UIUserNotificationActivationMode.Background
         secondAction.destructive = true
         secondAction.authenticationRequired = false

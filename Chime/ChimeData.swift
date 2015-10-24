@@ -79,7 +79,7 @@ class ChimeData: NSObject {
             
             if isVenueOwner {
                 // user is an owner, load only his venues
-                let ownerVenue = PFUser.currentUser()["venueName"] as! String
+              //  let ownerVenue = PFUser.currentUser()["venueName"] as! String
                 query.whereKey("venueOwner", equalTo: PFUser.currentUser().username)
                 
             }

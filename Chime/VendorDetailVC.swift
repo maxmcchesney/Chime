@@ -54,6 +54,7 @@ class VendorDetailVC: UIViewController {
         navigationController?.navigationBar.titleTextAttributes = [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 22)!, NSForegroundColorAttributeName: UIColor.clearColor()]   // change to whiteColor if you want to see the venue title up there
         
         // set tableview delegate and data source
+        
         dealsTV.delegate = dealsTVC
         dealsTV.dataSource = dealsTVC
         

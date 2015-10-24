@@ -133,6 +133,8 @@ class LoginVC: UIViewController, FBLoginViewDelegate, CLLocationManagerDelegate 
             self.orLabel.transform = CGAffineTransformConcat(scale, translate)
         }
         
+        
+        
         // animate the logo from the bottom
         var scale2 = CGAffineTransformMakeScale(0.5, 0.5)
         var translate2 = CGAffineTransformMakeTranslation(0, 400)
@@ -303,6 +305,8 @@ class LoginVC: UIViewController, FBLoginViewDelegate, CLLocationManagerDelegate 
         PFFacebookUtils.logInWithPermissions(["public_profile","email","user_friends"], block: {
             (user: PFUser!, error: NSError!) -> Void in
             if let user = user {
+                
+                // if a PFUser (Parse User) was created for the first time
                 if user.isNew {
                     println("User signed up through Facebook successfully. User: \(user)")
                     
@@ -317,8 +321,13 @@ class LoginVC: UIViewController, FBLoginViewDelegate, CLLocationManagerDelegate 
                         })
                     }
                     
-                } else {
+                }
+                
+                    // if Facebook login was succesful the Parse User already existed (not isNew)
+                else {
                     println("User logged in through Facebook successfully. User: \(user)")
+                    
+                    
                 }
                 self.dismissViewControllerAnimated(true, completion: nil)
             } else {

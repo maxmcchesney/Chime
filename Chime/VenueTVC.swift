@@ -24,33 +24,17 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
     
     var bannerFrame: CGRect?
     
-    /////////
-    /////////   CHECK IF LOGGED IN
-    /////////
-    
-    func checkIfLoggedIn() {
-        // check if user is already logged in
-        if PFUser.currentUser() != nil {
-            // user is already logged in
-            println("User is already logged in...")
-            
-        } else {
-            // no user found, present loginVC
-            if let lVC = storyboard?.instantiateViewControllerWithIdentifier("loginVC") as? LoginVC {
-                self.presentViewController(lVC, animated: false, completion: nil)
-                println("No currentUser found, presenting log in...")
-            }
-        }
-    }
+    // comes from the locationManager
+    var userLocation: CLLocation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // check if user is logged in already
         checkIfLoggedIn()
-
+        
         tableView.backgroundColor = UIColor.clearColor()
-
+        
         var nc = self.navigationController as! RootNavigationController
         nc.delegate2 = self
         
@@ -60,48 +44,13 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
         
         // STUFF TO USE
         
-      GlobalVariableSharedInstance.delegate = self
+        GlobalVariableSharedInstance.delegate = self
         GlobalVariableSharedInstance.initLocationManager()
         // calls finddistance indefinitly
         GlobalVariableSharedInstance.findLocation()
         
     }
     
-    override func viewDidAppear(animated: Bool) {
-        
-        if !isOwner {
-            
-            // unhide the toolbar
-            navigationController?.toolbarHidden = false
-            self.navigationItem.rightBarButtonItem = nil
-            self.title = ""
-
-        // add the images back to navbar
-            
-            for image in navImageViews {
-                
-                self.navigationController?.navigationBar.addSubview(image)
-                
-                image.hidden = false
-                
-                // animate the buttons from the bottom
-                var scale1 = CGAffineTransformMakeScale(0.5, 0.5)
-                var translate1 = CGAffineTransformMakeTranslation(200, 0)
-                image.transform = CGAffineTransformConcat(scale1, translate1)
-                
-                animationWithDuration(1) {
-                    
-                    var scale = CGAffineTransformMakeScale(1, 1)
-                    var translate = CGAffineTransformMakeTranslation(0, 0)
-                    image.transform = CGAffineTransformConcat(scale, translate)
-
-                }
-                
-            }
-            
-        }
-        
-    }
     
     override func viewWillAppear(animated: Bool) {
         
@@ -131,9 +80,69 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
             tableView.tableHeaderView = bannerView
             
         }
-
+        
         if userLocation != nil { loadVenuesFromParse(false) }
         
+    }
+    
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        // set when loadVenusFromParse (called before)9
+        if !isOwner {
+            
+            // unhide the toolbar
+            navigationController?.toolbarHidden = false
+            self.navigationItem.rightBarButtonItem = nil
+            self.title = ""
+            
+            // add the images back to navbar
+            
+            for image in navImageViews {
+                
+                self.navigationController?.navigationBar.addSubview(image)
+                
+                image.hidden = false
+                
+                // animate the buttons from the bottom
+                var scale1 = CGAffineTransformMakeScale(0.5, 0.5)
+                var translate1 = CGAffineTransformMakeTranslation(200, 0)
+                image.transform = CGAffineTransformConcat(scale1, translate1)
+                
+                animationWithDuration(1) {
+                    
+                    var scale = CGAffineTransformMakeScale(1, 1)
+                    var translate = CGAffineTransformMakeTranslation(0, 0)
+                    image.transform = CGAffineTransformConcat(scale, translate)
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+    
+
+    
+    /////////
+    /////////   CHECK IF LOGGED IN
+    /////////
+    
+    func checkIfLoggedIn() {
+        // check if user is already logged in
+        if PFUser.currentUser() != nil {
+            // user is already logged in
+            println("User is already logged in...")
+            
+        } else {
+            // no user found, present loginVC
+            if let lVC = storyboard?.instantiateViewControllerWithIdentifier("loginVC") as? LoginVC {
+                self.presentViewController(lVC, animated: false, completion: nil)
+                println("No currentUser found, presenting log in...")
+            }
+        }
     }
     
     func addNewVenue() {
@@ -146,8 +155,7 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
     /////////
     /////////   LOAD VENUES FROM PARSE AND SORT ACCORDINGLY
     /////////
-    
-    var userLocation: CLLocation?
+ 
     
     func loadVenuesFromParse(sortByDateCreated: Bool?) {
         
@@ -179,7 +187,7 @@ class VenueTVC: UITableViewController, userLocationProtocol, CLLocationManagerDe
             
             if isVenueOwner {
                 // user is an owner, load only his venues
-                let ownerVenue = PFUser.currentUser()["venueName"] as! String
+                
                 println("User is an owner of: \(ownerVenue)")
                 query.whereKey("venueOwner", equalTo: PFUser.currentUser().username)
                 

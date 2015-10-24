@@ -39,6 +39,8 @@ IB_DESIGNABLE
     
     if ([self.sliderType isEqualToString:@"alpha"]) {
 
+        
+        // if slider alpha: slider button starts at the right
         if (touchX == 0) {
             x = width - circleDiameter;
         } else {
@@ -94,6 +96,7 @@ IB_DESIGNABLE
     if (x > width - circleDiameter) x = width - circleDiameter;
     if ( x < 0) x = 0;
 
+    // slider starts at 0: so the value is x value / width of the slider. And since x is the touchX - circleDiameter / 2. The value is (x / width) + circleDiameter/2
     [self.delegate sliderValue:x / (width - circleDiameter) forSlider:self.sliderType];
     
 //    NSLog(@"slider value: %f", x / (width - circleDiameter));

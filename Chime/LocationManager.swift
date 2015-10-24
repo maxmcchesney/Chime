@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import CoreLocation
+import Parse
 
 protocol userLocationProtocol {
     func didReceiveUserLocation(location: CLLocation)
@@ -107,7 +108,9 @@ class LocationManager: NSObject,  CLLocationManagerDelegate
         
         if (location==nil) {
             println("Location is nil!")
-            location = CLLocation(latitude: 51.368123, longitude: -0.021973)
+            location = CLLocation(latitude: 45.513791, longitude: -73.603018)
+            
+           
         }
         /*        if (("iPhone Simulator" == UIDevice.currentDevice().model) || ("iPad Simulator" == UIDevice.currentDevice().model))
         {//51.368123,-0.021973, 41.8059,  123.4323
@@ -145,51 +148,14 @@ class LocationManager: NSObject,  CLLocationManagerDelegate
         
         return NSNumber(double: distance)
     }
+  
     
-    func addressToLocationProtocol(addressString: String) {
-        var geocoder = CLGeocoder()
-        
-        
-
-        
-        geocoder.geocodeAddressString(addressString, completionHandler: {(placemarks: [AnyObject]!, error: NSError!) -> Void in
-            
-            if (error == nil) {
-                
-            
-                
-                var placemark: CLPlacemark = placemarks.last as! CLPlacemark
-                var location = placemark.location as CLLocation
-                var locationLat = placemark.location.coordinate.latitude
-                var locationLon = placemark.location.coordinate.longitude
-                
-                println("Location Found! lat: \(locationLat) long: \(locationLon)")
-                var geoPoint = PFGeoPoint(latitude: locationLat, longitude: locationLon) as PFGeoPoint
-
-            
-            
-                
-                
-            } else {
-                
-                println("Error while trying to find latitude and longtitude of address search")
-                
-                
-            }
-            
-            
-        })
-        
-        
-    }
-    
-    
-    func addressToLocation (addressString: String, completion: (geoPoint: PFGeoPoint?) -> Void) {
+    func addressToLocation (addressString: String, completion: (geoPoint: PFGeoPoint?, zipCode: String?) -> Void) {
         var geocoder = CLGeocoder()
         
         var geoPoint: PFGeoPoint?
         
-        // this is not in the main thread, so if return value for geopoint, geopoint will be nil bfefore it gets set in that method (this is why we should use completion block)
+        // this is not in the main thread (it is asynchronous), so if return value for geopoint, geopoint will be nil before it gets set in that method (this is why we should use completion block)
         geocoder.geocodeAddressString(addressString,  completionHandler: {(placemarks: [AnyObject]!, error: NSError!) -> Void in
             
             if (error == nil) {
@@ -198,13 +164,15 @@ class LocationManager: NSObject,  CLLocationManagerDelegate
                 
                 var placemark: CLPlacemark = placemarks.last as! CLPlacemark
                 var location = placemark.location as CLLocation
+        
                 var locationLat = placemark.location.coordinate.latitude
                 var locationLon = placemark.location.coordinate.longitude
                 
+                var zipCode = placemark.postalCode
                 println("Location Found! lat: \(locationLat) long: \(locationLon)")
                 geoPoint = PFGeoPoint(latitude: locationLat, longitude: locationLon) as PFGeoPoint
 
-                completion(geoPoint: geoPoint)
+                completion(geoPoint: geoPoint, zipCode: zipCode)
                 
                 
             } else {

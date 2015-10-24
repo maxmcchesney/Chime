@@ -68,7 +68,7 @@ class DetailVC: UIViewController {
         dealsTV.delegate = dealsTVC
         dealsTV.dataSource = dealsTVC
         dealsTVC.vc = self
-        
+   
         // set labels for selected venue
         selectedVenue = ChimeData.mainData().selectedVenue
         
@@ -112,9 +112,42 @@ class DetailVC: UIViewController {
             ChimeData.mainData().activatedDeals.append(activatedDeal)
             self.dealsTV.reloadData()
             self.makeVibrate()
+            
+            
         }
-
     }
+    
+    
+    
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        // hide stuff for animations
+        venueNameLabel.hidden = true
+        venueNeighborhoodLabel.hidden = true
+        venuePhoneLabel.hidden = true
+        
+        
+        // retrieve startTime from Singleton if it's saved
+        if ChimeData.mainData().startTime > 0 {
+            
+            if ChimeData.mainData().checkedInVenue?.objectId == selectedVenue.objectId {
+                
+                timerLabel.text = ChimeData.mainData().timeLabel    // works but causes time to jump the difference
+                //                checkIn(self)
+                
+                checkTimer()
+                
+            } else {
+                
+                self.checkInButton.setTitle("You're not here..", forState: UIControlState.Disabled)
+            }
+            
+        }
+        
+    }
+    
+   
     
     override func viewDidAppear(animated: Bool) {
         
@@ -157,34 +190,7 @@ class DetailVC: UIViewController {
         }
         
     }
-    
-    override func viewWillAppear(animated: Bool) {
-        
-        // hide stuff for animations
-        venueNameLabel.hidden = true
-        venueNeighborhoodLabel.hidden = true
-        venuePhoneLabel.hidden = true
-        
-        
-        // retrieve startTime from Singleton if it's saved
-        if ChimeData.mainData().startTime > 0 {
-            
-            if ChimeData.mainData().checkedInVenue?.objectId == selectedVenue.objectId {
-                
-                timerLabel.text = ChimeData.mainData().timeLabel    // works but causes time to jump the difference
-                //                checkIn(self)
-                
-                checkTimer()
-                
-            } else {
-                
-                self.checkInButton.setTitle("You're not here..", forState: UIControlState.Disabled)
-            }
-            
-        }
-        
-    }
-    
+
     
     override func viewWillDisappear(animated: Bool) {
         

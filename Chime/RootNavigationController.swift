@@ -84,6 +84,8 @@ class RootNavigationController: UINavigationController {
             let height: CGFloat = 45
             let imageWidth: CGFloat = 30
             let imageHeight: CGFloat = 30
+            
+            // (width (not screen width but swdith - backbutton) - (imageWidth * CGFloat(images.count))) = the total width of all margins) so / by images.count = one margin (+ 1 so margin a little smaller)
             let margin: CGFloat = (width - (imageWidth * CGFloat(images.count))) / CGFloat(images.count + 1)
             
             let imageX = backButtonSize + (CGFloat(i) * (imageWidth + margin))

@@ -23,6 +23,7 @@ class VenueRegistrationTVC: UITableViewController {
     
     @IBOutlet weak var backButton: UIButton!
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -70,6 +71,7 @@ class VenueRegistrationTVC: UITableViewController {
         
     }
     
+    
     override func viewWillAppear(animated: Bool) {
         // hide stuff for animations
         chimeLabel.hidden = true
@@ -78,6 +80,7 @@ class VenueRegistrationTVC: UITableViewController {
         
         
     }
+    
     
     override func viewDidAppear(animated: Bool) {
         
@@ -110,6 +113,8 @@ class VenueRegistrationTVC: UITableViewController {
         
     }
 
+
+   
     @IBAction func backToLoginVC(sender: AnyObject) {
         // dismiss TVC and go back to login
         self.dismissViewControllerAnimated(true, completion: nil)
